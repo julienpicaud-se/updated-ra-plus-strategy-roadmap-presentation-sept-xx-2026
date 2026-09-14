@@ -780,9 +780,9 @@ const fullCpDeck: CPSlide[] = [
   {
     kind: "familymap",
     eyebrow: "Convergence in practice",
-    titleLead: "Energy,",
-    titleHighlight: "Two",
-    titleRest: "Buckets, One Platform",
+    titleLead: "We're Building",
+    titleHighlight: "One",
+    titleRest: "AI-Native Platform with Multiple Connected Products",
     brandLead: "RESOURCE",
     brandStrong: "ADVISOR",
     platformLayer: "All products run on the same AI-native RA+ platform layer",
