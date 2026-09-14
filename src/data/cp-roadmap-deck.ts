@@ -5050,13 +5050,14 @@ const fullCpDeck: CPSlide[] = [
 
 // The shared September deck is the source of truth for the presentation.
 // Several source slides use two board layouts in the app for legibility.
-const sharedDeckSlideNumbers = new Set([
-  11, 12, 13, 14, 15, 17, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+const sharedDeckSlideNumbers = [
+  11, 12, 13, 15, 18, 14, 17, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
   39, 49, 50, 51, 52, 53, 54, 55, 62, 63, 64, 65, 66, 69, 70, 71, 73, 76, 77,
   79, 80, 82, 83, 85, 92, 95, 96, 98, 101, 102, 104, 105, 110, 111, 112, 113,
   114, 115, 116, 117, 118, 119, 120, 121,
-]);
+];
 
-export const cpDeck: CPSlide[] = fullCpDeck.filter((_, index) =>
-  sharedDeckSlideNumbers.has(index + 1),
-);
+export const cpDeck: CPSlide[] = sharedDeckSlideNumbers.flatMap((slideNumber) => {
+  const slide = fullCpDeck[slideNumber - 1];
+  return slide ? [slide] : [];
+});
