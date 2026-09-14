@@ -82,7 +82,6 @@ export type CPSlide =
       titleRest: string;
       brandLead: string;
       brandStrong: string;
-      platformLayer?: string;
       sharedCapabilities?: string[];
       families: {
         label: string;

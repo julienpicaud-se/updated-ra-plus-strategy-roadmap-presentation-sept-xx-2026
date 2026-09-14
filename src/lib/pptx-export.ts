@@ -826,15 +826,29 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         }
       });
 
-      if (s.platformLayer) {
+      if (s.sharedCapabilities?.length) {
         const plY = 6.05;
-        const plH = 0.42;
+        const plH = 0.75;
         slide.addShape("roundRect", {
           x: M, y: plY, w: W - M * 2, h: plH, fill: { color: "1A4A2E" }, line: { color: "CDFC57", width: 1 }, rectRadius: 0.08,
         });
-        slide.addText(s.platformLayer, {
-          x: M, y: plY, w: W - M * 2, h: plH, fontFace: HEAD, fontSize: 13, bold: true, color: "CDFC57",
-          align: "center", valign: "middle", margin: 0,
+        slide.addText("ALL ARE SHARED CAPABILITIES", {
+          x: M, y: plY + 0.07, w: W - M * 2, h: 0.22, fontFace: BODY, fontSize: 8, bold: true, color: "CDFC57",
+          align: "center", charSpacing: 2, margin: 0,
+        });
+        const pillY = plY + 0.36;
+        const pillH = 0.28;
+        const gap = 0.12;
+        const pillW = (W - M * 2 - gap * (s.sharedCapabilities.length - 1)) / s.sharedCapabilities.length;
+        s.sharedCapabilities.forEach((cap, i) => {
+          const px = M + i * (pillW + gap);
+          slide.addShape("roundRect", {
+            x: px, y: pillY, w: pillW, h: pillH, fill: { color: "0F3B24" }, line: { color: C.primary, width: 0.75 }, rectRadius: 0.14,
+          });
+          slide.addText(cap, {
+            x: px, y: pillY, w: pillW, h: pillH, fontFace: BODY, fontSize: 8, bold: true, color: C.white,
+            align: "center", valign: "middle", fit: "shrink", margin: 0,
+          });
         });
       }
 
