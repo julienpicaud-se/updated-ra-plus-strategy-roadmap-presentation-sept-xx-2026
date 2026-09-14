@@ -5057,7 +5057,105 @@ const sharedDeckSlideNumbers = [
   114, 115, 116, 117, 118, 119, 120, 121,
 ];
 
-export const cpDeck: CPSlide[] = sharedDeckSlideNumbers.flatMap((slideNumber) => {
+const sharedCpDeck = sharedDeckSlideNumbers.flatMap((slideNumber) => {
   const slide = fullCpDeck[slideNumber - 1];
   return slide ? [slide] : [];
 });
+
+const carbonStatusTests: CPSlide[] = [
+  {
+    kind: "board",
+    eyebrow: "Carbon Performance, status test",
+    title: "Carbon Performance roadmap by delivery confidence",
+    subtitle: "The same roadmap reframed around what is underway, committed, planned and still aspirational.",
+    lanes: [
+      {
+        label: "In delivery",
+        period: "Q3 2026",
+        tone: "primary",
+        items: [
+          { name: "Sold product emissions", note: "Scope 3 categories 10, 11 and 12" },
+          { name: "System admin improvements", note: "Configuration, methods and templates" },
+          { name: "Inventory revamp", note: "Clarity and per gas breakdown" },
+          { name: "Pre-calculated emissions import", note: "Client-calculated data ingestion" },
+        ],
+      },
+      {
+        label: "Committed",
+        period: "Q4 2026 committed",
+        tone: "accent",
+        items: [
+          { name: "EAC and PPA management", note: "Market based Scope 2" },
+          { name: "Base year, exclusions and materiality", note: "GHGP compliant boundaries" },
+          { name: "Thermal source attribution", note: "Scope 1 and 2 split" },
+          { name: "Refrigerant leakage to usage", note: "Scope 1 fugitive emissions" },
+        ],
+      },
+      {
+        label: "Planned",
+        period: "Q4 2026 planned",
+        tone: "warn",
+        items: [
+          { name: "Employee commuting and WFH", note: "Scope 3 category 7" },
+          { name: "Sera for carbon inventory", note: "AI guided troubleshooting" },
+          { name: "Scenario and decarbonization planning", note: "Initiatives and actions" },
+        ],
+      },
+      {
+        label: "Aspirational",
+        period: "2027",
+        tone: "muted",
+        items: [
+          { name: "Close transport and waste categories", note: "Categories 4, 5 and 9" },
+          { name: "Consolidation and rebaselining", note: "Ownership and base year controls" },
+          { name: "PCF and ECM integration", note: "Cross-product intelligence" },
+          { name: "Category 15 and FLAG", note: "Specialised standards" },
+          { name: "Dedicated auditor experience", note: "Assurance workflows" },
+        ],
+      },
+    ],
+  },
+  {
+    kind: "columns",
+    eyebrow: "Carbon Performance, status test",
+    title: "What each delivery status means for the roadmap",
+    subtitle: "A decision-oriented breakdown separates active delivery from commitments, plans and longer-term ambition.",
+    columns: [
+      {
+        label: "In delivery, Q3",
+        title: "Work is active",
+        line: "Teams and scope are mobilized now.",
+        tone: "primary",
+        items: ["Sold product emissions", "Inventory revamp", "Pre-calculated emissions import", "System administration"],
+      },
+      {
+        label: "Committed, Q4",
+        title: "Outcome is protected",
+        line: "Scope is committed within the delivery envelope.",
+        tone: "accent",
+        items: ["EAC and PPA management", "Base year and materiality", "Thermal source attribution", "Refrigerant leakage"],
+      },
+      {
+        label: "Planned, Q4",
+        title: "Sequenced, not protected",
+        line: "The intent is clear, but delivery depends on capacity.",
+        tone: "warn",
+        items: ["Employee commuting and WFH", "Sera inventory guidance", "Scenario planning", "Actions management"],
+      },
+      {
+        label: "Aspirational, 2027",
+        title: "Direction, not commitment",
+        line: "The ambition is retained without implying a fixed date.",
+        tone: "muted",
+        items: ["Remaining Scope 3 categories", "Consolidation and rebaselining", "PCF and ECM integration", "Audit experience"],
+      },
+    ],
+    note: "Test framing: status reflects delivery confidence, not product priority.",
+  },
+];
+
+export const cpDeck: CPSlide[] = [
+  ...sharedCpDeck.slice(0, 31),
+  ...carbonStatusTests,
+  ...sharedCpDeck.slice(31),
+];
