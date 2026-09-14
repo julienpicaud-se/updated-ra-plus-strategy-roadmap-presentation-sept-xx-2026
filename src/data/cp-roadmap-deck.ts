@@ -762,6 +762,14 @@ const fullCpDeck: CPSlide[] = [
     brandLead: "RESOURCE",
     brandStrong: "ADVISOR",
     platformLayer: "All products run on the same AI-native RA+ platform layer",
+    sharedCapabilities: [
+      "Data ingestion & transformation",
+      "Data quality",
+      "Analytics & Dashboards",
+      "Target mgmt",
+      "Scenario analysis",
+      "Actions and Adaptations",
+    ],
     families: [
       {
         label: "Sustainability",
@@ -795,6 +803,14 @@ const fullCpDeck: CPSlide[] = [
     brandLead: "RESOURCE",
     brandStrong: "ADVISOR",
     platformLayer: "All products run on the same AI-native RA+ platform layer",
+    sharedCapabilities: [
+      "Data ingestion & transformation",
+      "Data quality",
+      "Analytics & Dashboards",
+      "Target mgmt",
+      "Scenario analysis",
+      "Actions and Adaptations",
+    ],
     families: [
       {
         label: "Sustainability",
