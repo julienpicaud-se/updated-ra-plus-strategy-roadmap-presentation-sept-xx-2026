@@ -604,6 +604,24 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
             </motion.div>
           ) : null}
 
+          {slide.sharedCapabilities ? (
+            <motion.div {...fadeUp(slide.families.length + 3)} className="mt-4">
+              <div className="text-center text-[10px] lg:text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/60">
+                All are shared capabilities
+              </div>
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-2 lg:gap-3">
+                {slide.sharedCapabilities.map((cap) => (
+                  <span
+                    key={cap}
+                    className="rounded-full border border-primary/50 bg-secondary/60 px-3 py-1 text-[10px] lg:text-xs font-semibold text-primary-foreground"
+                  >
+                    {cap}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ) : null}
+
           <div className="mt-12 flex justify-end items-center gap-2">
             <span className="text-primary font-bold">SE</span>
             <span className="text-primary-foreground font-light text-xs lg:text-sm">ADVISORY SERVICES</span>
