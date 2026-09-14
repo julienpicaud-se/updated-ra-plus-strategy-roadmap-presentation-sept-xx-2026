@@ -657,10 +657,13 @@ const fullCpDeck: CPSlide[] = [
     sharedCapabilities: [
       "Data ingestion & transformation",
       "Data quality",
+      "Data hierarchy & calc engine",
       "Analytics & Dashboards",
       "Target mgmt",
       "Scenario analysis",
       "Actions and Adaptations",
+      "AI agents & forecasting",
+      "Workflows & audit trail",
     ],
     families: [
       {
@@ -763,10 +766,13 @@ const fullCpDeck: CPSlide[] = [
     sharedCapabilities: [
       "Data ingestion & transformation",
       "Data quality",
+      "Data hierarchy & calc engine",
       "Analytics & Dashboards",
       "Target mgmt",
       "Scenario analysis",
       "Actions and Adaptations",
+      "AI agents & forecasting",
+      "Workflows & audit trail",
     ],
     families: [
       {
@@ -804,10 +810,13 @@ const fullCpDeck: CPSlide[] = [
     sharedCapabilities: [
       "Data ingestion & transformation",
       "Data quality",
+      "Data hierarchy & calc engine",
       "Analytics & Dashboards",
       "Target mgmt",
       "Scenario analysis",
       "Actions and Adaptations",
+      "AI agents & forecasting",
+      "Workflows & audit trail",
     ],
     families: [
       {

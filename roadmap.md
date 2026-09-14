@@ -1,1 +1,1 @@
-- [ ] Review extra shared capabilities to add to family-map chips (user asked Sep 14)
+- [x] Remove platform banner text, move shared-capability chips into the box, add hierarchy/calc engine, AI agents & forecasting, workflows & audit trail (Sep 14)
