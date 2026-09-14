@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SE Advisory Services Design System - Light Professional Theme */
+
+@layer base {
+  :root {
+    /* SE Advisory Services Brand Colors - Light Theme */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 15%; /* Near black for text */
+
+    --card: 0 0% 98%; /* Very light gray */
+    --card-foreground: 0 0% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
+
+    /* Primary: SE Life Green #3DCD58 */
+    --primary: 134 60% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: SE Quartz Dark Green #00552E */
+    --secondary: 153 100% 17%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* SE Dark Grey #626469 */
+    --muted: 225 3% 40%;
+    --muted-foreground: 225 3% 40%;
+
+    /* Accent colors from palette */
+    --accent: 153 100% 24%; /* SE Quartz Green #007A27 */
+    --accent-foreground: 0 0% 100%;
+
+    /* SE Light Grey #9FA0A4 */
+    --border: 225 2% 63%;
+    --input: 225 2% 85%;
+    --ring: 134 60% 52%;
+
+    /* Additional SE brand colors */
+    --se-highlighter: 72 95% 66%; /* #CDFC57 */
+    --se-turquoise: 182 66% 78%; /* #A0E7EE */
+    --se-quartz-blue: 205 53% 33%; /* #275B7F */
+    --se-quartz-orange: 35 100% 65%; /* #FFB04C */
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(134 60% 52%), hsl(153 100% 17%));
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 15%;
+    --sidebar-primary: 134 60% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 95%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 225 2% 85%;
+    --sidebar-ring: 134 60% 52%;
+  }
+
+  .dark {
+    /* Keep dark mode option available but map to same clean style */
+    --background: 220 10% 8%;
+    --foreground: 0 0% 98%;
+    --card: 220 10% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 10% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 134 60% 52%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 153 100% 24%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 10% 20%;
+    --muted-foreground: 220 5% 60%;
+    --accent: 153 100% 24%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 10% 20%;
+    --input: 220 10% 20%;
+    --ring: 134 60% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .se-heading {
+    @apply text-primary font-semibold tracking-tight;
+  }
+
+  .se-subhead {
+    @apply text-muted-foreground font-normal;
+  }
+
+  .se-card {
+    @apply bg-card border border-border/30 rounded-lg shadow-sm;
+  }
+
+  .section-fade {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .section-fade.visible {
+    @apply opacity-100 translate-y-0;
+  }
+}
