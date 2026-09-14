@@ -596,28 +596,22 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
             ))}
           </div>
 
-          {slide.platformLayer ? (
-            <motion.div {...fadeUp(slide.families.length + 2)} className="mt-8">
-              <div className="rounded-lg border border-[hsl(var(--se-highlighter))]/50 bg-[hsl(var(--se-highlighter))]/10 px-6 py-3 text-center">
-                <span className="text-sm lg:text-base font-semibold text-[hsl(var(--se-highlighter))]">{slide.platformLayer}</span>
-              </div>
-            </motion.div>
-          ) : null}
-
           {slide.sharedCapabilities ? (
-            <motion.div {...fadeUp(slide.families.length + 3)} className="mt-4">
-              <div className="text-center text-[10px] lg:text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/60">
-                All are shared capabilities
-              </div>
-              <div className="mt-2 flex flex-wrap items-center justify-center gap-2 lg:gap-3">
-                {slide.sharedCapabilities.map((cap) => (
-                  <span
-                    key={cap}
-                    className="rounded-full border border-primary/50 bg-secondary/60 px-3 py-1 text-[10px] lg:text-xs font-semibold text-primary-foreground"
-                  >
-                    {cap}
-                  </span>
-                ))}
+            <motion.div {...fadeUp(slide.families.length + 2)} className="mt-8">
+              <div className="rounded-lg border border-[hsl(var(--se-highlighter))]/50 bg-[hsl(var(--se-highlighter))]/10 px-6 py-4">
+                <div className="text-center text-[10px] lg:text-xs font-bold uppercase tracking-[0.2em] text-[hsl(var(--se-highlighter))]">
+                  All are shared capabilities
+                </div>
+                <div className="mt-3 flex flex-wrap items-center justify-center gap-2 lg:gap-3">
+                  {slide.sharedCapabilities.map((cap) => (
+                    <span
+                      key={cap}
+                      className="rounded-full border border-primary/50 bg-secondary/60 px-3 py-1 text-[10px] lg:text-xs font-semibold text-primary-foreground"
+                    >
+                      {cap}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ) : null}
