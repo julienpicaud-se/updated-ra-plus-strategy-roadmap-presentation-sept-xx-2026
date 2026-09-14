@@ -761,7 +761,6 @@ const fullCpDeck: CPSlide[] = [
     titleRest: "AI-Native Platform with Multiple Connected Products",
     brandLead: "RESOURCE",
     brandStrong: "ADVISOR",
-    platformLayer: "All products run on the same AI-native RA+ platform layer",
     sharedCapabilities: [
       "Data ingestion & transformation",
       "Data quality",
@@ -802,7 +801,7 @@ const fullCpDeck: CPSlide[] = [
     titleRest: "AI-Native Platform with Multiple Connected Products",
     brandLead: "RESOURCE",
     brandStrong: "ADVISOR",
-    platformLayer: "All products run on the same AI-native RA+ platform layer",
+    
     sharedCapabilities: [
       "Data ingestion & transformation",
       "Data quality",
