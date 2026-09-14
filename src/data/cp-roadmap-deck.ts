@@ -5155,7 +5155,7 @@ const carbonStatusTests: CPSlide[] = [
 ];
 
 export const cpDeck: CPSlide[] = [
-  ...sharedCpDeck.slice(0, 31),
+  ...sharedCpDeck.slice(0, 32),
   ...carbonStatusTests,
-  ...sharedCpDeck.slice(31),
+  ...sharedCpDeck.slice(32),
 ];
