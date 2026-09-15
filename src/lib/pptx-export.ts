@@ -1515,6 +1515,52 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
   }
 }
 
+/**
+ * Two PptxGenJS quirks break strict PowerPoint validation:
+ *  - <p:notesMasterIdLst> is emitted after <p:sldIdLst>, violating the OOXML
+ *    element sequence, so it is moved back before the slide list.
+ *  - the slide-number placeholder can reuse a shape id already used on the same
+ *    slide, so duplicate shape-tree ids are renumbered per slide.
+ */
+async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
+  const { default: JSZip } = await import("jszip");
+  const zip = await JSZip.loadAsync(data);
+
+  const entry = zip.file("ppt/presentation.xml");
+  if (entry) {
+    const xml = await entry.async("text");
+    const notes = xml.match(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/);
+    const slideList = xml.indexOf("<p:sldIdLst>");
+    if (notes && slideList >= 0 && xml.indexOf(notes[0]) > slideList) {
+      const stripped = xml.replace(notes[0], "");
+      const at = stripped.indexOf("<p:sldIdLst>");
+      zip.file("ppt/presentation.xml", stripped.slice(0, at) + notes[0] + stripped.slice(at));
+    }
+  }
+
+  const slideNames = Object.keys(zip.files).filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n));
+  for (const name of slideNames) {
+    const xml = await zip.file(name)!.async("text");
+    const seen = new Set<string>();
+    let next = 1;
+    const fixed = xml.replace(/(<p:cNvPr[^>]*\sid=")(\d+)(")/g, (_m, pre, id, post) => {
+      if (!seen.has(id)) {
+        seen.add(id);
+        next = Math.max(next, Number(id));
+        return `${pre}${id}${post}`;
+      }
+      next += 1;
+      while (seen.has(String(next))) next += 1;
+      seen.add(String(next));
+      return `${pre}${next}${post}`;
+    });
+    if (fixed !== xml) zip.file(name, fixed);
+  }
+
+  return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });
+}
+
+
 async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE";
@@ -1523,12 +1569,27 @@ async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
 
   slides.forEach((s) => renderSlide(pptx, s));
 
-  // Use PptxGenJS's native writer, matching the known-good Sunday export.
-  // Repacking presentation.xml changed OOXML element ordering and caused
-  // desktop PowerPoint to reject otherwise valid files.
-  await pptx.writeFile({ fileName });
-  return { slides: slides.length, fileName };
+  const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
+  const bytes = await patchPptxCompatibility(raw);
+
+  if (typeof document !== "undefined") {
+    const url = URL.createObjectURL(
+      new Blob([bytes as BlobPart], {
+        type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName.split("/").pop() ?? fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+
+  return { slides: slides.length, fileName, bytes };
 }
+
 
 export async function exportDeckToPptx(fileName = "RA-Plus-Strategy-and-Roadmap.pptx") {
   return writeDeck(cpDeck, fileName, "Carbon Performance Roadmap 2026 and 2027");
