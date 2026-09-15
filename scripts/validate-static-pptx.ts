@@ -60,7 +60,9 @@ for (const file of files) {
   for (const slideFile of slideFiles) {
     const xml = await zip.file(slideFile)?.async("text");
     if (!xml) throw new Error(`${basename(file)} contains an unreadable ${slideFile}`);
-    const ids = [...xml.matchAll(/<[ap]:cNvPr[^>]*\sid="(\d+)"/g)].map((match) => match[1]);
+    // Only shape-tree IDs must be unique; nested a:cNvPr ids live in their own scope.
+    const ids = [...xml.matchAll(/<p:cNvPr[^>]*\sid="(\d+)"/g)].map((match) => match[1]);
+
     if (new Set(ids).size !== ids.length) {
       throw new Error(`${basename(file)} contains duplicate shape IDs in ${slideFile}`);
     }
