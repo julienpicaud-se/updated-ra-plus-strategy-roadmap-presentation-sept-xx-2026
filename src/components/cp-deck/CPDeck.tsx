@@ -3,7 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2 } from "lucide-react";
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
-import { exportDeckPartToPptx, getDeckParts } from "@/lib/pptx-export";
+import { getDeckParts } from "@/lib/pptx-export";
+import { exportScreenPartToPptx, exportScreensToPptx } from "@/lib/pptx-screen-export";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,12 +16,11 @@ import {
 import { toast } from "sonner";
 
 const QA_FILE = "/RA-Plus-Board-QA-2026-2027.pptx";
-const ROADMAP_FILE = "/RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible.pptx";
-
 export const CPDeck = () => {
   const [index, setIndex] = useState(0);
   const [downloadingQa, setDownloadingQa] = useState(false);
   const [downloadingDeck, setDownloadingDeck] = useState(false);
+  const [exportProgress, setExportProgress] = useState<string | null>(null);
   const [busyPart, setBusyPart] = useState<string | null>(null);
   const parts = useMemo(() => getDeckParts(), []);
   const total = cpDeck.length;
@@ -28,13 +28,21 @@ export const CPDeck = () => {
   const downloadPart = useCallback(async (id: string, label: string) => {
     setBusyPart(id);
     try {
-      await exportDeckPartToPptx(id);
+      const part = getDeckParts().find((candidate) => candidate.id === id);
+      if (!part) throw new Error(`Unknown deck part: ${id}`);
+      const selected = cpDeck.slice(part.start, part.end);
+      const cover = cpDeck[0];
+      const slides = part.start === 0 || cover.kind !== "title" ? selected : [cover, ...selected];
+      await exportScreenPartToPptx(slides, part.fileName, (done, total) => {
+        setExportProgress(`${done} / ${total}`);
+      });
       toast.success(`${label} downloaded`);
     } catch (e) {
       console.error("Part export failed", e);
       toast.error("Export failed, please retry");
     } finally {
       setBusyPart(null);
+      setExportProgress(null);
     }
   }, []);
 
@@ -72,14 +80,16 @@ export const CPDeck = () => {
   const downloadDeck = useCallback(async () => {
     setDownloadingDeck(true);
     try {
-      await downloadFile(ROADMAP_FILE, "RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible.pptx", "Roadmap PowerPoint");
+      await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
+      toast.success("Roadmap PowerPoint downloaded");
     } catch (e) {
       console.error("Deck download failed", e);
       toast.error("Download failed, please retry");
     } finally {
       setDownloadingDeck(false);
+      setExportProgress(null);
     }
-  }, [downloadFile]);
+  }, []);
 
 
 
@@ -159,7 +169,7 @@ export const CPDeck = () => {
           className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
         >
           {downloadingDeck ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-          PPTX
+          {exportProgress ?? "PPTX"}
         </button>
 
         <DropdownMenu>
