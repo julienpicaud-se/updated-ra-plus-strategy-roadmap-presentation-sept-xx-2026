@@ -1,6 +1,7 @@
 import PptxGenJS from "pptxgenjs";
 import { toJpeg } from "html-to-image";
 import { cpDeck, type CPSlide } from "@/data/cp-roadmap-deck";
+import { patchPptxCompatibility } from "@/lib/pptx-export";
 
 const CAPTURE_WIDTH = 1280;
 const CAPTURE_HEIGHT = 720;
@@ -73,8 +74,9 @@ async function downloadSlides(slides: CPSlide[], fileName: string, onProgress?: 
   }
 
   const raw = (await pptx.write({ outputType: "arraybuffer", compression: true })) as ArrayBuffer;
+  const bytes = await patchPptxCompatibility(raw);
   const url = URL.createObjectURL(
-    new Blob([raw], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }),
+    new Blob([bytes as BlobPart], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }),
   );
   const anchor = document.createElement("a");
   anchor.href = url;
