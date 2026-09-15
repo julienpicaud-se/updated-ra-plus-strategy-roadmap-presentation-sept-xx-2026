@@ -67,7 +67,7 @@ for (const file of files) {
   }
 
   console.log(
-    `Validated ${basename(file)}: ${slideFiles.length} slides, ${overrides} overrides, ` +
+    `Validated ${basename(file)}: ${slideFiles.length} slides, ${overrides.length} overrides, ` +
       `${slideMasters.length} masters, CRC and strict compatible structure OK`,
   );
 }
