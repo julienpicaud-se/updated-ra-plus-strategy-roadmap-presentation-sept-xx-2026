@@ -811,7 +811,8 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
             const many = products.length > 6;
             const cols = single ? 1 : many ? 3 : 2;
             const rows = Math.ceil(products.length / cols);
-            const maxBh = (6.0 - gridTop - boxGap * (rows - 1)) / rows;
+            const gridBottom = s.sharedCapabilities?.length ? 5.8 : 6.0;
+            const maxBh = (gridBottom - gridTop - boxGap * (rows - 1)) / rows;
             const bw = many ? (famW - boxGap * (cols - 1)) / cols : boxW;
             const bh = Math.min(many ? 0.82 : boxH, maxBh);
             const x = single ? fx + (famW - bw) / 2 : fx + (pi % cols) * (bw + boxGap);
