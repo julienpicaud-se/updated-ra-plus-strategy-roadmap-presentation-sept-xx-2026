@@ -1525,7 +1525,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
  *  - the slide-number placeholder can reuse a shape id already used on the same
  *    slide, so duplicate shape-tree ids are renumbered per slide.
  */
-async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
+export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
   const { default: JSZip } = await import("jszip");
   const zip = await JSZip.loadAsync(data);
 

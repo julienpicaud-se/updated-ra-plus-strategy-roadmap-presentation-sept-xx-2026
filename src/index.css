@@ -127,3 +127,35 @@
     @apply opacity-100 translate-y-0;
   }
 }
+
+.pptx-capture-frame {
+  position: fixed;
+  left: -100000px;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+  border: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pptx-capture-root {
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: hsl(var(--background));
+}
+
+.pptx-capture-root .min-h-screen {
+  min-height: 720px !important;
+  height: 720px !important;
+}
+
+.pptx-capture-root *,
+.pptx-capture-root *::before,
+.pptx-capture-root *::after {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}

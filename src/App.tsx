@@ -28,6 +28,7 @@ import SustainabilityVendors from "./pages/SustainabilityVendors";
 import SustainabilityVendorDetail from "./pages/SustainabilityVendorDetail";
 import SharedPlatform from "./pages/SharedPlatform";
 import DataGovernance from "./pages/DataGovernance";
+import SlideCapture from "./pages/SlideCapture";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/slide-capture" element={<SlideCapture />} />
           <Route path="/buyer-journey" element={<BuyerJourney />} />
           <Route path="/value-proposition" element={<ValueProposition />} />
           <Route path="/roadmap-timeline" element={<RoadmapTimeline />} />
