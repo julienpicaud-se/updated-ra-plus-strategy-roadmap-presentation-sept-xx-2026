@@ -1516,26 +1516,50 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 }
 
 /**
- * PptxGenJS emits <p:notesMasterIdLst> after <p:sldIdLst>, which violates the
- * OOXML sequence desktop PowerPoint enforces. Move it back between the slide
- * master list and the slide list, rewriting only that one entry in the zip.
+ * Two PptxGenJS quirks break strict PowerPoint validation:
+ *  - <p:notesMasterIdLst> is emitted after <p:sldIdLst>, violating the OOXML
+ *    element sequence, so it is moved back before the slide list.
+ *  - the slide-number placeholder can reuse a shape id already used on the same
+ *    slide, so duplicate shape-tree ids are renumbered per slide.
  */
-async function patchPresentationOrder(data: ArrayBuffer | Uint8Array) {
+async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
   const { default: JSZip } = await import("jszip");
   const zip = await JSZip.loadAsync(data);
+
   const entry = zip.file("ppt/presentation.xml");
-  if (!entry) return data instanceof Uint8Array ? data : new Uint8Array(data);
-  const xml = await entry.async("text");
-  const notes = xml.match(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/);
-  const slideList = xml.indexOf("<p:sldIdLst>");
-  if (notes && slideList >= 0 && xml.indexOf(notes[0]) > slideList) {
-    const stripped = xml.replace(notes[0], "");
-    const at = stripped.indexOf("<p:sldIdLst>");
-    const fixed = stripped.slice(0, at) + notes[0] + stripped.slice(at);
-    zip.file("ppt/presentation.xml", fixed);
+  if (entry) {
+    const xml = await entry.async("text");
+    const notes = xml.match(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/);
+    const slideList = xml.indexOf("<p:sldIdLst>");
+    if (notes && slideList >= 0 && xml.indexOf(notes[0]) > slideList) {
+      const stripped = xml.replace(notes[0], "");
+      const at = stripped.indexOf("<p:sldIdLst>");
+      zip.file("ppt/presentation.xml", stripped.slice(0, at) + notes[0] + stripped.slice(at));
+    }
   }
+
+  const slideNames = Object.keys(zip.files).filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n));
+  for (const name of slideNames) {
+    const xml = await zip.file(name)!.async("text");
+    const seen = new Set<string>();
+    let next = 1;
+    const fixed = xml.replace(/(<p:cNvPr[^>]*\sid=")(\d+)(")/g, (_m, pre, id, post) => {
+      if (!seen.has(id)) {
+        seen.add(id);
+        next = Math.max(next, Number(id));
+        return `${pre}${id}${post}`;
+      }
+      next += 1;
+      while (seen.has(String(next))) next += 1;
+      seen.add(String(next));
+      return `${pre}${next}${post}`;
+    });
+    if (fixed !== xml) zip.file(name, fixed);
+  }
+
   return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });
 }
+
 
 async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
   const pptx = new PptxGenJS();
