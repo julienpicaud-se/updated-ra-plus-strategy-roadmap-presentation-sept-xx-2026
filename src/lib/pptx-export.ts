@@ -1515,6 +1515,28 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
   }
 }
 
+/**
+ * PptxGenJS emits <p:notesMasterIdLst> after <p:sldIdLst>, which violates the
+ * OOXML sequence desktop PowerPoint enforces. Move it back between the slide
+ * master list and the slide list, rewriting only that one entry in the zip.
+ */
+async function patchPresentationOrder(data: ArrayBuffer | Uint8Array) {
+  const { default: JSZip } = await import("jszip");
+  const zip = await JSZip.loadAsync(data);
+  const entry = zip.file("ppt/presentation.xml");
+  if (!entry) return data instanceof Uint8Array ? data : new Uint8Array(data);
+  const xml = await entry.async("text");
+  const notes = xml.match(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/);
+  const slideList = xml.indexOf("<p:sldIdLst>");
+  if (notes && slideList >= 0 && xml.indexOf(notes[0]) > slideList) {
+    const stripped = xml.replace(notes[0], "");
+    const at = stripped.indexOf("<p:sldIdLst>");
+    const fixed = stripped.slice(0, at) + notes[0] + stripped.slice(at);
+    zip.file("ppt/presentation.xml", fixed);
+  }
+  return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });
+}
+
 async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE";
@@ -1523,12 +1545,27 @@ async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
 
   slides.forEach((s) => renderSlide(pptx, s));
 
-  // Use PptxGenJS's native writer, matching the known-good Sunday export.
-  // Repacking presentation.xml changed OOXML element ordering and caused
-  // desktop PowerPoint to reject otherwise valid files.
-  await pptx.writeFile({ fileName });
-  return { slides: slides.length, fileName };
+  const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
+  const bytes = await patchPresentationOrder(raw);
+
+  if (typeof document !== "undefined") {
+    const url = URL.createObjectURL(
+      new Blob([bytes as BlobPart], {
+        type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName.split("/").pop() ?? fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+
+  return { slides: slides.length, fileName, bytes };
 }
+
 
 export async function exportDeckToPptx(fileName = "RA-Plus-Strategy-and-Roadmap.pptx") {
   return writeDeck(cpDeck, fileName, "Carbon Performance Roadmap 2026 and 2027");
