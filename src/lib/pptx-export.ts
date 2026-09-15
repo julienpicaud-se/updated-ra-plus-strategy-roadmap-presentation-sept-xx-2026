@@ -777,7 +777,8 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         });
         if (family.subfamilies) {
           const subGap = 0.14;
-          const subH = (6.0 - gridTop - subGap * (family.subfamilies.length - 1)) / family.subfamilies.length;
+          const gridBottom = s.sharedCapabilities?.length ? 5.8 : 6.0;
+          const subH = (gridBottom - gridTop - subGap * (family.subfamilies.length - 1)) / family.subfamilies.length;
           family.subfamilies.forEach((sub, si) => {
             const sy = gridTop + si * (subH + subGap);
             slide.addShape("roundRect", {
