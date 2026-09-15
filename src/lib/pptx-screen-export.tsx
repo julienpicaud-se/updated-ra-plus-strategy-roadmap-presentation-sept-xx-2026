@@ -1,5 +1,5 @@
 import PptxGenJS from "pptxgenjs";
-import { toPng } from "html-to-image";
+import { toJpeg } from "html-to-image";
 import { cpDeck, type CPSlide } from "@/data/cp-roadmap-deck";
 
 const CAPTURE_WIDTH = 1280;
@@ -30,13 +30,16 @@ async function captureSlide(frame: HTMLIFrameElement, index: number) {
   const stage = frameDocument?.querySelector<HTMLElement>("[data-pptx-slide='ready']");
   if (!frameDocument || !stage) throw new Error(`Slide ${index + 1} did not render`);
   await frameDocument.fonts.ready;
-  return toPng(stage, {
+  return toJpeg(stage, {
       width: CAPTURE_WIDTH,
       height: CAPTURE_HEIGHT,
-      canvasWidth: 1920,
-      canvasHeight: 1080,
+      canvasWidth: CAPTURE_WIDTH,
+      canvasHeight: CAPTURE_HEIGHT,
       pixelRatio: 1,
       cacheBust: false,
+      fontEmbedCSS: "",
+      quality: 0.94,
+      skipAutoScale: true,
       backgroundColor: "#ffffff",
     });
 }
