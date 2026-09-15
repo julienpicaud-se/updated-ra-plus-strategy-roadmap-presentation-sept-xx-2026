@@ -1570,7 +1570,7 @@ async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
   slides.forEach((s) => renderSlide(pptx, s));
 
   const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
-  const bytes = await patchPresentationOrder(raw);
+  const bytes = await patchPptxCompatibility(raw);
 
   if (typeof document !== "undefined") {
     const url = URL.createObjectURL(
