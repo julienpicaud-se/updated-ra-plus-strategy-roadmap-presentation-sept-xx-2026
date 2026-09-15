@@ -828,27 +828,28 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         }
       });
 
+      const hasCaps = !!s.sharedCapabilities?.length;
       if (s.sharedCapabilities?.length) {
-        const plY = 6.05;
-        const plH = 0.75;
+        const plY = 5.95;
+        const plH = 0.72;
         slide.addShape("roundRect", {
           x: M, y: plY, w: W - M * 2, h: plH, fill: { color: "1A4A2E" }, line: { color: "CDFC57", width: 1 }, rectRadius: 0.08,
         });
         slide.addText("ALL ARE SHARED CAPABILITIES", {
-          x: M, y: plY + 0.07, w: W - M * 2, h: 0.22, fontFace: BODY, fontSize: 8, bold: true, color: "CDFC57",
+          x: M, y: plY + 0.05, w: W - M * 2, h: 0.2, fontFace: BODY, fontSize: 8, bold: true, color: "CDFC57",
           align: "center", charSpacing: 2, margin: 0,
         });
-        const pillY = plY + 0.36;
-        const pillH = 0.28;
-        const gap = 0.12;
-        const pillW = (W - M * 2 - gap * (s.sharedCapabilities.length - 1)) / s.sharedCapabilities.length;
+        const pillY = plY + 0.28;
+        const pillH = 0.36;
+        const gap = 0.1;
+        const pillW = (W - M * 2 - 0.24 - gap * (s.sharedCapabilities.length - 1)) / s.sharedCapabilities.length;
         s.sharedCapabilities.forEach((cap, i) => {
-          const px = M + i * (pillW + gap);
+          const px = M + 0.12 + i * (pillW + gap);
           slide.addShape("roundRect", {
-            x: px, y: pillY, w: pillW, h: pillH, fill: { color: "0F3B24" }, line: { color: C.primary, width: 0.75 }, rectRadius: 0.14,
+            x: px, y: pillY, w: pillW, h: pillH, fill: { color: "0F3B24" }, line: { color: C.primary, width: 0.75 }, rectRadius: 0.18,
           });
           slide.addText(cap, {
-            x: px, y: pillY, w: pillW, h: pillH, fontFace: BODY, fontSize: 8, bold: true, color: C.white,
+            x: px + 0.04, y: pillY, w: pillW - 0.08, h: pillH, fontFace: BODY, fontSize: 7, bold: true, color: C.white,
             align: "center", valign: "middle", fit: "shrink", margin: 0,
           });
         });
@@ -859,7 +860,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
           { text: "SE ", options: { bold: true, color: C.primary } },
           { text: "ADVISORY SERVICES", options: { color: C.white } },
         ],
-        { x: W - M - 3.4, y: H - 0.85, w: 3.4, h: 0.3, fontFace: HEAD, fontSize: 14, align: "right", valign: "middle", margin: 0 },
+        { x: W - M - 3.4, y: hasCaps ? 6.82 : H - 0.85, w: 3.4, h: 0.3, fontFace: HEAD, fontSize: 14, align: "right", valign: "middle", margin: 0 },
       );
       slide.slideNumber = {
         x: W - M - 0.7, y: 7.1, w: 0.7, h: 0.2, align: "right", fontFace: BODY, fontSize: 8, bold: true, color: C.primary,
