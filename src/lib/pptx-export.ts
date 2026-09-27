@@ -1618,40 +1618,49 @@ export type DeckPart = {
 export function getDeckParts(): DeckPart[] {
   const total = cpDeck.length;
   const clamp = (i: number, fallback: number) => (i > 0 ? i : fallback);
+  const introEnd = clamp(sectionIndex("01"), 5);
   const b1 = clamp(sectionIndex("02"), Math.round(total * 0.25));
   const b2 = clamp(sectionIndex("A"), Math.round(total * 0.5));
   const b3 = clamp(sectionIndex("05"), Math.round(total * 0.75));
 
   return [
     {
-      id: "part1",
-      label: "1. Platform",
-      description: "The RA+ platform, data spine and convergence",
-      fileName: "RA-Plus-Roadmap-1-Platform.pptx",
+      id: "roadmap-foundations",
+      label: "1. Roadmap foundations",
+      description: "What a roadmap is, why it matters and how certainty works",
+      fileName: "RA-Plus-Roadmap-1-Foundations.pptx",
       start: 0,
+      end: introEnd,
+    },
+    {
+      id: "part1",
+      label: "2. Platform",
+      description: "The RA+ platform, data spine and convergence",
+      fileName: "RA-Plus-Roadmap-2-Platform.pptx",
+      start: introEnd,
       end: b1,
     },
     {
       id: "part2",
-      label: "2. Market & roadmap",
+      label: "3. Market & roadmap",
       description: "Competition, positioning and the roadmap boards",
-      fileName: "RA-Plus-Roadmap-2-Market-and-Roadmap.pptx",
+      fileName: "RA-Plus-Roadmap-3-Market-and-Roadmap.pptx",
       start: b1,
       end: b2,
     },
     {
       id: "part3",
-      label: "3. Product detail (appendix)",
+      label: "4. Product detail (appendix)",
       description: "Q4 2026 product by product plans",
-      fileName: "RA-Plus-Roadmap-3-Product-Detail.pptx",
+      fileName: "RA-Plus-Roadmap-4-Product-Detail.pptx",
       start: b2,
       end: b3,
     },
     {
       id: "part4",
-      label: "4. 2027 direction",
+      label: "5. 2027 direction",
       description: "2027 product bets and the long-term platform path",
-      fileName: "RA-Plus-Roadmap-4-2027-Direction.pptx",
+      fileName: "RA-Plus-Roadmap-5-2027-Direction.pptx",
       start: b3,
       end: total,
     },

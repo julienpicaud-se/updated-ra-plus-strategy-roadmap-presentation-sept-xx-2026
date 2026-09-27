@@ -5186,7 +5186,138 @@ const carbonStatusTests: CPSlide[] = [
   },
 ];
 
+const roadmapFoundations: CPSlide[] = [
+  {
+    kind: "section",
+    number: "00",
+    eyebrow: "Roadmap foundations",
+    title: "What is a roadmap, and why does it matter?",
+    subtitle: "One source of truth for strategic intent, with different views of maturity, delivery certainty and customer commitment.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Roadmap definition",
+    title: "A roadmap turns product strategy into prioritized choices over time",
+    subtitle: "It explains why we invest, what we prioritize and the approximate sequence in which we intend to pursue it.",
+    columns: [
+      {
+        label: "Why",
+        title: "Strategic intent",
+        line: "Connect every investment to a goal, customer need or business outcome.",
+        items: ["Goals and outcomes", "Customer and market evidence", "The rationale behind each bet"],
+        tone: "primary",
+      },
+      {
+        label: "What",
+        title: "Prioritized direction",
+        line: "Make the choices visible: what matters now, what waits and what is not funded.",
+        items: ["Themes and opportunities", "Product bets", "Explicit trade-offs"],
+        tone: "accent",
+      },
+      {
+        label: "When",
+        title: "Approximate sequence",
+        line: "Use horizons to communicate intent without inventing delivery precision.",
+        items: ["Quarter or horizon", "Progress and status", "A living plan that adapts"],
+        tone: "warn",
+      },
+    ],
+    note: "A roadmap is strategic, prioritized and time-oriented. It is not automatically a delivery promise.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Why roadmaps matter",
+    title: "A good roadmap creates alignment before it creates certainty",
+    subtitle: "Leadership can make better portfolio decisions when priorities, evidence and confidence are visible together.",
+    columns: [
+      {
+        label: "Align",
+        title: "One source of truth",
+        line: "Give Product, Engineering, the CEO and Sales a shared view of direction.",
+        items: ["Common priorities", "Consistent language", "Audience-specific views"],
+        tone: "primary",
+      },
+      {
+        label: "Decide",
+        title: "Make trade-offs explicit",
+        line: "Show where capacity and investment are going, and what changes when a new priority enters.",
+        items: ["Portfolio choices", "Sequencing decisions", "Visible consequences"],
+        tone: "warn",
+      },
+      {
+        label: "Adapt",
+        title: "Learn without losing direction",
+        line: "Update the plan as evidence, feasibility and market conditions change.",
+        items: ["Progress over time", "Changing confidence", "Stop, adjust or scale"],
+        tone: "accent",
+      },
+    ],
+    note: "The roadmap makes uncertainty visible and manageable. It does not remove uncertainty by pretending every date is fixed.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Operating model",
+    title: "Three questions require three connected management layers",
+    subtitle: "Connected does not mean collapsed. Each layer answers a different leadership question.",
+    columns: [
+      {
+        label: "1. Product roadmap",
+        title: "Where should we invest, and roughly when?",
+        line: "The strategic direction and intended sequence.",
+        items: ["Goals", "Themes", "Bets", "Priority", "Target quarter"],
+        tone: "primary",
+      },
+      {
+        label: "2. Discovery / readiness",
+        title: "How much do we know, and are we ready?",
+        line: "The evidence and maturity behind each bet.",
+        items: ["Evidence", "PRD", "Prototype", "Validation", "Artefact Ready"],
+        tone: "muted",
+      },
+      {
+        label: "3. Delivery / release plan",
+        title: "When can customers realistically get it?",
+        line: "The execution forecast for sufficiently mature work.",
+        items: ["Scope", "Dependencies", "Capacity", "Milestones", "Forecast"],
+        tone: "warn",
+      },
+    ],
+    note: "A single source of truth can expose all three layers without pretending they are the same decision.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Roadmap contract",
+    title: "A quarter communicates intent. Commitment requires a separate decision.",
+    subtitle: "Define the semantics explicitly so every function reads the roadmap the same way.",
+    columns: [
+      {
+        label: "Roadmap quarter",
+        title: "Planning intent",
+        line: "A target horizon based on what we know today. Early discovery items can be visible and confidence can vary.",
+        items: ["Strategic and forward-looking", "Approximate sequencing", "Not a guaranteed availability date"],
+        tone: "primary",
+      },
+      {
+        label: "Artefact Ready",
+        title: "Ready for robust planning",
+        line: "Product definition is mature enough for feasibility, sizing and delivery planning.",
+        items: ["Evidence and validation", "Required product artifacts", "Dependencies understood"],
+        tone: "muted",
+      },
+      {
+        label: "Committed",
+        title: "Joint delivery decision",
+        line: "Product and Engineering have explicitly agreed scope, feasibility, dependencies and capacity.",
+        items: ["Capacity allocated", "Sequencing agreed", "Approved commitment language"],
+        tone: "accent",
+      },
+    ],
+    note: "Committed is an explicit joint decision, not a side effect of appearing in a quarter.",
+  },
+];
+
 export const cpDeck: CPSlide[] = [
+  ...roadmapFoundations,
   ...sharedCpDeck.slice(0, 33),
   ...carbonStatusTests,
   ...sharedCpDeck.slice(33),
