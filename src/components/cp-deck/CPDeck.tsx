@@ -221,8 +221,7 @@ export const CPDeck = () => {
             {parts.map((p) => (
               <DropdownMenuItem
                 key={p.id}
-                onSelect={(e) => {
-                  e.preventDefault();
+                onSelect={() => {
                   downloadPart(p.id, p.label);
                 }}
                 className="flex flex-col items-start gap-0.5"
