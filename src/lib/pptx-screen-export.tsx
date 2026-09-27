@@ -11,6 +11,7 @@ const PPTX_HEIGHT = 7.5;
 export type PreparedPptx = {
   blob: Blob;
   fileName: string;
+  slideCount: number;
 };
 
 async function createCaptureFrame() {
@@ -85,6 +86,7 @@ async function prepareSlides(slides: CPSlide[], fileName: string, onProgress?: (
       type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     }),
     fileName,
+    slideCount: slides.length,
   } satisfies PreparedPptx;
 }
 
