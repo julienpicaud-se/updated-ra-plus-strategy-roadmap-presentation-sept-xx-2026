@@ -8,6 +8,11 @@ const CAPTURE_HEIGHT = 720;
 const PPTX_WIDTH = 13.333;
 const PPTX_HEIGHT = 7.5;
 
+export type PreparedPptx = {
+  blob: Blob;
+  fileName: string;
+};
+
 async function createCaptureFrame() {
   const frame = document.createElement("iframe");
   frame.className = "pptx-capture-frame";
@@ -45,7 +50,7 @@ async function captureSlide(frame: HTMLIFrameElement, index: number) {
     });
 }
 
-async function downloadSlides(slides: CPSlide[], fileName: string, onProgress?: (done: number, total: number) => void) {
+async function prepareSlides(slides: CPSlide[], fileName: string, onProgress?: (done: number, total: number) => void) {
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_WIDE";
   pptx.author = "Schneider Electric, Sustainability Business";
@@ -75,20 +80,31 @@ async function downloadSlides(slides: CPSlide[], fileName: string, onProgress?: 
 
   const raw = (await pptx.write({ outputType: "arraybuffer", compression: true })) as ArrayBuffer;
   const bytes = await patchPptxCompatibility(raw);
+  return {
+    blob: new Blob([bytes as BlobPart], {
+      type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    }),
+    fileName,
+  } satisfies PreparedPptx;
+}
+
+export function downloadPreparedPptx({ blob, fileName }: PreparedPptx) {
   const url = URL.createObjectURL(
-    new Blob([bytes as BlobPart], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }),
+    blob,
   );
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = fileName;
   document.body.appendChild(anchor);
   anchor.click();
-  anchor.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  window.setTimeout(() => {
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }, 60_000);
 }
 
 export async function exportScreensToPptx(onProgress?: (done: number, total: number) => void) {
-  return downloadSlides(cpDeck, "RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible.pptx", onProgress);
+  return prepareSlides(cpDeck, "RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible.pptx", onProgress);
 }
 
 export async function exportScreenPartToPptx(
@@ -96,5 +112,5 @@ export async function exportScreenPartToPptx(
   fileName: string,
   onProgress?: (done: number, total: number) => void,
 ) {
-  return downloadSlides(slides, fileName, onProgress);
+  return prepareSlides(slides, fileName, onProgress);
 }
