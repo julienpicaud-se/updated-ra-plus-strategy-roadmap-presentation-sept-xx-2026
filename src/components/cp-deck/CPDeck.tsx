@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2, X } from "lucide-react";
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
 import { getDeckParts } from "@/lib/pptx-export";
@@ -28,6 +28,12 @@ export const CPDeck = () => {
   const [busyPart, setBusyPart] = useState<string | null>(null);
   const [preparedExport, setPreparedExport] = useState<PreparedPptx | null>(null);
   const [preparedUrl, setPreparedUrl] = useState<string | null>(null);
+  const [exportSummary, setExportSummary] = useState<{
+    label: string;
+    fileName: string;
+    slideCount: number;
+    coverage: string[];
+  } | null>(null);
   const parts = useMemo(() => getDeckParts(), []);
   const total = cpDeck.length;
 
@@ -44,6 +50,15 @@ export const CPDeck = () => {
         setExportProgress(`${done} / ${total}`);
       });
       setPreparedExport(prepared);
+      setExportSummary({
+        label,
+        fileName: part.fileName,
+        slideCount: prepared.slideCount,
+        coverage: [
+          `Slides ${part.start + 1} to ${part.end} of ${cpDeck.length}`,
+          part.description,
+        ],
+      });
       toast.success(`${label} is ready. Tap Download.`, { duration: 3000 });
     } catch (e) {
       console.error("Part export failed", e);
@@ -90,6 +105,14 @@ export const CPDeck = () => {
     try {
       const prepared = await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
       setPreparedExport(prepared);
+      setExportSummary({
+        label: "Full deck",
+        fileName: prepared.fileName,
+        slideCount: prepared.slideCount,
+        coverage: getDeckParts().map(
+          (p) => `${p.label}: slides ${p.start + 1}-${p.end} (${p.end - p.start} slides)`,
+        ),
+      });
       toast.success("PowerPoint is ready. Tap Download.", { duration: 3000 });
     } catch (e) {
       console.error("Deck download failed", e);
@@ -159,6 +182,38 @@ export const CPDeck = () => {
           <CPSlideRenderer slide={cpDeck[index]} />
         </motion.div>
       </AnimatePresence>
+
+      {exportSummary && (
+        <div
+          role="status"
+          aria-label="Export summary"
+          className="fixed bottom-20 right-5 w-80 rounded-xl border border-border bg-card/95 backdrop-blur p-4 shadow-lg"
+        >
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="text-sm font-semibold text-foreground">{exportSummary.label} ready</p>
+              <p className="text-xs text-muted-foreground break-all">{exportSummary.fileName}</p>
+            </div>
+            <button
+              onClick={() => setExportSummary(null)}
+              aria-label="Dismiss export summary"
+              className="p-1 rounded-full hover:bg-muted/20"
+            >
+              <X className="w-3.5 h-3.5 text-muted-foreground" />
+            </button>
+          </div>
+          <p className="mt-2 text-xs font-medium text-foreground">
+            {exportSummary.slideCount} slides in this file
+          </p>
+          <ul className="mt-1 space-y-0.5">
+            {exportSummary.coverage.map((line) => (
+              <li key={line} className="text-xs text-muted-foreground">
+                {line}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="fixed bottom-5 right-5 flex items-center gap-3 rounded-full border border-border bg-card/95 backdrop-blur px-3 py-2 shadow-lg">
         <button
