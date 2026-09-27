@@ -5317,16 +5317,16 @@ const roadmapFoundations: CPSlide[] = [
   {
     kind: "table",
     eyebrow: "Boundaries",
-    title: "What a roadmap is not",
-    subtitle: "The roadmap is one management view. Confusing it with neighboring artifacts breaks its purpose.",
+    title: "A roadmap needs clear boundaries to remain useful",
+    subtitle: "It connects strategy, discovery and delivery, but it does not replace any of them.",
     headers: ["A roadmap is", "A roadmap is not"],
     rows: [
-      ["A prioritized expression of strategy over time", "A strategy document on its own"],
-      ["A living plan with visible confidence levels", "A backlog or a list of ideas"],
-      ["A view of maturity and evidence behind each bet", "A PRD or a discovery board"],
-      ["Planning intent for an approximate horizon", "A project plan, release plan or Gantt chart"],
+      ["Strategy translated into prioritized, sequenced choices", "Strategy or vision on its own"],
+      ["A portfolio of outcomes, problems and bets linked to goals", "An idea list, feature wishlist or backlog"],
+      ["A living plan with horizons, status and visible confidence", "A PRD, prototype or discovery board"],
+      ["Planning intent that can include less mature bets", "A project plan, release plan or Gantt chart"],
     ],
-    note: "Each neighboring artifact exists. The roadmap links to them instead of absorbing them.",
+    note: "These artifacts are useful and connected, but none substitutes for the roadmap. A quarter signals planning intent, not an automatic delivery promise.",
   },
   {
     kind: "columns",
