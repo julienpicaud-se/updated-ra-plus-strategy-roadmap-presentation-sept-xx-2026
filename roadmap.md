@@ -5,3 +5,4 @@
 - [x] Extend Roadmap foundations with 4 new slides (what a roadmap is not, maturity ladder, sales language, cadence); verified render and export (Sep 27)
 - [x] Verify full-deck export downloads all 74 slides in one complete PPTX; fixed toast blocking the Download button (Sep 27)
 - [x] Verify "Download deck by section" works for all 5 sections; all files valid (Sep 27)
+- [x] Refocus the 9-slide Roadmap foundations section with leadership certainty, progressive certainty, portfolio view, and executive decisions (Sep 27)
