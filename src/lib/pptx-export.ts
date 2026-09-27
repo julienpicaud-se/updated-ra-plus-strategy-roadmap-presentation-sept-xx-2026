@@ -1618,7 +1618,7 @@ export type DeckPart = {
 export function getDeckParts(): DeckPart[] {
   const total = cpDeck.length;
   const clamp = (i: number, fallback: number) => (i > 0 ? i : fallback);
-  const introEnd = clamp(sectionIndex("01"), 5);
+  const introEnd = clamp(sectionIndex("01"), 9);
   const b1 = clamp(sectionIndex("02"), Math.round(total * 0.25));
   const b2 = clamp(sectionIndex("A"), Math.round(total * 0.5));
   const b3 = clamp(sectionIndex("05"), Math.round(total * 0.75));
