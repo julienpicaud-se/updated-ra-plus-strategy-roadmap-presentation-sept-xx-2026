@@ -4,7 +4,12 @@ import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2 } from "luci
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
 import { getDeckParts } from "@/lib/pptx-export";
-import { exportScreenPartToPptx, exportScreensToPptx } from "@/lib/pptx-screen-export";
+import {
+  downloadPreparedPptx,
+  exportScreenPartToPptx,
+  exportScreensToPptx,
+  type PreparedPptx,
+} from "@/lib/pptx-screen-export";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +27,7 @@ export const CPDeck = () => {
   const [downloadingDeck, setDownloadingDeck] = useState(false);
   const [exportProgress, setExportProgress] = useState<string | null>(null);
   const [busyPart, setBusyPart] = useState<string | null>(null);
+  const [preparedExport, setPreparedExport] = useState<PreparedPptx | null>(null);
   const parts = useMemo(() => getDeckParts(), []);
   const total = cpDeck.length;
 
@@ -33,10 +39,12 @@ export const CPDeck = () => {
       const selected = cpDeck.slice(part.start, part.end);
       const cover = cpDeck[0];
       const slides = part.start === 0 || cover.kind !== "title" ? selected : [cover, ...selected];
-      await exportScreenPartToPptx(slides, part.fileName, (done, total) => {
+      setPreparedExport(null);
+      const prepared = await exportScreenPartToPptx(slides, part.fileName, (done, total) => {
         setExportProgress(`${done} / ${total}`);
       });
-      toast.success(`${label} downloaded`);
+      setPreparedExport(prepared);
+      toast.success(`${label} is ready. Tap Download.`);
     } catch (e) {
       console.error("Part export failed", e);
       toast.error("Export failed, please retry");
@@ -78,10 +86,17 @@ export const CPDeck = () => {
   }, [downloadFile]);
 
   const downloadDeck = useCallback(async () => {
+    if (preparedExport) {
+      downloadPreparedPptx(preparedExport);
+      setPreparedExport(null);
+      toast.success("PowerPoint download started");
+      return;
+    }
     setDownloadingDeck(true);
     try {
-      await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
-      toast.success("Roadmap PowerPoint downloaded");
+      const prepared = await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
+      setPreparedExport(prepared);
+      toast.success("PowerPoint is ready. Tap Download.");
     } catch (e) {
       console.error("Deck download failed", e);
       toast.error("Download failed, please retry");
@@ -89,7 +104,7 @@ export const CPDeck = () => {
       setDownloadingDeck(false);
       setExportProgress(null);
     }
-  }, []);
+  }, [preparedExport]);
 
 
 
@@ -169,7 +184,7 @@ export const CPDeck = () => {
           className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
         >
           {downloadingDeck ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-          {exportProgress ?? "PPTX"}
+          {exportProgress ?? (preparedExport ? "Download" : "PPTX")}
         </button>
 
         <DropdownMenu>
