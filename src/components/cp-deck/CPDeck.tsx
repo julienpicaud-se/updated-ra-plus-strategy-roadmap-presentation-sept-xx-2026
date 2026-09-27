@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, FileQuestion, Loader2, X } from "lucide-react";
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
 import { getDeckParts } from "@/lib/pptx-export";
@@ -28,6 +28,12 @@ export const CPDeck = () => {
   const [busyPart, setBusyPart] = useState<string | null>(null);
   const [preparedExport, setPreparedExport] = useState<PreparedPptx | null>(null);
   const [preparedUrl, setPreparedUrl] = useState<string | null>(null);
+  const [exportSummary, setExportSummary] = useState<{
+    label: string;
+    fileName: string;
+    slideCount: number;
+    coverage: string[];
+  } | null>(null);
   const parts = useMemo(() => getDeckParts(), []);
   const total = cpDeck.length;
 
