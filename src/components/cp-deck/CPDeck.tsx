@@ -44,7 +44,7 @@ export const CPDeck = () => {
         setExportProgress(`${done} / ${total}`);
       });
       setPreparedExport(prepared);
-      toast.success(`${label} is ready. Tap Download.`);
+      toast.success(`${label} is ready. Tap Download.`, { duration: 3000 });
     } catch (e) {
       console.error("Part export failed", e);
       toast.error("Export failed, please retry");
@@ -90,7 +90,7 @@ export const CPDeck = () => {
     try {
       const prepared = await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
       setPreparedExport(prepared);
-      toast.success("PowerPoint is ready. Tap Download.");
+      toast.success("PowerPoint is ready. Tap Download.", { duration: 3000 });
     } catch (e) {
       console.error("Deck download failed", e);
       toast.error("Download failed, please retry");
