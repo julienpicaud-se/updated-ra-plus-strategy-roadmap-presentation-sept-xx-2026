@@ -50,6 +50,15 @@ export const CPDeck = () => {
         setExportProgress(`${done} / ${total}`);
       });
       setPreparedExport(prepared);
+      setExportSummary({
+        label,
+        fileName: part.fileName,
+        slideCount: prepared.slideCount,
+        coverage: [
+          `Slides ${part.start + 1} to ${part.end} of ${cpDeck.length}`,
+          part.description,
+        ],
+      });
       toast.success(`${label} is ready. Tap Download.`, { duration: 3000 });
     } catch (e) {
       console.error("Part export failed", e);
@@ -96,6 +105,14 @@ export const CPDeck = () => {
     try {
       const prepared = await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
       setPreparedExport(prepared);
+      setExportSummary({
+        label: "Full deck",
+        fileName: prepared.fileName,
+        slideCount: prepared.slideCount,
+        coverage: getDeckParts().map(
+          (p) => `${p.label}: slides ${p.start + 1}-${p.end} (${p.end - p.start} slides)`,
+        ),
+      });
       toast.success("PowerPoint is ready. Tap Download.", { duration: 3000 });
     } catch (e) {
       console.error("Deck download failed", e);
