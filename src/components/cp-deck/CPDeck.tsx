@@ -183,6 +183,38 @@ export const CPDeck = () => {
         </motion.div>
       </AnimatePresence>
 
+      {exportSummary && (
+        <div
+          role="status"
+          aria-label="Export summary"
+          className="fixed bottom-20 right-5 w-80 rounded-xl border border-border bg-card/95 backdrop-blur p-4 shadow-lg"
+        >
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="text-sm font-semibold text-foreground">{exportSummary.label} ready</p>
+              <p className="text-xs text-muted-foreground break-all">{exportSummary.fileName}</p>
+            </div>
+            <button
+              onClick={() => setExportSummary(null)}
+              aria-label="Dismiss export summary"
+              className="p-1 rounded-full hover:bg-muted/20"
+            >
+              <X className="w-3.5 h-3.5 text-muted-foreground" />
+            </button>
+          </div>
+          <p className="mt-2 text-xs font-medium text-foreground">
+            {exportSummary.slideCount} slides in this file
+          </p>
+          <ul className="mt-1 space-y-0.5">
+            {exportSummary.coverage.map((line) => (
+              <li key={line} className="text-xs text-muted-foreground">
+                {line}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="fixed bottom-5 right-5 flex items-center gap-3 rounded-full border border-border bg-card/95 backdrop-blur px-3 py-2 shadow-lg">
         <button
           onClick={prev}
