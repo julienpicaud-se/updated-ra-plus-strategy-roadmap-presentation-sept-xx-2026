@@ -5,7 +5,6 @@ import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
 import { getDeckParts } from "@/lib/pptx-export";
 import {
-  downloadPreparedPptx,
   exportScreenPartToPptx,
   exportScreensToPptx,
   type PreparedPptx,
@@ -28,6 +27,7 @@ export const CPDeck = () => {
   const [exportProgress, setExportProgress] = useState<string | null>(null);
   const [busyPart, setBusyPart] = useState<string | null>(null);
   const [preparedExport, setPreparedExport] = useState<PreparedPptx | null>(null);
+  const [preparedUrl, setPreparedUrl] = useState<string | null>(null);
   const parts = useMemo(() => getDeckParts(), []);
   const total = cpDeck.length;
 
@@ -86,12 +86,6 @@ export const CPDeck = () => {
   }, [downloadFile]);
 
   const downloadDeck = useCallback(async () => {
-    if (preparedExport) {
-      downloadPreparedPptx(preparedExport);
-      setPreparedExport(null);
-      toast.success("PowerPoint download started");
-      return;
-    }
     setDownloadingDeck(true);
     try {
       const prepared = await exportScreensToPptx((done, total) => setExportProgress(`${done} / ${total}`));
@@ -104,6 +98,16 @@ export const CPDeck = () => {
       setDownloadingDeck(false);
       setExportProgress(null);
     }
+  }, []);
+
+  useEffect(() => {
+    if (!preparedExport) {
+      setPreparedUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(preparedExport.blob);
+    setPreparedUrl(url);
+    return () => URL.revokeObjectURL(url);
   }, [preparedExport]);
 
 
@@ -177,15 +181,28 @@ export const CPDeck = () => {
           <ChevronRight className="w-4 h-4 text-foreground" />
         </button>
         <span className="h-5 w-px bg-border" />
-        <button
-          onClick={downloadDeck}
-          disabled={downloadingDeck}
-          aria-label="Export deck as PowerPoint"
-          className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
-        >
-          {downloadingDeck ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-          {exportProgress ?? (preparedExport ? "Download" : "PPTX")}
-        </button>
+        {preparedExport && preparedUrl ? (
+          <a
+            href={preparedUrl}
+            download={preparedExport.fileName}
+            aria-label="Export deck as PowerPoint"
+            onClick={() => toast.success("PowerPoint download started")}
+            className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Download
+          </a>
+        ) : (
+          <button
+            onClick={downloadDeck}
+            disabled={downloadingDeck}
+            aria-label="Export deck as PowerPoint"
+            className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+          >
+            {downloadingDeck ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+            {exportProgress ?? "PPTX"}
+          </button>
+        )}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
