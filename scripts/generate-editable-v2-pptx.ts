@@ -1,0 +1,10 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { cpDeck } from "../src/data/cp-roadmap-deck";
+import { buildEditablePptxV2 } from "../src/lib/pptx-export";
+
+const outDir = process.argv[2] ?? "/mnt/documents";
+mkdirSync(outDir, { recursive: true });
+const fileName = "RA-Plus-Strategy-and-Roadmap-Editable-V2-Executive-Energy.pptx";
+const prepared = await buildEditablePptxV2(cpDeck, fileName);
+writeFileSync(`${outDir}/${fileName}`, new Uint8Array(await prepared.blob.arrayBuffer()));
+console.log(`Generated ${fileName} with ${prepared.slideCount} editable slides`);
