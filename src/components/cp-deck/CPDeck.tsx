@@ -7,6 +7,7 @@ import { getDeckParts } from "@/lib/pptx-export";
 import {
   exportScreenPartToPptx,
   exportScreensToPptx,
+  downloadPreparedPptx,
   type PreparedPptx,
 } from "@/lib/pptx-screen-export";
 import {
@@ -59,7 +60,12 @@ export const CPDeck = () => {
           part.description,
         ],
       });
-      toast.success(`${label} is ready. Tap Download.`, { duration: 3000 });
+      try {
+        downloadPreparedPptx(prepared);
+      } catch (err) {
+        console.warn("Auto download blocked", err);
+      }
+      toast.success(`${label} is downloading. If nothing happens, tap Download.`, { duration: 4000 });
     } catch (e) {
       console.error("Part export failed", e);
       toast.error("Export failed, please retry");
@@ -195,7 +201,10 @@ export const CPDeck = () => {
               <p className="text-xs text-muted-foreground break-all">{exportSummary.fileName}</p>
             </div>
             <button
-              onClick={() => setExportSummary(null)}
+              onClick={() => {
+                setExportSummary(null);
+                setPreparedExport(null);
+              }}
               aria-label="Dismiss export summary"
               className="p-1 rounded-full hover:bg-muted/20"
             >
