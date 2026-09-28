@@ -19,4 +19,4 @@
 - [x] Repair the full-deck PPTX for strict desktop PowerPoint by removing unused generated notes parts (Sep 28)
 - [x] Rebuild image-based PPTX export without a custom master and correct JPEG package metadata, following the proven Sept 7 export pattern (Sep 28)
 - [x] Rebuild the native editable PPTX renderer for closer live-screen parity, one editable slide per screen, and validate the full deck (Sep 28)
-- [ ] Recalibrate editable PowerPoint cards, tables and shared framing against the four attached image-export references; validate section and full exports (Sep 28)
+- [x] Recalibrate editable PowerPoint cards, tables and shared framing against the four attached image-export references; validate section and full exports (Sep 28)
