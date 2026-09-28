@@ -26,3 +26,4 @@
 - [x] Art-direct the editable PowerPoint with varied editorial, index, track and decision compositions; validate all 97 slides (Sep 28)
 - [x] Repair editable PowerPoint overflow in multi-column, section-divider, and dense-table layouts; validate all 97 slides (Sep 28)
 - [x] Produce a standalone four-slide creative editable PowerPoint design study and validate every slide (Sep 28)
+- [ ] Explore three additional bold editable PowerPoint directions, four representative slides each, and validate every option (Sep 28)
