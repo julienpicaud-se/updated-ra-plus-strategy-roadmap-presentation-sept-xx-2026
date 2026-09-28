@@ -59,16 +59,6 @@ function fitFontSize(
   return min;
 }
 
-/** Split rows into evenly balanced chunks so no slide ends with an orphan row. */
-function balancedChunks<T>(rows: T[], maxPerSlide: number): T[][] {
-  const n = Math.max(1, Math.ceil(rows.length / maxPerSlide));
-  const per = Math.ceil(rows.length / n);
-  const out: T[][] = [];
-  for (let i = 0; i < rows.length; i += per) out.push(rows.slice(i, i + per));
-  return out;
-}
-
-
 function addTopRule(slide: PptxGenJS.Slide) {
   slide.addShape("rect", { x: 0, y: 0, w: W, h: 0.09, fill: { color: C.primary }, line: { color: C.primary } });
   slide.addShape("rect", { x: 0, y: 0.09, w: W, h: 0.015, fill: { color: C.secondary }, line: { color: C.secondary } });
@@ -704,7 +694,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "familymap": {
       const H = 7.5;
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       slide.background = { color: DARK };
       slide.addText(
         [
@@ -838,7 +828,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "vision": {
       const H = 7.5;
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const SOFT = "BFD9C9";
       slide.background = { color: DARK };
@@ -904,7 +894,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "strategicroadmap": {
       const H = 7.5;
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const SOFT = "BFD9C9";
       const horizonColors = { primary: C.primary, accent: HI, warn: C.warn };
@@ -963,7 +953,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "roadmap2028": {
       const H = 7.5;
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const SOFT = "BFD9C9";
       const laneDotColors = { primary: C.primary, accent: HI, warn: C.warn, muted: C.muted };
@@ -1034,7 +1024,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
     }
 
     case "valuecase": {
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const SOFT = "BFD9C9";
       addTopRule(slide);
@@ -1119,7 +1109,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
     }
 
     case "costbenefit": {
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const SOFT = "BFD9C9";
       header(slide, s.eyebrow, s.title, s.subtitle);
@@ -1362,7 +1352,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
     case "journey": {
       header(slide, s.eyebrow, s.title, s.subtitle);
       const top = bodyTop(s);
-      const DARK = "0C3B25";
+      const DARK = C.secondary;
       const HI = "CDFC57";
       const n = s.stages.length;
       const gap = 0.24;
