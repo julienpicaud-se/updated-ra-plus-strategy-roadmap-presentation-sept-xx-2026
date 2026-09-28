@@ -90,11 +90,11 @@ function addThesis(pptx: PptxGenJS, t: Theme) {
     slide.addShape("rect", { x: 0, y: 0, w: 0.22, h: H, fill: { color: t.primary }, line: { color: t.primary } });
     eyebrow(slide, t, s.badge, 0.72, 0.58);
     addText(slide, "One", 0.7, 1.08, 5.2, 1.3, 78, t.ink, true);
-    addText(slide, "platform.", 4.54, 1.32, 5.1, 1.0, 52, t.deep, true);
+    addText(slide, "platform.", 4.54, 1.32, 4.45, 1.0, 46, t.deep, true);
     addText(slide, s.titleGreen, 0.72, 2.72, 8.3, 1.3, 33, t.primary, true);
     addText(slide, s.body, 0.72, 4.48, 5.9, 1.0, 13, t.ink);
     slide.addShape("line", { x: 7.04, y: 0.64, w: 0, h: 5.96, line: { color: t.line, width: 0.8 } });
-    addText(slide, s.tagline, 7.46, 0.92, 4.85, 1.08, 28, t.deep, true);
+    addText(slide, s.tagline, 9.2, 0.84, 3.05, 1.42, 22, t.deep, true);
     s.chips.forEach((chip, i) => {
       addText(slide, `0${i + 1}`, 7.46, 2.64 + i * 0.63, 0.48, 0.24, 8, t.primary, true);
       slide.addShape("line", { x: 8.02, y: 2.75 + i * 0.63, w: 0.65, h: 0, line: { color: t.line, width: 0.7 } });
@@ -130,7 +130,11 @@ function addArchitecture(pptx: PptxGenJS, t: Theme) {
     });
     slide.addShape("rect", { x: 9.85, y: 1.92, w: 2.83, h: 3.92, fill: { color: t.bg }, line: { color: t.deep, width: 1.1 } });
     addText(slide, "SHARED\nCAPABILITY\nFIELD", 10.2, 2.23, 2.18, 1.25, 21, t.deep, true);
-    (s.sharedCapabilities ?? []).forEach((cap, i) => addText(slide, `+ ${cap}`, 10.2, 3.84 + i * 0.32, 2.18, 0.22, 7.7, t.ink, true));
+    (s.sharedCapabilities ?? []).forEach((cap, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      addText(slide, `+ ${cap}`, 10.16 + col * 1.18, 3.82 + row * 0.38, 1.08, 0.26, 6.4, t.ink, true);
+    });
   } else if (t.id === "editorial") {
     const xs = [0.62, 4.66, 8.7];
     s.families.forEach((family, i) => {
