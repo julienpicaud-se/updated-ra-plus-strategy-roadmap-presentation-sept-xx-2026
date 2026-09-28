@@ -1519,9 +1519,10 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 }
 
 /**
- * Two PptxGenJS quirks break strict PowerPoint validation:
- *  - <p:notesMasterIdLst> is emitted after <p:sldIdLst>, violating the OOXML
- *    element sequence, so it is moved back before the slide list.
+ * PptxGenJS compatibility repairs for strict desktop PowerPoint:
+ *  - PptxGenJS 4.0.1 emits notes parts even when the deck has no speaker notes.
+ *    Those generated notes-master placeholders are rejected by some desktop
+ *    PowerPoint versions, so remove the unused notes graph completely.
  *  - the slide-number placeholder can reuse a shape id already used on the same
  *    slide, so duplicate shape-tree ids are renumbered per slide.
  */
@@ -1532,18 +1533,39 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
   const entry = zip.file("ppt/presentation.xml");
   if (entry) {
     const xml = await entry.async("text");
-    const notes = xml.match(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/);
-    const slideList = xml.indexOf("<p:sldIdLst>");
-    if (notes && slideList >= 0 && xml.indexOf(notes[0]) > slideList) {
-      const stripped = xml.replace(notes[0], "");
-      const at = stripped.indexOf("<p:sldIdLst>");
-      zip.file("ppt/presentation.xml", stripped.slice(0, at) + notes[0] + stripped.slice(at));
-    }
+    zip.file(
+      "ppt/presentation.xml",
+      xml.replace(/<p:notesMasterIdLst>[\s\S]*?<\/p:notesMasterIdLst>/g, ""),
+    );
+  }
+
+  const presentationRelsEntry = zip.file("ppt/_rels/presentation.xml.rels");
+  if (presentationRelsEntry) {
+    const xml = await presentationRelsEntry.async("text");
+    zip.file(
+      "ppt/_rels/presentation.xml.rels",
+      xml.replace(/<Relationship\b(?=[^>]*relationships\/notesMaster)[^>]*\/>/g, ""),
+    );
+  }
+
+  const contentTypesEntry = zip.file("[Content_Types].xml");
+  if (contentTypesEntry) {
+    const xml = await contentTypesEntry.async("text");
+    zip.file(
+      "[Content_Types].xml",
+      xml.replace(/<Override\b(?=[^>]*PartName="\/ppt\/notes(?:Masters|Slides)\/)[^>]*\/>/g, ""),
+    );
+  }
+
+  for (const name of Object.keys(zip.files)) {
+    if (/^ppt\/notes(?:Masters|Slides)\//.test(name)) zip.remove(name);
   }
 
   const slideNames = Object.keys(zip.files).filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n));
   for (const name of slideNames) {
-    const xml = await zip.file(name)!.async("text");
+    const slideEntry = zip.file(name);
+    if (!slideEntry) continue;
+    const xml = await slideEntry.async("text");
     const seen = new Set<string>();
     let next = 1;
     const fixed = xml.replace(/(<p:cNvPr[^>]*\sid=")(\d+)(")/g, (_m, pre, id, post) => {
@@ -1558,6 +1580,16 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
       return `${pre}${next}${post}`;
     });
     if (fixed !== xml) zip.file(name, fixed);
+
+    const relsName = name.replace("ppt/slides/", "ppt/slides/_rels/") + ".rels";
+    const relsEntry = zip.file(relsName);
+    if (relsEntry) {
+      const rels = await relsEntry.async("text");
+      zip.file(
+        relsName,
+        rels.replace(/<Relationship\b(?=[^>]*relationships\/notesSlide)[^>]*\/>/g, ""),
+      );
+    }
   }
 
   return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });

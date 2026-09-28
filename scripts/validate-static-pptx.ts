@@ -21,13 +21,12 @@ for (const file of files) {
 
   const slideMaster = presentation.indexOf("<p:sldMasterIdLst>");
   const slideList = presentation.indexOf("<p:sldIdLst>");
-  const notesMaster = presentation.indexOf("<p:notesMasterIdLst>");
   const slideSize = presentation.indexOf("<p:sldSz");
   if (slideMaster < 0 || slideList < 0 || slideSize < 0 || slideMaster > slideList || slideList > slideSize) {
     throw new Error(`${basename(file)} has an invalid presentation element order`);
   }
-  if (notesMaster >= 0 && (notesMaster < slideMaster || notesMaster > slideList)) {
-    throw new Error(`${basename(file)} has a PowerPoint-incompatible notes master position`);
+  if (presentation.includes("<p:notesMasterIdLst>")) {
+    throw new Error(`${basename(file)} contains the unsupported generated notes master`);
   }
 
   const slideFiles = Object.keys(zip.files).filter(
@@ -47,6 +46,10 @@ for (const file of files) {
     throw new Error(
       `${basename(file)} is missing content-type overrides for: ${missing.slice(0, 5).join(", ")}`,
     );
+  }
+  const notesParts = Object.keys(zip.files).filter((name) => /^ppt\/notes(?:Masters|Slides)\//.test(name));
+  if (notesParts.length > 0 || /relationships\/notes(?:Master|Slide)/.test(presentation)) {
+    throw new Error(`${basename(file)} contains unused notes parts that desktop PowerPoint can reject`);
   }
 
 
