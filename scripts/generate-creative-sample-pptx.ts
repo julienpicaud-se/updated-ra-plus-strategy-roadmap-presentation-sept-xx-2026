@@ -141,7 +141,38 @@ function addArchitectureSlide() {
 }
 
 function addRoadmapSlide() {
-  const s = getSlide("timeline", "One platform, three years of compounding value");
+  const s: Extract<CPSlide, { kind: "timeline" }> = {
+    kind: "timeline",
+    eyebrow: "Visual roadmap",
+    title: "One platform, three years of compounding value",
+    subtitle: "High level shape of the strategy. Dates are firm through 2026, directional beyond.",
+    years: ["2026", "2027", "2028"],
+    groups: [
+      {
+        label: "Core platform", tone: "primary", rows: [
+          { title: "Shared hierarchy and factors", start: 2, end: 5, ga: 5, continuous: true },
+          { title: "Ingestion and data quality", start: 3, end: 7, mvp: 4, continuous: true },
+          { title: "Lineage, evidence and audit trail", start: 5, end: 9, continuous: true },
+          { title: "Enterprise scale and AI services", start: 8, continuous: true },
+        ],
+      },
+      {
+        label: "Sustainability products", tone: "accent", rows: [
+          { title: "Carbon Performance inventory", start: 2, end: 6, mvp: 3, ga: 6, continuous: true },
+          { title: "Supply chain and PCF", start: 3, end: 8, ga: 8, continuous: true },
+          { title: "Configure, collect, disclose", start: 3, end: 7, mvp: 5, continuous: true },
+          { title: "Climate risk to value at risk", start: 4, end: 9, mvp: 6, continuous: true },
+        ],
+      },
+      {
+        label: "Convergence", tone: "warn", rows: [
+          { title: "Plan to execution", start: 5, end: 9, continuous: true },
+          { title: "Energy and carbon converged", start: 7, end: 11, continuous: true },
+          { title: "Autonomous decision support", start: 9, continuous: true },
+        ],
+      },
+    ],
+  };
   const slide = pptx.addSlide();
   slide.background = { color: C.white };
   label(slide, s.eyebrow, 0.65, 0.42);
