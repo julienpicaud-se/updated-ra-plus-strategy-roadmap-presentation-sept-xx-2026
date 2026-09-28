@@ -91,7 +91,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                 <motion.div
                   key={c.title}
                   {...fadeUp(i)}
-                  className="rounded-2xl border border-border bg-card p-5 flex flex-col"
+                  className="rounded-xl border border-border bg-card p-5 flex flex-col"
                 >
                   {c.label && (
                     <span className={`text-[11px] font-bold uppercase tracking-widest ${tone.text}`}>{c.label}</span>
@@ -123,7 +123,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                 <motion.div
                   key={lane.label + lane.period}
                   {...fadeUp(i)}
-                  className={`rounded-2xl border ${tone.border} bg-card overflow-hidden flex flex-col`}
+                  className={`rounded-xl border ${tone.border} bg-card overflow-hidden flex flex-col`}
                 >
                   <div className={`${tone.bg} px-5 py-3`}>
                     <div className={`text-[11px] font-bold uppercase tracking-widest ${tone.text}`}>{lane.label}</div>
@@ -149,7 +149,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
         <CPSlideFrame eyebrow={slide.eyebrow} title={slide.title} subtitle={slide.subtitle} note={slide.note}>
           <div className={`grid grid-cols-2 gap-5 ${slide.stats.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
             {slide.stats.map((s, i) => (
-              <motion.div key={s.label} {...fadeUp(i)} className="rounded-2xl border border-border bg-card p-5">
+              <motion.div key={s.label} {...fadeUp(i)} className="rounded-xl border border-border bg-card p-5">
                 <div className="text-4xl lg:text-5xl font-bold text-primary leading-none">{s.value}</div>
                 <div className="text-sm font-semibold text-foreground mt-3">{s.label}</div>
                 {s.sub && <div className="text-xs text-muted-foreground mt-1">{s.sub}</div>}
@@ -162,7 +162,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                 <motion.div
                   key={b.title}
                   {...fadeUp(i + slide.stats.length)}
-                  className="rounded-2xl border border-border bg-card p-5"
+                  className="rounded-xl border border-border bg-card p-5"
                 >
                   <div className="text-base font-bold text-foreground">{b.title}</div>
                   <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{b.line}</p>
@@ -176,7 +176,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
     case "table":
       return (
         <CPSlideFrame eyebrow={slide.eyebrow} title={slide.title} subtitle={slide.subtitle} note={slide.note}>
-          <motion.div {...fadeUp(0)} className="rounded-2xl border border-border bg-card overflow-hidden">
+          <motion.div {...fadeUp(0)} className="rounded-xl border border-border bg-card overflow-hidden">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-muted/10">
@@ -213,7 +213,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                         row.map((cell, j) => (
                           <td
                             key={j}
-                            className={`px-4 py-2.5 text-sm ${
+                            className={`${slide.rows.length > 9 ? "px-4 py-2 text-xs" : "px-4 py-2.5 text-sm"} ${
                               j === 0 ? "font-bold text-primary" : "text-foreground/85"
                             }`}
                           >
@@ -238,7 +238,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
               <motion.div
                 key={b.title}
                 {...fadeUp(i)}
-                className="rounded-2xl border border-border bg-card p-6 flex flex-col"
+                className="rounded-xl border border-border bg-card p-5 flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
@@ -462,7 +462,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                   <motion.div
                     key={spoke.title}
                     {...fadeUp(i + 4)}
-                    className="rounded-xl border border-border bg-card/60 px-5 py-5"
+                    className="rounded-xl border border-border bg-card px-5 py-5"
                   >
                     <div className="text-base lg:text-lg font-bold text-foreground">{spoke.title}</div>
                     <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
@@ -811,7 +811,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
               {slide.badge}
             </span>
           </motion.div>
-          <motion.h2 {...fadeUp(1)} className="mt-6 max-w-5xl text-3xl lg:text-5xl font-bold leading-tight text-foreground">
+           <motion.h2 {...fadeUp(1)} className="mt-6 max-w-5xl text-3xl lg:text-4xl font-bold leading-tight text-foreground">
             {slide.titleLead} <span className="text-primary">{slide.titleHighlight}</span>
           </motion.h2>
           <motion.p {...fadeUp(2)} className="mt-4 max-w-5xl text-sm lg:text-base leading-relaxed text-muted-foreground">
@@ -834,7 +834,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {slide.outcomes.map((outcome, i) => (
-                <motion.div key={outcome.title} {...fadeUp(i + 4)} className="rounded-xl border border-border bg-card p-5">
+                 <motion.div key={outcome.title} {...fadeUp(i + 4)} className="rounded-xl border border-border bg-card p-5">
                   <div className="text-[11px] font-bold uppercase tracking-widest text-primary">0{i + 1}</div>
                   <div className="mt-2 text-base lg:text-lg font-bold text-foreground">{outcome.title}</div>
                   <p className="mt-2 text-xs lg:text-sm leading-relaxed text-muted-foreground">{outcome.line}</p>
@@ -853,10 +853,10 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
     case "costbenefit": {
       return (
         <div className="min-h-screen flex flex-col bg-background px-8 lg:px-20 py-10 lg:py-12 overflow-hidden">
-          <motion.div {...fadeUp(0)} className="text-[11px] font-bold uppercase tracking-widest text-primary">
-            {slide.eyebrow}
+          <motion.div {...fadeUp(0)} className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="h-px w-8 bg-primary" />{slide.eyebrow}
           </motion.div>
-          <motion.h2 {...fadeUp(1)} className="mt-4 max-w-6xl text-3xl lg:text-5xl font-bold leading-tight text-foreground">
+          <motion.h2 {...fadeUp(1)} className="mt-4 max-w-6xl text-3xl lg:text-4xl font-bold leading-tight text-foreground">
             {slide.title}
           </motion.h2>
           <motion.p {...fadeUp(2)} className="mt-3 max-w-6xl text-sm lg:text-base leading-relaxed text-muted-foreground">
@@ -918,10 +918,10 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
     case "competitor": {
       return (
         <div className="min-h-screen flex flex-col bg-background px-8 lg:px-20 py-10 lg:py-12 overflow-hidden">
-          <motion.div {...fadeUp(0)} className="text-[11px] font-bold uppercase tracking-widest text-primary">
-            {slide.eyebrow}
+          <motion.div {...fadeUp(0)} className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="h-px w-8 bg-primary" />{slide.eyebrow}
           </motion.div>
-          <motion.h2 {...fadeUp(1)} className="mt-4 max-w-6xl text-3xl lg:text-5xl font-bold leading-tight text-foreground">
+          <motion.h2 {...fadeUp(1)} className="mt-4 max-w-6xl text-3xl lg:text-4xl font-bold leading-tight text-foreground">
             {slide.title}
           </motion.h2>
           <motion.p {...fadeUp(2)} className="mt-3 max-w-6xl text-sm lg:text-base leading-relaxed text-muted-foreground">
@@ -984,7 +984,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
                   <motion.div
                     key={tier.name}
                     {...fadeUp(i + 3)}
-                    className={`relative rounded-lg border p-5 ${tier.featured ? "border-primary bg-secondary text-primary-foreground" : "border-border bg-card"}`}
+                    className={`relative rounded-xl border p-5 ${tier.featured ? "border-primary bg-secondary text-primary-foreground" : "border-border bg-card"}`}
                   >
                     {tier.featured && <div className="absolute right-3 top-3 text-[9px] font-bold uppercase tracking-widest text-[hsl(var(--se-highlighter))]">Recommended</div>}
                     <div className={`text-[10px] font-bold uppercase tracking-widest ${tier.featured ? "text-primary-foreground/65" : "text-primary"}`}>Tier 0{i + 1}</div>
@@ -1108,7 +1108,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
               <motion.div
                 key={st.stage}
                 {...fadeUp(i)}
-                className={`relative rounded-2xl border p-5 flex flex-col ${toneMap[st.tone]}`}
+                className={`relative rounded-xl border p-5 flex flex-col ${toneMap[st.tone]}`}
               >
                 {i < slide.stages.length - 1 && (
                   <div className="hidden xl:block absolute top-1/2 -right-3 text-primary font-bold">→</div>
@@ -1162,7 +1162,7 @@ export const CPSlideRenderer = ({ slide }: { slide: CPSlide }) => {
               <motion.div
                 key={a.title}
                 {...fadeUp(i)}
-                className="rounded-2xl border border-primary/40 bg-primary/5 p-6"
+                className="rounded-xl border border-primary/40 bg-primary/5 p-5"
               >
                 <div className="text-[11px] font-bold uppercase tracking-widest text-primary">
                   Decision {String(i + 1).padStart(2, "0")}

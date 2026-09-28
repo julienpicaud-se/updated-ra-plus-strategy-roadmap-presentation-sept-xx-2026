@@ -70,18 +70,18 @@ function addTopRule(slide: PptxGenJS.Slide) {
 
 function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle?: string) {
   // Calibrated against the fixed 1280 × 720 image export.
-  slide.addShape("line", { x: M, y: 0.47, w: 0.34, h: 0, line: { color: C.primary, width: 0.8 } });
+  slide.addShape("line", { x: M, y: 0.43, w: 0.34, h: 0, line: { color: C.primary, width: 0.8 } });
   slide.addText(eyebrow.toUpperCase(), {
-    x: M + 0.46, y: 0.35, w: 5.5, h: 0.24, fontFace: BODY, fontSize: 7.5, bold: true, color: C.muted, charSpacing: 1.8, margin: 0, valign: "middle", wrap: false,
+    x: M + 0.46, y: 0.31, w: 5.5, h: 0.24, fontFace: BODY, fontSize: 7.5, bold: true, color: C.muted, charSpacing: 1.8, margin: 0, valign: "middle", wrap: false,
   });
   const longTitle = title.length > 56;
   const veryLongTitle = title.length > 74;
   slide.addText(title, {
-    x: M, y: 0.73, w: 10.85, h: veryLongTitle ? 0.94 : longTitle ? 0.82 : 0.68, fontFace: HEAD,
+    x: M, y: 0.66, w: 10.85, h: veryLongTitle ? 0.94 : longTitle ? 0.82 : 0.68, fontFace: HEAD,
     fontSize: veryLongTitle ? 23.5 : longTitle ? 25.5 : 27,
     bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
   });
-  const subY = veryLongTitle ? 1.69 : longTitle ? 1.55 : 1.4;
+  const subY = veryLongTitle ? 1.61 : longTitle ? 1.47 : 1.32;
   if (subtitle) {
     slide.addText(subtitle, {
       x: M, y: subY, w: 10.4, h: 0.34, fontFace: BODY, fontSize: 11.5, color: C.muted, valign: "top",
@@ -93,26 +93,26 @@ function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle
 function footer(slide: PptxGenJS.Slide, note?: string) {
   if (note) {
     slide.addShape("roundRect", {
-      x: M, y: 6.68, w: W - M * 2, h: 0.38, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.12,
+      x: M, y: 6.7, w: W - M * 2, h: 0.36, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.08,
     });
-    slide.addShape("roundRect", { x: M + 0.13, y: 6.79, w: 0.05, h: 0.16, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
+    slide.addShape("roundRect", { x: M + 0.13, y: 6.8, w: 0.05, h: 0.16, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
     slide.addText(note, {
-      x: M + 0.29, y: 6.68, w: W - M * 2 - 0.51, h: 0.38, fontFace: BODY,
+      x: M + 0.29, y: 6.7, w: W - M * 2 - 0.51, h: 0.36, fontFace: BODY,
       fontSize: note.length > 150 ? 9 : 10, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
     });
   }
 }
 
 function frameBrand(slide: PptxGenJS.Slide) {
-  slide.addShape("line", { x: M, y: 7.13, w: W - M * 2, h: 0, line: { color: C.border, transparency: 58, width: 0.45 } });
+  slide.addShape("line", { x: M, y: 7.14, w: W - M * 2, h: 0, line: { color: C.border, transparency: 58, width: 0.45 } });
   slide.addText("Carbon Performance, RA+ Enterprise Sustainability", {
-    x: M, y: 7.2, w: 4.4, h: 0.16, fontFace: BODY, fontSize: 6.8, color: C.muted, margin: 0,
+    x: M, y: 7.2, w: 4.4, h: 0.16, fontFace: BODY, fontSize: 6.5, color: C.muted, margin: 0,
   });
   slide.addText([
     { text: "SE  ", options: { bold: true, color: C.primary } },
     { text: "SUSTAINABILITY BUSINESS", options: { color: C.muted } },
   ], {
-    x: W - M - 2.6, y: 7.18, w: 2.6, h: 0.18, fontFace: BODY, fontSize: 6.8, align: "right", margin: 0,
+    x: W - M - 2.6, y: 7.19, w: 2.6, h: 0.18, fontFace: BODY, fontSize: 6.5, align: "right", margin: 0,
   });
 }
 
@@ -1108,6 +1108,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         valign: "middle", fit: "shrink", margin: 0,
       });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1186,6 +1187,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText("BOARD DECISION", { x: M + 0.12, y: 6.61, w: 1.26, h: 0.48, fontFace: BODY, fontSize: 7.5, bold: true, color: C.secondary, align: "center", valign: "middle", margin: 0 });
       slide.addText(s.decision, { x: M + 1.7, y: 6.66, w: W - M * 2 - 1.9, h: 0.38, fontFace: BODY, fontSize: 8.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
