@@ -18,4 +18,4 @@
 - [x] Review the complete deck for visual and content consistency, then export the final native PPTX and PDF (Sep 28)
 - [x] Repair the full-deck PPTX for strict desktop PowerPoint by removing unused generated notes parts (Sep 28)
 - [x] Rebuild image-based PPTX export without a custom master and correct JPEG package metadata, following the proven Sept 7 export pattern (Sep 28)
-- [ ] Rebuild the native editable PPTX renderer for closer live-screen parity, one editable slide per screen, and validate the full deck (Sep 28)
+- [x] Rebuild the native editable PPTX renderer for closer live-screen parity, one editable slide per screen, and validate the full deck (Sep 28)
