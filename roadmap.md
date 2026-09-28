@@ -24,3 +24,4 @@
 - [x] Match the editable PowerPoint more closely to the live web deck and validate all 97 slides (Sep 28)
 - [x] Refine the web and editable PowerPoint designs together, preserving parity and all 97 slides (Sep 28)
 - [x] Art-direct the editable PowerPoint with varied editorial, index, track and decision compositions; validate all 97 slides (Sep 28)
+- [x] Repair editable PowerPoint overflow in multi-column, section-divider, and dense-table layouts; validate all 97 slides (Sep 28)
