@@ -2731,7 +2731,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 1",
         title: "Build the Sustainability Data Foundation",
         tone: "primary",
-        line: "The governed data and decision foundation for carbon, water, and waste.",
+        line: "Establish Carbon Performance as the governed data and decision foundation for sustainability management across carbon, water, and waste.",
         items: [
           "Shared sustainability data model across carbon, water, and waste",
           "Governed ingestion, quality, hierarchy, and calculation methods",
@@ -2743,7 +2743,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 2",
         title: "Deliver Consultant-Grade GHG Inventory Management In-Product",
         tone: "accent",
-        line: "GSP consultants and clients share one end-to-end workflow.",
+        line: "Deliver GSP's GHG inventory management offers in-product to consultancy standards, so consultants and clients share one end-to-end workflow.",
         items: [
           "GSP inventory management offers delivered in-product",
           "Consultancy-standard methods, controls, and evidence",
@@ -2755,7 +2755,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 3",
         title: "Establish Market-Leading Agentic Decarbonization Planning",
         tone: "warn",
-        line: "Financially actionable planning without consulting dependency.",
+        line: "Create defensible software-only growth through a market-leading agentic decarbonization planning experience, financially actionable and usable without consulting dependency.",
         items: [
           "Agentic scenario analysis and next-best-action guidance",
           "Financially actionable initiatives and abatement pathways",
@@ -3075,7 +3075,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 1",
         title: "Complete the RA+ Migration and Stabilize the Platform",
         tone: "primary",
-        line: "Finish Hub 2.0 to RA+ before investing in differentiation.",
+        line: "Complete the Hub 2.0 to RA+ Supply Chain migration and stabilize the platform before investing in differentiation.",
         items: [
           "Complete the Hub 2.0 to RA+ Supply Chain migration",
           "Stabilize the platform and core experience",
@@ -3088,7 +3088,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 2",
         title: "Close Competitive Gaps in Sponsor Intelligence and Data Collection",
         tone: "accent",
-        line: "Give sponsors stronger programme control and better supplier data.",
+        line: "Close competitive gaps in sponsor-facing program management, analytics, PCF data collection, and custom questionnaires.",
         items: [
           "Sponsor-facing programme management and analytics",
           "PCF data collection and product-level footprint views",
@@ -3100,7 +3100,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 3",
         title: "Educate Suppliers and Drive Action",
         tone: "warn",
-        line: "Make RA+ the place where suppliers learn, identify opportunities, and act.",
+        line: "Make RA+ Supply Chain the place where suppliers learn their emissions, identify reduction opportunities, and act, through CP and Zeigo Network.",
         items: [
           "Supplier emissions education through Carbon Performance",
           "Reduction opportunities and guided decarbonization actions",
@@ -3584,7 +3584,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 1",
         title: "Provide E2E Reporting Experience for CSRD & IFRS",
         tone: "primary",
-        line: "Migrate corporate Schneider Electric from RAC to RA+.",
+        line: "Migrate corporate Schneider Electric from RAC's ESG module to RA+ Reporting & Compliance, with SE's must-haves prioritized above all other R&C product objectives.",
         items: [
           "Schneider Electric must-haves prioritized above other R&C objectives",
           "End-to-end CSRD, ESRS, EU Taxonomy, and IFRS S1 and S2",
@@ -3596,7 +3596,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 2",
         title: "Automate Advisory-Heavy Steps",
         tone: "accent",
-        line: "Turn governed platform data into disclosure-ready outputs.",
+        line: "Automate the transformation of platform data into disclosure-ready outputs using AI and cross-product integrations with Carbon Performance, Climate Risk, and Supply Chain.",
         items: [
           "AI-assisted transformation, mapping, drafting, and review",
           "Carbon Performance data flows directly into disclosures",
@@ -3793,7 +3793,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 1",
         title: "Bring the Service Line into RA+",
         tone: "primary",
-        line: "Move from consulting-led delivery to a self-serve RA+ product.",
+        line: "Migrate Climate Risk from a consulting-led delivery model to a self-serve RA+ product, covering RA+ platform integration, service workflow automation, self-serve enablement, and data pipeline stabilization.",
         items: [
           "RA+ platform integration and shared asset hierarchy",
           "Service workflow automation and self-serve enablement",
@@ -3805,7 +3805,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 2",
         title: "Expand from Physical to Complete Climate Risk",
         tone: "accent",
-        line: "Unify physical, transition, and nature risk through financial quantification.",
+        line: "Build Climate Risk from a physical-risk-only tool into a complete climate risk platform covering physical, transition, and nature risk, unified through financial risk quantification.",
         items: [
           "Physical, transition, and nature risk in one experience",
           "Financial risk quantification and value at risk",
@@ -3817,7 +3817,7 @@ const fullCpDeck: CPSlide[] = [
         label: "Goal 3",
         title: "Drive Adaptation Action and Supply Chain Risk",
         tone: "warn",
-        line: "Close the Measure-Plan-Do loop across assets and suppliers.",
+        line: "Close the Measure-Plan-Do loop by moving Climate Risk from a measurement tool to an action platform, covering adaptation workflows, supply chain climate risk, and cross-product integrations.",
         items: [
           "Adaptation workflows from risk finding to funded action",
           "Supply chain climate risk and extended value-chain exposure",
@@ -4448,7 +4448,7 @@ const fullCpDeck: CPSlide[] = [
     bets: [
       {
         title: "Build the Sustainability Data Foundation",
-        line: "Establish Carbon Performance as the governed data and decision foundation across carbon, water, and waste.",
+        line: "Establish Carbon Performance as the governed data and decision foundation for sustainability management across carbon, water, and waste.",
         items: [
           "Shared sustainability data model and hierarchy",
           "Governed ingestion, quality, calculations, and lineage",
@@ -4457,7 +4457,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Deliver Consultant-Grade GHG Inventory Management In-Product",
-        line: "Deliver GSP's inventory offers to consultancy standards in one shared consultant and client workflow.",
+        line: "Deliver GSP's GHG inventory management offers in-product to consultancy standards, so consultants and clients share one end-to-end workflow.",
         items: [
           "Methods, coverage, boundaries, and rebaselining",
           "Audit-ready controls, evidence, and assurance",
@@ -4467,7 +4467,7 @@ const fullCpDeck: CPSlide[] = [
 
       {
         title: "Establish Market-Leading Agentic Decarbonization Planning",
-        line: "Create defensible software-only growth through financially actionable planning without consulting dependency.",
+        line: "Create defensible software-only growth through a market-leading agentic decarbonization planning experience, financially actionable and usable without consulting dependency.",
         items: [
           "Agentic scenarios and next-best-action guidance",
           "Energy, carbon, and cost cobenefits",
@@ -4488,7 +4488,7 @@ const fullCpDeck: CPSlide[] = [
     bets: [
       {
         title: "Complete the RA+ Migration and Stabilize the Platform",
-        line: "Complete the Hub 2.0 migration and stabilize RA+ Supply Chain before investing in differentiation.",
+        line: "Complete the Hub 2.0 to RA+ Supply Chain migration and stabilize the platform before investing in differentiation.",
         items: [
           "Finish Hub 2.0 to RA+ migration",
           "Stabilize the core experience and data flows",
@@ -4497,7 +4497,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Close Competitive Gaps in Sponsor Intelligence and Data Collection",
-        line: "Strengthen sponsor programme management, analytics, PCF data collection, and custom questionnaires.",
+        line: "Close competitive gaps in sponsor-facing program management, analytics, PCF data collection, and custom questionnaires.",
         items: [
           "Sponsor-facing management and analytics",
           "PCF and custom questionnaire workflows",
@@ -4506,7 +4506,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Educate Suppliers and Drive Action",
-        line: "Make RA+ the place where suppliers learn their emissions, identify reduction opportunities, and act through CP and Zeigo Network.",
+        line: "Make RA+ Supply Chain the place where suppliers learn their emissions, identify reduction opportunities, and act, through CP and Zeigo Network.",
         items: [
           "Supplier emissions education",
           "Guided reduction opportunities and action",
@@ -4525,7 +4525,7 @@ const fullCpDeck: CPSlide[] = [
     bets: [
       {
         title: "Provide E2E Reporting Experience for CSRD & IFRS",
-        line: "Migrate corporate Schneider Electric from RAC to RA+, with SE must-haves prioritized above every other R&C objective.",
+        line: "Migrate corporate Schneider Electric from RAC's ESG module to RA+ Reporting & Compliance, with SE's must-haves prioritized above all other R&C product objectives.",
         items: [
           "End-to-end CSRD and IFRS reporting",
           "Historical data and governed cycle migration",
@@ -4534,7 +4534,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Automate Advisory-Heavy Steps",
-        line: "Use AI and cross-product integrations to transform governed platform data into disclosure-ready outputs.",
+        line: "Automate the transformation of platform data into disclosure-ready outputs using AI and cross-product integrations with Carbon Performance, Climate Risk, and Supply Chain.",
         items: [
           "AI-assisted mapping, drafting, and review",
           "Carbon Performance, Climate Risk, and Supply Chain data reuse",
@@ -4553,7 +4553,7 @@ const fullCpDeck: CPSlide[] = [
     bets: [
       {
         title: "Bring the Service Line into RA+",
-        line: "Move Climate Risk from consulting-led delivery to a self-serve RA+ product.",
+        line: "Migrate Climate Risk from a consulting-led delivery model to a self-serve RA+ product, covering RA+ platform integration, service workflow automation, self-serve enablement, and data pipeline stabilization.",
         items: [
           "RA+ platform integration",
           "Service workflow automation and self-serve enablement",
@@ -4562,7 +4562,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Expand from Physical to Complete Climate Risk",
-        line: "Cover physical, transition, and nature risk in one platform, unified through financial risk quantification.",
+        line: "Build Climate Risk from a physical-risk-only tool into a complete climate risk platform covering physical, transition, and nature risk, unified through financial risk quantification.",
         items: [
           "Physical, transition, and nature risk",
           "Financial value at risk and scenario analysis",
@@ -4571,7 +4571,7 @@ const fullCpDeck: CPSlide[] = [
       },
       {
         title: "Drive Adaptation Action and Supply Chain Risk",
-        line: "Close the Measure-Plan-Do loop with adaptation workflows, supplier risk, and cross-product integration.",
+        line: "Close the Measure-Plan-Do loop by moving Climate Risk from a measurement tool to an action platform, covering adaptation workflows, supply chain climate risk, and cross-product integrations.",
         items: [
           "Adaptation actions and outcome tracking",
           "Supply chain climate risk",
