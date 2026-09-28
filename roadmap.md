@@ -21,4 +21,4 @@
 - [x] Rebuild the native editable PPTX renderer for closer live-screen parity, one editable slide per screen, and validate the full deck (Sep 28)
 - [x] Recalibrate editable PowerPoint cards, tables and shared framing against the four attached image-export references; validate section and full exports (Sep 28)
 - [x] Refine all editable PowerPoint slide types with a premium executive design system and validate the full 97-slide deck (Sep 28)
-- [ ] Match the editable PowerPoint more closely to the live web deck and validate all 97 slides (Sep 28)
+- [x] Match the editable PowerPoint more closely to the live web deck and validate all 97 slides (Sep 28)

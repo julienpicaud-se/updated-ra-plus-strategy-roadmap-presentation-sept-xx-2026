@@ -181,13 +181,13 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         x: 1.0, y: 2.45, w: 7.8, h: 0.3, fontFace: BODY, fontSize: 8, bold: true, color: "BFD9C9", charSpacing: 2.2, margin: 0,
       });
       slide.addText(s.number, {
-        x: 1.0, y: 2.8, w: 3.5, h: 0.75, fontFace: HEAD, fontSize: 43, bold: true, color: C.primary, transparency: 28, margin: 0,
+        x: 1.0, y: 2.8, w: 3.5, h: 0.95, fontFace: HEAD, fontSize: 72, bold: true, color: C.primary, transparency: 28, margin: 0,
       });
       slide.addText(s.title, {
-        x: 1.0, y: 3.62, w: 8.35, h: 1.12, fontFace: HEAD, fontSize: 34, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
+        x: 1.0, y: 3.7, w: 8.35, h: 1.18, fontFace: HEAD, fontSize: 45, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
       });
       slide.addText(s.subtitle, {
-        x: 1.0, y: 4.78, w: 7.8, h: 0.58, fontFace: BODY, fontSize: 11.5, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
+        x: 1.0, y: 4.96, w: 7.8, h: 0.58, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
       });
       break;
     }
