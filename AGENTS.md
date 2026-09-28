@@ -11,3 +11,4 @@
 - Treat the live 1280×720 React slides as the visual source of truth for editable PowerPoint styling, including white canvases, neutral borders, brand footers, and decoration-free section layouts.
 - Keep web and native PowerPoint headers, card radii, note callouts, table density, and footer branding visually synchronized whenever either renderer changes.
 - Use content-aware editable PowerPoint layout families with reserved header, content, note, and footer zones, because visual variety must never compromise containment or legibility.
+- Keep experimental PowerPoint art directions in standalone sample exports until approved, because concept testing must not destabilize the complete deck.
