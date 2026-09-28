@@ -1538,7 +1538,7 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
     const xml = await slideEntry.async("text");
     const seen = new Set<string>();
     let next = 1;
-    const fixed = xml.replace(/(<p:cNvPr[^>]*\sid=")(\d+)(")/g, (_m, pre, id, post) => {
+    const uniqueIds = xml.replace(/(<p:cNvPr[^>]*\sid=")(\d+)(")/g, (_m, pre, id, post) => {
       if (!seen.has(id)) {
         seen.add(id);
         next = Math.max(next, Number(id));
@@ -1549,6 +1549,12 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
       seen.add(String(next));
       return `${pre}${next}${post}`;
     });
+    // PptxGenJS emits runs such as "▪ " and "SE " without xml:space.
+    // Desktop PowerPoint repairs those runs, so preserve edge whitespace here.
+    const fixed = uniqueIds.replace(
+      /<a:t(?![^>]*\bxml:space=)([^>]*)>([\s\S]*?)<\/a:t>/g,
+      (run, attrs, text) => (/^\s|\s$/.test(text) ? `<a:t xml:space="preserve"${attrs}>${text}</a:t>` : run),
+    );
     if (fixed !== xml) zip.file(name, fixed);
 
     const relsName = name.replace("ppt/slides/", "ppt/slides/_rels/") + ".rels";
