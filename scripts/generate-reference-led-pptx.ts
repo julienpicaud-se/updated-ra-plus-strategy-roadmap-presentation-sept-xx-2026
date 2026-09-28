@@ -228,7 +228,7 @@ function addEvolution(pptx: PptxGenJS) {
     text(slide, stage.label, xs[i] + 0.28, 2.18, widths[i] - 0.56, 0.22, 8.6, stage.accent, true);
     text(slide, stage.title, xs[i] + 0.28, 2.58, widths[i] - 0.56, 0.72, 18, stage.ink, true, i === 2 ? "center" : "left");
     stage.items.forEach((item, j) => {
-      const y = 3.48 + j * 0.55;
+      const y = i === 1 ? 3.4 + j * 0.43 : 3.48 + j * 0.55;
       if (i === 0) {
         slide.addShape("roundRect", { x: xs[i] + 0.28, y, w: widths[i] - 0.56, h: 0.38, fill: { color: C.pale }, line: { color: C.pale }, rectRadius: 0.04 });
         text(slide, item, xs[i] + 0.42, y, widths[i] - 0.84, 0.38, 8.3, C.green, true, "center");
@@ -238,8 +238,8 @@ function addEvolution(pptx: PptxGenJS) {
       }
     });
     if (i === 1) {
-      slide.addShape("roundRect", { x: xs[i] + 0.26, y: 5.67, w: widths[i] - 0.52, h: 0.42, fill: { color: "F9D3B4" }, line: { color: "F9D3B4" }, rectRadius: 0.04 });
-      text(slide, "Design once  ·  Reuse  ·  Govern  ·  Scale", xs[i] + 0.26, 5.67, widths[i] - 0.52, 0.42, 8.2, C.orange, true, "center");
+      slide.addShape("roundRect", { x: xs[i] + 0.26, y: 5.72, w: widths[i] - 0.52, h: 0.37, fill: { color: "F9D3B4" }, line: { color: "F9D3B4" }, rectRadius: 0.04 });
+      text(slide, "Design once  ·  Reuse  ·  Govern  ·  Scale", xs[i] + 0.26, 5.72, widths[i] - 0.52, 0.37, 7.8, C.orange, true, "center");
     }
   });
   [4.08, 8.32].forEach((x) => slide.addShape("chevron", { x, y: 3.46, w: 0.58, h: 1.22, fill: { color: C.bright }, line: { color: C.bright } }));
