@@ -1351,6 +1351,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.takeaway, { x: M + 1.86, y: cY + 0.06, w: W - M * 2 - 2.08, h: 0.48, fontFace: BODY, fontSize: 9.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.62, w: W - M * 2, h: 0.25, fontFace: BODY, fontSize: 7.2, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1444,6 +1445,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         valign: "middle", fit: "shrink", margin: 0,
       });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
