@@ -8,3 +8,4 @@
 - Create image-export slides without a custom slide master, because PptxGenJS 4.0.1 emits fragile master metadata that triggers desktop PowerPoint repair.
 - Keep native editable PowerPoint exports one-to-one with `cpDeck` and calibrate shared renderers against 1280×720 screen captures, because section boundaries and visible geometry must match the live presentation.
 - Keep editable PowerPoint styling centralized in reusable frame, card, tone, and spacing helpers, because the full deck must read as one coherent executive presentation.
+- Treat the live 1280×720 React slides as the visual source of truth for editable PowerPoint styling, including white canvases, neutral borders, brand footers, and decoration-free section layouts.
