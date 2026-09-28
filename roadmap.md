@@ -14,3 +14,4 @@
 - [x] Restore section-based PPTX downloads with section-labelled files and repair the global 81-slide PPTX download (Sep 28)
 - [x] Add and validate an 8-slide Product, GSP and cross-team collaboration governance section (Sep 28)
 - [x] Add a Product team organization section with a summary and detailed slides from the attached topology (Sep 28)
+- [x] Add a glossary slide for team names and acronyms across the organization and collaboration sections (Sep 28)

@@ -5216,6 +5216,26 @@ const productTeamSection: CPSlide[] = [
     ],
     note: "Technology leadership by domain is maintained in the separate Technology Leadership organization and responsibilities reference.",
   },
+  {
+    kind: "table",
+    eyebrow: "Organization glossary",
+    title: "A shared language for teams, regions, and specialist terms",
+    subtitle: "Use this reference when reading the Product organization and collaboration governance sections.",
+    headers: ["Name or acronym", "Meaning in this deck", "Name or acronym", "Meaning in this deck"],
+    rows: [
+      ["RA+", "Resource Advisor+, the shared sustainability platform", "Sera", "RA+'s AI-powered application and agentic experience"],
+      ["GSP", "Global Sustainability Practice", "Go-to-Market (GTM)", "Teams connecting product strategy to market activation and adoption"],
+      ["SCD", "Supply Chain Decarbonization team", "SCDR", "Supply-chain decarbonization program, data, and operations teams"],
+      ["Data & Ops", "Data and Operations", "PCF", "Product Carbon Footprint"],
+      ["GHG", "Greenhouse Gas", "ESG", "Environmental, Social, and Governance"],
+      ["SBT", "Science-Based Targets", "CRaFT", "Named carbon reduction and transformation workstream in the source material"],
+      ["DIH", "Internal team label used in the supplied governance material", "AI / ML", "Artificial Intelligence / Machine Learning"],
+      ["AMS", "Americas regional group", "APMEA", "Asia Pacific, Middle East, and Africa regional group"],
+      ["NECE", "North Eastern and Central Europe regional group", "SE", "Southern Europe regional group"],
+      ["UK&I", "United Kingdom and Ireland regional group", "Product Planning Group", "Cross-functional forum that shapes and approves a product roadmap"],
+    ],
+    note: "Internal labels are described according to the supplied organization and governance materials; local naming may evolve.",
+  },
 ];
 
 const collaborationSection: CPSlide[] = [
