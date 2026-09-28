@@ -5061,6 +5061,193 @@ const carbonStatusTests: CPSlide[] = [
   },
 ];
 
+const collaborationSection: CPSlide[] = [
+  {
+    kind: "section",
+    eyebrow: "How we work",
+    number: "GSP",
+    title: "Product collaboration and governance",
+    subtitle: "Planning governance meetings connect Product with GSP, Go-to-Market, Sales, Engineering, SCDR, Data & Ops, and regional testing communities.",
+  },
+  {
+    kind: "board",
+    eyebrow: "Planning governance",
+    title: "Two levels turn evidence into coordinated roadmap decisions",
+    subtitle: "The platform group governs cross-product choices; four product planning groups shape and approve product roadmaps.",
+    lanes: [
+      {
+        label: "Platform planning group",
+        period: "Standing seats",
+        tone: "primary",
+        items: [
+          { name: "Product Strategy Lead", note: "Chair" },
+          { name: "Software Architecture Lead" },
+          { name: "Go-to-Market Lead" },
+        ],
+      },
+      {
+        label: "Cross-product decisions",
+        period: "Govern together",
+        tone: "accent",
+        items: [
+          { name: "Theme prioritization", note: "When products compete for a shared platform solution" },
+          { name: "Cross-product policy", note: "When a policy affects every product" },
+          { name: "Cross-product ideation" },
+        ],
+      },
+      {
+        label: "Product planning groups",
+        period: "Four products",
+        tone: "muted",
+        items: [
+          { name: "Carbon Performance" },
+          { name: "Climate Risk" },
+          { name: "Reporting & Compliance" },
+          { name: "Supply Chain" },
+        ],
+      },
+      {
+        label: "Escalation",
+        period: "When authority is exceeded",
+        tone: "warn",
+        items: [
+          { name: "Head of Product" },
+          { name: "Head of Strategy" },
+          { name: "Head of Technology" },
+        ],
+      },
+    ],
+    note: "Planning governance meetings provide the recurring forum for shared decisions and escalation.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Product planning groups",
+    title: "Each product roadmap is shaped cross-functionally",
+    subtitle: "Product Management chairs a regular forum that combines customer evidence, market context, practice expertise, commercial needs, and technical feasibility.",
+    columns: [
+      {
+        label: "Evidence",
+        title: "Understand the need",
+        line: "Bring the strongest signals into one planning conversation.",
+        items: ["Market research", "User feedback", "Competitive landscape"],
+        tone: "primary",
+      },
+      {
+        label: "Representation",
+        title: "Shape together",
+        line: "Product Management chairs with the functions needed for the decision.",
+        items: ["Product Marketing and Go-to-Market", "GSP and Sales, as needed", "Engineering and Technology, as needed"],
+        tone: "accent",
+      },
+      {
+        label: "Decision",
+        title: "Approve the roadmap",
+        line: "Translate evidence and constraints into clear priorities and governed intent.",
+        items: ["Resolve product trade-offs", "Surface cross-product dependencies", "Escalate shared platform decisions"],
+        tone: "warn",
+      },
+    ],
+    note: "Participation is purposeful: the right expertise joins the decision, while Product remains accountable for the roadmap.",
+  },
+  {
+    kind: "table",
+    eyebrow: "Cross-functional membership",
+    title: "Who participates across the sustainability products",
+    subtitle: "Named representatives connect product, market, practice, commercial, and engineering perspectives.",
+    headers: ["Product", "Product Mgmt", "Product Marketing", "Go-to-Market", "Sales", "GSP", "Engineering"],
+    rows: [
+      ["Carbon Performance", "Stef Bezanis", "Kaitlin Buckley", "Philippe Balch", "Katie Schultz", "Scott Sopel", "Brice Womack"],
+      ["Supply Chain", "Veronica Lofty", "Kaitlin Buckley", "Benoit Barbalat", "Katie Schultz", "Isabelle Harrison / Robyn Thompson", "Kyrian Willis"],
+      ["Climate Risk", "Callum Hopkins", "Kaitlin Buckley", "Philippe Balch", "Timo Bottema", "Anouk Faure / Veronique Mariotti (DIH)", "James Canning"],
+      ["Reporting & Compliance", "Hannah Humm", "Kaitlin Buckley", "Philippe Balch", "Timo Bottema", "Rachel Skinner", "Jeffrey Magel"],
+    ],
+    note: "Membership reflects the supplied governance material and can evolve as decision needs change.",
+  },
+  {
+    kind: "table",
+    eyebrow: "GSP and Product linkage",
+    title: "GSP family expertise is linked to RA+ product ownership",
+    subtitle: "The linkage gives specialist practices a direct route into product planning and roadmap decisions.",
+    headers: ["GSP family", "Global family lead", "RA+ product owner"],
+    rows: [
+      ["Assurance Verification", "Gavin Tivey", "Stef Bezanis, Carbon Performance"],
+      ["Compliance", "Rachel Skinner (cover for Nenad Obradovic)", "Hannah Humm, Reporting & Compliance"],
+      ["Energy & Environmental Management", "Naomi Rich", "Not assigned"],
+      ["GHG & Environmental Accounting", "Scott Sopel", "Stef Bezanis, Carbon Performance"],
+      ["GHG Strategy & Decarbonization", "Thomas Menez", "Christopher Edge, Strategy; Stef Bezanis, Carbon Performance; Veronica Lofty, Supply Chain"],
+      ["Nature & Biodiversity", "Sabrina Collin", "Callum Hopkins, Climate Risk"],
+      ["Risks, Adaptation & Resilience", "Victoria Naipal", "Callum Hopkins, Climate Risk"],
+      ["Offsetting Advisory", "Zander Dale", "Not assigned"],
+      ["Transformation", "Anne Philipona-Hintzy", "Christopher Edge, Strategy"],
+      ["Vendor Software Advisory", "Paul-Edouard Renaudon", "Rob Cole, RA+ Product Strategy"],
+      ["Voluntary Reporting", "Tiana Nguyen & Mate Karl", "Hannah Humm, Reporting & Compliance"],
+    ],
+    note: "For GHG Strategy & Decarbonization: Christopher Edge covers SBT, GHG Target Set, Offset Strategy and CRaFT; Stef Bezanis covers SBT and targets; Veronica Lofty covers SCD.",
+  },
+  {
+    kind: "table",
+    eyebrow: "Carbon Performance collaboration",
+    title: "Regional testers bring delivery reality into product decisions",
+    subtitle: "A distributed testing community gives Carbon Performance direct feedback from consultants and client-facing teams.",
+    headers: ["Region", "Testing participants"],
+    rows: [
+      ["AMS", "Scott Sopel; Olivia Hill; Eric Rozsi; Mitchell Lockhart; Oliver Bassel; Mackenzie Marcus; Srish Kumar; Marielena Alcaraz; Tiana Vernon"],
+      ["APMEA", "Keerthana Gopinath"],
+      ["NECE", "Eva Kalia; Till Kallert; Madli Rohtla; Emese Fukasz; Ioannis Aristotelis Papagrigoriou"],
+      ["SE", "Marion Kurdej; Etienne Belvergue; Antoine Gnagne; Arnaud Ripoll; Paul-Edouard Renaudon"],
+      ["UK&I", "Alan Tarleton; Owain Turner; Manuel Cortes Moreno; Luke Tracey"],
+    ],
+    note: "Structured testing feeds evidence into planning governance. Email addresses have been omitted from the deck.",
+  },
+  {
+    kind: "table",
+    eyebrow: "Supply Chain collaboration",
+    title: "GSP, SCDR, Data & Ops align around the Supply Chain roadmap",
+    subtitle: "Named collaborators connect specialist themes, program delivery, and operational data to Product planning.",
+    headers: ["Collaboration area", "Participants", "Role in the dialogue"],
+    rows: [
+      ["Build phase / Suppliers to Target", "Hasmik Sahakyan", "Build-phase and supplier program input"],
+      ["Supplier actions", "Timothe Guillaume Li", "Supplier action needs and workflows"],
+      ["PCF", "Tom IJsselmuiden", "Product carbon footprint expertise"],
+      ["General Supply Chain themes", "Kevin Mikita; Robyn Thompson; Jonathan McDonnell; Isabel Harrison", "Trends, topics, and practice feedback"],
+      ["SCD leadership", "Dave Bonn; Dave Rimkus", "Ongoing alignment with the SCD team"],
+      ["SCDR Program Management", "David Laposan; Fernanda Campos Helmeister; Jeremy Xu; Guste Saduikyte", "Program coordination and delivery alignment"],
+      ["SCDR Data & Ops", "Elly Jack; Jake McCaskill", "Data and operational alignment"],
+    ],
+    note: "SCDR and Data & Ops are shown as alignment partners, not classified as GSP where affiliation is unconfirmed.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Meeting contract",
+    title: "Planning governance meetings create a traceable decision loop",
+    subtitle: "The recurring meeting turns evidence into decisions, ownership, and follow-through without blurring roadmap intent and delivery commitment.",
+    columns: [
+      {
+        label: "Inputs",
+        title: "Bring evidence",
+        line: "Start from what teams and customers are learning.",
+        items: ["Customer and consultant feedback", "Market and competitor evidence", "Delivery maturity and technical constraints"],
+        tone: "primary",
+      },
+      {
+        label: "Decisions",
+        title: "Make trade-offs",
+        line: "Use the meeting for choices that need shared authority.",
+        items: ["Roadmap priorities", "Cross-product dependencies", "Shared platform policy and escalation"],
+        tone: "accent",
+      },
+      {
+        label: "Outputs",
+        title: "Close the loop",
+        line: "Leave with a decision record and clear accountability.",
+        items: ["Decision and rationale", "Named owner and next action", "Updated roadmap and stakeholder communication"],
+        tone: "warn",
+      },
+    ],
+    note: "The governance cadence is regular; the source material does not prescribe a specific frequency.",
+  },
+];
+
 const roadmapFoundations: CPSlide[] = [
   {
     kind: "section",
@@ -5453,7 +5640,9 @@ const roadmapFoundations: CPSlide[] = [
 
 export const cpDeck: CPSlide[] = [
   ...roadmapFoundations,
-  ...sharedCpDeck.slice(0, 33),
+  ...sharedCpDeck.slice(0, 28),
+  ...collaborationSection,
+  ...sharedCpDeck.slice(28, 33),
   ...carbonStatusTests,
   ...sharedCpDeck.slice(33),
 ];
