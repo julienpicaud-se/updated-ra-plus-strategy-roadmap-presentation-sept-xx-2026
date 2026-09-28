@@ -23,3 +23,4 @@
 - [x] Refine all editable PowerPoint slide types with a premium executive design system and validate the full 97-slide deck (Sep 28)
 - [x] Match the editable PowerPoint more closely to the live web deck and validate all 97 slides (Sep 28)
 - [x] Refine the web and editable PowerPoint designs together, preserving parity and all 97 slides (Sep 28)
+- [ ] Art-direct the editable PowerPoint with varied editorial, index, track and decision compositions; validate all 97 slides (Sep 28)
