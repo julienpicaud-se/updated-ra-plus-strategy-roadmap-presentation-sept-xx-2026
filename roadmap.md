@@ -8,3 +8,4 @@
 - [x] Refocus the 9-slide Roadmap foundations section with leadership certainty, progressive certainty, portfolio view, and executive decisions (Sep 27)
 
 - [x] Expand Roadmap foundations from 9 to 16 slides with restored and new executive guidance; verify section and full-deck exports (Sep 27)
+- [ ] Update Carbon Performance, Supply Chain, Climate Risk, and Reporting & Compliance goals throughout the deck; verify rendering and PowerPoint export (Sep 28)
