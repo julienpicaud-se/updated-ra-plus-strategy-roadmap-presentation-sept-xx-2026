@@ -254,7 +254,7 @@ export const CPDeck = () => {
             className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
           >
             <Download className="w-3.5 h-3.5" />
-            Download
+            {exportSummary ? `Download ${exportSummary.label}` : "Download"}
           </a>
         ) : (
           <button
