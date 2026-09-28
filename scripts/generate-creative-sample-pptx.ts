@@ -191,33 +191,33 @@ function addRoadmapSlide() {
     const x = x0 + q * unit;
     slide.addShape("line", { x, y: 2.38, w: 0, h: 3.9, line: { color: C.line, transparency: q % 4 === 0 ? 12 : 58, width: q % 4 === 0 ? 0.7 : 0.35 } });
   }
-  let y = 2.52;
+  let y = 2.48;
   s.groups.forEach((group, gi) => {
     const gc = group.tone === "warn" ? C.amber : group.tone === "accent" ? C.deep : C.green;
     slide.addText(group.label.toUpperCase(), { x: 0.65, y, w: 2.05, h: 0.24, fontFace: BODY, fontSize: 7.2, bold: true, color: gc, charSpacing: 1, margin: 0, fit: "shrink" });
-    slide.addShape("line", { x: 0.65, y: y + 0.31, w: 11.98, h: 0, line: { color: C.line, transparency: 35, width: 0.5 } });
-    y += 0.4;
+    slide.addShape("line", { x: 0.65, y: y + 0.25, w: 11.98, h: 0, line: { color: C.line, transparency: 35, width: 0.5 } });
+    y += 0.31;
     group.rows.forEach((row) => {
-      slide.addText(row.title, { x: 0.65, y, w: 2.16, h: 0.26, fontFace: BODY, fontSize: 8.1, color: C.ink, margin: 0, fit: "shrink", valign: "middle" });
+      slide.addText(row.title, { x: 0.65, y, w: 2.16, h: 0.22, fontFace: BODY, fontSize: 7.7, color: C.ink, margin: 0, fit: "shrink", valign: "middle" });
       const startX = x0 + row.start * unit;
       const end = row.end ?? 12;
       const barW = Math.max(0.26, (end - row.start) * unit);
-      slide.addShape("roundRect", { x: startX, y: y + 0.04, w: barW, h: 0.18, fill: { color: gc, transparency: gi === 0 ? 0 : 12 }, line: { color: gc, transparency: 100 }, rectRadius: 0.09 });
-      if (row.continuous) slide.addShape("chevron", { x: startX + barW - 0.11, y: y + 0.04, w: 0.18, h: 0.18, fill: { color: gc }, line: { color: gc } });
+      slide.addShape("roundRect", { x: startX, y: y + 0.035, w: barW, h: 0.15, fill: { color: gc, transparency: gi === 0 ? 0 : 12 }, line: { color: gc, transparency: 100 }, rectRadius: 0.075 });
+      if (row.continuous) slide.addShape("chevron", { x: startX + barW - 0.1, y: y + 0.035, w: 0.16, h: 0.15, fill: { color: gc }, line: { color: gc } });
       if (row.mvp !== undefined) {
         const mx = x0 + row.mvp * unit;
-        slide.addShape("ellipse", { x: mx - 0.055, y: y + 0.075, w: 0.11, h: 0.11, fill: { color: C.white }, line: { color: C.deep, width: 1 } });
+        slide.addShape("ellipse", { x: mx - 0.05, y: y + 0.06, w: 0.1, h: 0.1, fill: { color: C.white }, line: { color: C.deep, width: 1 } });
       }
       if (row.ga !== undefined) {
         const gx = x0 + row.ga * unit;
-        slide.addShape("ellipse", { x: gx - 0.065, y: y + 0.065, w: 0.13, h: 0.13, fill: { color: C.deep }, line: { color: C.white, width: 0.8 } });
+        slide.addShape("ellipse", { x: gx - 0.06, y: y + 0.05, w: 0.12, h: 0.12, fill: { color: C.deep }, line: { color: C.white, width: 0.8 } });
       }
-      y += 0.31;
+      y += 0.245;
     });
-    y += 0.12;
+    y += 0.07;
   });
-  slide.addShape("roundRect", { x: 9.7, y: 6.47, w: 2.95, h: 0.38, fill: { color: C.deep }, line: { color: C.deep }, rectRadius: 0.08 });
-  slide.addText("2026 COMMITTED  /  2027+ DIRECTIONAL", { x: 9.82, y: 6.47, w: 2.72, h: 0.38, fontFace: BODY, fontSize: 7.2, bold: true, color: C.lime, align: "center", valign: "middle", margin: 0 });
+  slide.addShape("roundRect", { x: 9.55, y: 1.42, w: 3.1, h: 0.38, fill: { color: C.deep }, line: { color: C.deep }, rectRadius: 0.08 });
+  slide.addText("2026 COMMITTED  /  2027+ DIRECTIONAL", { x: 9.67, y: 1.42, w: 2.86, h: 0.38, fontFace: BODY, fontSize: 7.2, bold: true, color: C.lime, align: "center", valign: "middle", margin: 0 });
   footer(slide, "03");
 }
 
