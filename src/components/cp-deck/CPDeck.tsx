@@ -50,7 +50,7 @@ export const CPDeck = () => {
         if (done >= count) setStatus({ phase: "packaging", job, total: count });
         else setStatus({ phase: "preparing", job, done, total: count });
       };
-      const editableName = (part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx").replace(/\.pptx$/, "-Editable-High-Fidelity-v2.pptx");
+      const editableName = (part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx").replace(/\.pptx$/, "-Editable-Screen-Matched-v3.pptx");
       if (job.editable) setStatus({ phase: "packaging", job, total: slides.length });
       const prepared = job.editable
         ? await buildEditablePptx(slides, editableName)
