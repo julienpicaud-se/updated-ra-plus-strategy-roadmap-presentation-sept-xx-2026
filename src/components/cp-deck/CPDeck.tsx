@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Download, FileQuestion, Loader2, RotateCcw, X } from "lucide-react";
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
-import { buildEditablePptx, getDeckParts } from "@/lib/pptx-export";
+import { buildEditablePptx, buildEditablePptxV2, getDeckParts } from "@/lib/pptx-export";
 import {
   exportScreenPartToPptx,
   exportScreensToPptx,
@@ -22,7 +22,7 @@ import { toast } from "sonner";
 
 const QA_FILE = "/RA-Plus-Board-QA-2026-2027.pptx";
 
-type ExportJob = { id: string; label: string; editable?: boolean };
+type ExportJob = { id: string; label: string; editable?: boolean; editableV2?: boolean };
 type ExportStatus =
   | { phase: "preparing"; job: ExportJob; done: number; total: number }
   | { phase: "packaging"; job: ExportJob; total: number }
@@ -50,9 +50,13 @@ export const CPDeck = () => {
         if (done >= count) setStatus({ phase: "packaging", job, total: count });
         else setStatus({ phase: "preparing", job, done, total: count });
       };
-      const editableName = (part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx").replace(/\.pptx$/, "-Editable-Layout-Corrected-v8.pptx");
-      if (job.editable) setStatus({ phase: "packaging", job, total: slides.length });
-      const prepared = job.editable
+      const baseName = part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx";
+      const editableName = baseName.replace(/\.pptx$/, "-Editable-Layout-Corrected-v8.pptx");
+      const editableV2Name = baseName.replace(/\.pptx$/, "-Editable-V2-Executive-Energy.pptx");
+      if (job.editable || job.editableV2) setStatus({ phase: "packaging", job, total: slides.length });
+      const prepared = job.editableV2
+        ? await buildEditablePptxV2(slides, editableV2Name)
+        : job.editable
         ? await buildEditablePptx(slides, editableName)
         : part
         ? await exportScreenPartToPptx(slides, part.fileName, onProgress)
@@ -287,6 +291,16 @@ export const CPDeck = () => {
           Editable
         </button>
 
+        <button
+          onClick={() => runExport({ id: "full", label: "Editable V2 deck", editableV2: true })}
+          disabled={busy}
+          aria-label="Export editable PowerPoint V2"
+          title="Alternative editable PowerPoint with the reference-led executive design"
+          className="flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-primary/15 disabled:opacity-50"
+        >
+          <Download className="w-3.5 h-3.5" /> Editable V2
+        </button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -313,6 +327,16 @@ export const CPDeck = () => {
                 <span className="text-xs text-muted-foreground">
                   {p.description} · {p.end - p.start} slides
                 </span>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Editable V2 sections</DropdownMenuLabel>
+            {parts.map((p) => (
+              <DropdownMenuItem
+                key={`${p.id}-editable-v2`}
+                onSelect={() => runExport({ id: p.id, label: `${p.label} (Editable V2)`, editableV2: true })}
+              >
+                <span className="text-sm">{p.label} (Editable V2)</span>
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />

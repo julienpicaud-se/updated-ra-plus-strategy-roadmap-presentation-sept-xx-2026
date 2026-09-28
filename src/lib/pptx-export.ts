@@ -1,7 +1,7 @@
 import PptxGenJS from "pptxgenjs";
 import { cpDeck, CPSlide } from "@/data/cp-roadmap-deck";
 
-const C = {
+const LEGACY_C = {
   bg: "FFFFFF",
   card: "FAFAFA",
   text: "262626",
@@ -22,6 +22,16 @@ const C = {
   mist: "F5F5F5",
   deepMist: "E7E7E8",
 };
+
+const EXECUTIVE_ENERGY_C = {
+  bg: "F7F9F7", card: "FFFFFF", text: "17251E", muted: "536057", border: "D4DDD7",
+  primary: "3DCD58", secondary: "143F30", accent: "008F45", warn: "F47B20", blue: "275B7F",
+  softGreen: "E8F3EC", softBlue: "EAF1F5", softAmber: "FDF0E7", softGray: "F1F4F2",
+  graphite: "24332B", white: "FFFFFF", inkSoft: "3F4C45", mist: "F1F4F2", deepMist: "DCE5DF",
+};
+
+let C = LEGACY_C;
+let executiveEnergy = false;
 
 const SP = { xs: 0.08, sm: 0.14, md: 0.22, lg: 0.3 } as const;
 
@@ -64,11 +74,21 @@ function fitFontSize(
 }
 
 function addTopRule(slide: PptxGenJS.Slide) {
-  slide.addShape("rect", { x: 0, y: 0, w: W, h: 0.09, fill: { color: C.primary }, line: { color: C.primary } });
-  slide.addShape("rect", { x: 0, y: 0.09, w: W, h: 0.015, fill: { color: C.secondary }, line: { color: C.secondary } });
+  slide.addShape("rect", { x: 0, y: 0, w: W, h: executiveEnergy ? 0.07 : 0.09, fill: { color: executiveEnergy ? C.accent : C.primary }, line: { color: executiveEnergy ? C.accent : C.primary } });
+  if (!executiveEnergy) slide.addShape("rect", { x: 0, y: 0.09, w: W, h: 0.015, fill: { color: C.secondary }, line: { color: C.secondary } });
 }
 
 function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle?: string) {
+  if (executiveEnergy) {
+    addTopRule(slide);
+    slide.addText("SUSTAINABILITY BUSINESS  |  RA+ PLATFORM", { x: 0.44, y: 0.17, w: 6.1, h: 0.2, fontFace: BODY, fontSize: 7.6, bold: true, color: C.accent, margin: 0, fit: "shrink" });
+    slide.addText(eyebrow.toUpperCase(), { x: 0.44, y: 0.49, w: 5.6, h: 0.2, fontFace: BODY, fontSize: 7.2, bold: true, color: C.accent, charSpacing: 1.1, margin: 0, fit: "shrink" });
+    const longTitle = title.length > 56;
+    const veryLongTitle = title.length > 74;
+    slide.addText(title, { x: 0.44, y: 0.73, w: 12.0, h: veryLongTitle ? 0.82 : longTitle ? 0.7 : 0.58, fontFace: HEAD, fontSize: veryLongTitle ? 23 : longTitle ? 25 : 27, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0 });
+    if (subtitle) slide.addText(subtitle, { x: 0.44, y: veryLongTitle ? 1.57 : longTitle ? 1.45 : 1.33, w: 12.0, h: 0.36, fontFace: BODY, fontSize: 10.6, color: C.muted, valign: "top", fit: "shrink", margin: 0 });
+    return;
+  }
   // Calibrated against the fixed 1280 × 720 image export.
   slide.addShape("line", { x: M, y: 0.43, w: 0.34, h: 0, line: { color: C.primary, width: 0.8 } });
   slide.addText(eyebrow.toUpperCase(), {
@@ -92,18 +112,23 @@ function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle
 
 function footer(slide: PptxGenJS.Slide, note?: string) {
   if (note) {
-    slide.addShape("roundRect", {
-      x: M, y: 6.7, w: W - M * 2, h: 0.36, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.08,
+    slide.addShape(executiveEnergy ? "rect" : "roundRect", {
+      x: executiveEnergy ? 0.44 : M, y: 6.7, w: executiveEnergy ? W - 0.88 : W - M * 2, h: 0.36, fill: { color: executiveEnergy ? C.secondary : C.softGreen }, line: { color: executiveEnergy ? C.secondary : C.primary, transparency: executiveEnergy ? 0 : 72, width: 0.6 }, rectRadius: 0.08,
     });
     slide.addShape("roundRect", { x: M + 0.13, y: 6.8, w: 0.05, h: 0.16, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
     slide.addText(note, {
       x: M + 0.29, y: 6.7, w: W - M * 2 - 0.51, h: 0.36, fontFace: BODY,
-      fontSize: note.length > 150 ? 9 : 10, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
+      fontSize: note.length > 150 ? 9 : 10, color: executiveEnergy ? C.white : C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
     });
   }
 }
 
 function frameBrand(slide: PptxGenJS.Slide) {
+  if (executiveEnergy) {
+    slide.addText("RA+ strategy and roadmap | Executive working draft", { x: 0.44, y: 7.2, w: 5.7, h: 0.12, fontFace: BODY, fontSize: 5.7, color: C.muted, margin: 0 });
+    slide.addText("SUSTAINABILITY BUSINESS", { x: 10.25, y: 7.2, w: 2.63, h: 0.12, fontFace: BODY, fontSize: 5.7, bold: true, color: C.muted, align: "right", margin: 0 });
+    return;
+  }
   slide.addShape("line", { x: M, y: 7.14, w: W - M * 2, h: 0, line: { color: C.border, transparency: 58, width: 0.45 } });
   slide.addText("Carbon Performance, RA+ Enterprise Sustainability", {
     x: M, y: 7.2, w: 4.4, h: 0.16, fontFace: BODY, fontSize: 6.5, color: C.muted, margin: 0,
@@ -119,7 +144,7 @@ function frameBrand(slide: PptxGenJS.Slide) {
 
 function card(slide: PptxGenJS.Slide, x: number, y: number, w: number, h: number, color = C.border, fill = C.card) {
   slide.addShape("roundRect", {
-    x, y, w, h, fill: { color: fill }, line: { color, width: 0.65 }, rectRadius: 0.16,
+    x, y, w, h, fill: { color: fill }, line: { color, width: 0.65 }, rectRadius: executiveEnergy ? 0.05 : 0.16,
   });
 }
 
@@ -167,6 +192,30 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
   switch (s.kind) {
     case "title": {
+      if (executiveEnergy) {
+        slide.background = { color: C.secondary };
+        slide.addShape("rect", { x: 0.72, y: 0.54, w: 0.08, h: 6.08, fill: { color: C.warn }, line: { color: C.warn } });
+        slide.addText(s.eyebrow.toUpperCase(), { x: 1.08, y: 1.18, w: 6.5, h: 0.28, fontFace: BODY, fontSize: 10, bold: true, color: C.primary, charSpacing: 1.4, margin: 0 });
+        slide.addText(s.title, { x: 1.08, y: 1.67, w: 9.7, h: 1.4, fontFace: HEAD, fontSize: 42, bold: true, color: C.white, fit: "shrink", margin: 0 });
+        slide.addText(s.subtitle, { x: 1.08, y: 3.25, w: 8.2, h: 0.86, fontFace: BODY, fontSize: 14, color: "D9E6DE", valign: "top", fit: "shrink", margin: 0 });
+        let metaX = 1.08;
+        s.meta.forEach((item) => {
+          const mw = Math.max(1.15, 0.19 * item.length + 0.35);
+          slide.addShape("roundRect", { x: metaX, y: 4.4, w: mw, h: 0.34, fill: { color: C.secondary, transparency: 100 }, line: { color: "6D8B7C", width: 0.65 }, rectRadius: 0.04 });
+          slide.addText(item, { x: metaX + 0.14, y: 4.4, w: mw - 0.28, h: 0.34, fontFace: BODY, fontSize: 8.6, color: C.white, valign: "middle", margin: 0 });
+          metaX += mw + 0.14;
+        });
+        const cw = (8.25 - 0.36) / 3;
+        s.stats.forEach((st, i) => {
+          const x = 1.08 + i * (cw + 0.18);
+          slide.addShape("rect", { x, y: 5.13, w: cw, h: 1.06, fill: { color: i === 2 ? C.warn : C.white, transparency: i === 2 ? 0 : 94 }, line: { color: i === 2 ? C.warn : "6D8B7C", width: 0.6 } });
+          slide.addText(st.value, { x: x + 0.2, y: 5.32, w: cw - 0.4, h: 0.38, fontFace: HEAD, fontSize: 23, bold: true, color: i === 2 ? C.white : C.primary, margin: 0 });
+          slide.addText(st.label, { x: x + 0.2, y: 5.75, w: cw - 0.4, h: 0.25, fontFace: BODY, fontSize: 8.4, color: C.white, fit: "shrink", margin: 0 });
+        });
+        slide.addShape("arc", { x: 10.65, y: 0.62, w: 1.7, h: 1.7, adjustPoint: 0.33, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.primary, transparency: 26, width: 1.4 } });
+        slide.addShape("arc", { x: 10.76, y: 1.23, w: 1.25, h: 1.25, adjustPoint: 0.33, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.warn, width: 1.4 } });
+        break;
+      }
       slide.background = { color: C.bg };
       slide.addShape("line", { x: 1.0, y: 1.13, w: 0.42, h: 0, line: { color: C.primary, width: 0.8 } });
       slide.addText(s.eyebrow.toUpperCase(), {
@@ -201,6 +250,16 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "section": {
       slide.background = { color: C.secondary };
+      if (executiveEnergy) {
+        slide.addShape("rect", { x: 0.72, y: 0.54, w: 0.08, h: 6.08, fill: { color: C.warn }, line: { color: C.warn } });
+        slide.addText(s.eyebrow.toUpperCase(), { x: 1.08, y: 1.38, w: 6.5, h: 0.3, fontFace: BODY, fontSize: 9, bold: true, color: C.primary, charSpacing: 1.8, margin: 0 });
+        slide.addText(s.number, { x: 9.8, y: 0.82, w: 2.0, h: 1.2, fontFace: HEAD, fontSize: 70, bold: true, color: C.primary, transparency: 54, align: "right", margin: 0, fit: "shrink" });
+        slide.addText(s.title, { x: 1.08, y: 2.22, w: 9.6, h: 1.55, fontFace: HEAD, fontSize: s.title.length > 52 ? 34 : s.title.length > 34 ? 39 : 44, bold: true, color: C.white, fit: "shrink", margin: 0 });
+        slide.addText(s.subtitle, { x: 1.08, y: 4.04, w: 7.9, h: 0.82, fontFace: BODY, fontSize: 14, color: "D9E6DE", fit: "shrink", margin: 0 });
+        slide.addShape("rect", { x: 1.08, y: 5.42, w: 2.3, h: 0.06, fill: { color: C.primary }, line: { color: C.primary } });
+        slide.addText("SUSTAINABILITY BUSINESS", { x: 9.5, y: 6.62, w: 2.7, h: 0.2, fontFace: BODY, fontSize: 8, bold: true, color: C.white, align: "right", margin: 0 });
+        break;
+      }
       const sectionNumeric = Number.parseInt(s.number, 10);
       const mirrored = Number.isFinite(sectionNumeric) && sectionNumeric % 2 === 0;
       const veryLongTitle = s.title.length > 52;
@@ -1698,6 +1757,30 @@ export async function buildEditablePptx(slides: CPSlide[], fileName: string) {
     fileName,
     slideCount: slides.length,
   };
+}
+
+/** Alternative native export using the approved Executive Energy visual direction. */
+export async function buildEditablePptxV2(slides: CPSlide[], fileName: string) {
+  const previousColors = C;
+  const previousMode = executiveEnergy;
+  C = EXECUTIVE_ENERGY_C;
+  executiveEnergy = true;
+  try {
+    const pptx = new PptxGenJS();
+    pptx.layout = "LAYOUT_WIDE";
+    pptx.author = "Schneider Electric, Sustainability Business";
+    pptx.company = "Schneider Electric";
+    pptx.subject = "Reference-led editable executive presentation";
+    pptx.title = "RA+ Platform Roadmap 2026 and 2027 (Editable V2)";
+    pptx.lang = "en-US";
+    slides.forEach((s) => renderSlide(pptx, s));
+    const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
+    const bytes = await patchPptxCompatibility(raw);
+    return { blob: new Blob([bytes as BlobPart], { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" }), fileName, slideCount: slides.length };
+  } finally {
+    C = previousColors;
+    executiveEnergy = previousMode;
+  }
 }
 
 export async function exportDeckToPptx(fileName = "RA-Plus-Strategy-and-Roadmap.pptx") {
