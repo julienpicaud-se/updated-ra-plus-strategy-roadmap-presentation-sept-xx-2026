@@ -203,6 +203,12 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.background = { color: C.secondary };
       const sectionNumeric = Number.parseInt(s.number, 10);
       const mirrored = Number.isFinite(sectionNumeric) && sectionNumeric % 2 === 0;
+      const veryLongTitle = s.title.length > 52;
+      const longTitle = s.title.length > 34;
+      const titleY = veryLongTitle ? 3.02 : longTitle ? 3.18 : 3.35;
+      const titleH = veryLongTitle ? 1.58 : longTitle ? 1.34 : 1.18;
+      const titleSize = veryLongTitle ? 35 : longTitle ? 40 : 45;
+      const subtitleY = titleY + titleH + 0.18;
       slide.addShape("rect", {
         x: mirrored ? W - 0.16 : 0, y: 0, w: 0.16, h: 7.5,
         fill: { color: C.primary }, line: { color: C.primary },
@@ -216,11 +222,11 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         align: mirrored ? "right" : "left", fit: "shrink",
       });
       slide.addText(s.title, {
-        x: mirrored ? 4.0 : 1.0, y: 3.35, w: 8.35, h: 1.18, fontFace: HEAD, fontSize: 45, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
+        x: mirrored ? 3.0 : 1.0, y: titleY, w: 9.35, h: titleH, fontFace: HEAD, fontSize: titleSize, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
         align: mirrored ? "right" : "left",
       });
       slide.addText(s.subtitle, {
-        x: mirrored ? 5.0 : 1.0, y: 4.68, w: 7.35, h: 0.62, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
+        x: mirrored ? 4.25 : 1.0, y: subtitleY, w: 8.1, h: 0.68, fontFace: BODY, fontSize: 14.5, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
         align: mirrored ? "right" : "left",
       });
       break;
@@ -230,8 +236,9 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       header(slide, s.eyebrow, s.title, s.subtitle);
       const n = s.columns.length;
       const gap = 0.22;
-      const top = 3.03;
-      const h = 2.79;
+      const top = bodyTop(s);
+      const bottom = s.note ? 6.48 : 6.88;
+      const h = bottom - top;
       const widths = n === 2 ? [7.15, W - M * 2 - gap - 7.15] : Array(n).fill((W - M * 2 - gap * (n - 1)) / n);
 
       s.columns.forEach((c, i) => {
@@ -268,12 +275,18 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
             fit: "shrink", margin: 0,
           });
         }
+        const itemsTop = top + 1.78;
+        const itemsBottom = top + h - 0.18;
+        const itemsHeight = Math.max(0.4, itemsBottom - itemsTop);
+        const itemStep = itemsHeight / Math.max(1, c.items.length);
+        const itemFont = fitFontSize(c.items, innerW - 0.15, itemsHeight, n === 2 && i === 0 ? 10.3 : 9.5, 7.5, 0.05);
         slide.addShape("line", { x: x + pad, y: top + 1.58, w: innerW, h: 0, line: { color: indexLayout ? tc : C.deepMist, transparency: indexLayout ? 62 : 0, width: 0.6 } });
         c.items.forEach((item, itemIndex) => {
-          const itemY = top + 1.78 + itemIndex * 0.31;
-          slide.addShape(indexLayout ? "rect" : "ellipse", { x: x + pad, y: itemY + 0.09, w: indexLayout ? 0.09 : 0.065, h: 0.065, fill: { color: tc }, line: { color: tc } });
+          const itemY = itemsTop + itemIndex * itemStep;
+          const markerSize = indexLayout ? 0.08 : 0.065;
+          slide.addShape(indexLayout ? "rect" : "ellipse", { x: x + pad, y: itemY + Math.max(0.07, (itemStep - markerSize) / 2), w: indexLayout ? 0.08 : 0.065, h: markerSize, fill: { color: tc }, line: { color: tc } });
           slide.addText(item, {
-            x: x + pad + 0.15, y: itemY, w: innerW - 0.15, h: 0.24, fontFace: BODY, fontSize: n === 2 && i === 0 ? 10.3 : 9.5,
+            x: x + pad + 0.15, y: itemY, w: innerW - 0.15, h: itemStep, fontFace: BODY, fontSize: itemFont,
             color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
           });
         });
@@ -383,12 +396,13 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       const rest = (tableW - first) / (nCols - 1);
       const colW = [first, ...Array(nCols - 1).fill(rest)];
       header(slide, s.eyebrow, s.title, s.subtitle);
-      const y = 2.96;
-      const headerH = 0.48;
-      const maxTableH = s.note ? 2.88 : 3.3;
-      const rowH = Math.max(0.37, Math.min(0.48, (maxTableH - headerH) / s.rows.length));
+      const y = bodyTop(s);
+      const headerH = s.rows.length > 9 ? 0.42 : 0.48;
+      const tableBottom = s.note ? 6.48 : 6.9;
+      const maxTableH = tableBottom - y;
+      const rowH = Math.min(0.48, (maxTableH - headerH) / Math.max(1, s.rows.length));
       const tableH = headerH + rowH * s.rows.length;
-      const denseFont = s.rows.length > 9 ? 7.4 : s.headers.length > 5 ? 8 : 9.5;
+      const denseFont = s.rows.length > 10 ? 7.1 : s.rows.length > 8 ? 7.7 : s.headers.length > 5 ? 8 : 9.5;
       slide.addShape("roundRect", { x: M, y, w: tableW, h: tableH, fill: { color: C.card }, line: { color: C.border, width: 0.65 }, rectRadius: 0.16 });
       slide.addShape("rect", { x: M + 0.01, y: y + headerH * 0.38, w: tableW - 0.02, h: headerH * 0.63, fill: { color: C.mist }, line: { color: C.mist, transparency: 100 } });
       let x = M;
