@@ -212,8 +212,8 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
           slide.addText(st.value, { x: x + 0.2, y: 5.32, w: cw - 0.4, h: 0.38, fontFace: HEAD, fontSize: 23, bold: true, color: i === 2 ? C.white : C.primary, margin: 0 });
           slide.addText(st.label, { x: x + 0.2, y: 5.75, w: cw - 0.4, h: 0.25, fontFace: BODY, fontSize: 8.4, color: C.white, fit: "shrink", margin: 0 });
         });
-        slide.addShape("arc", { x: 10.65, y: 0.62, w: 1.7, h: 1.7, adjustPoint: 0.33, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.primary, transparency: 26, width: 1.4 } });
-        slide.addShape("arc", { x: 10.76, y: 1.23, w: 1.25, h: 1.25, adjustPoint: 0.33, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.warn, width: 1.4 } });
+        slide.addShape("arc", { x: 10.65, y: 0.62, w: 1.7, h: 1.7, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.primary, transparency: 26, width: 1.4 } });
+        slide.addShape("arc", { x: 10.76, y: 1.23, w: 1.25, h: 1.25, rotate: 12, fill: { color: C.secondary, transparency: 100 }, line: { color: C.warn, width: 1.4 } });
         break;
       }
       slide.background = { color: C.bg };
@@ -1772,7 +1772,6 @@ export async function buildEditablePptxV2(slides: CPSlide[], fileName: string) {
     pptx.company = "Schneider Electric";
     pptx.subject = "Reference-led editable executive presentation";
     pptx.title = "RA+ Platform Roadmap 2026 and 2027 (Editable V2)";
-    pptx.lang = "en-US";
     slides.forEach((s) => renderSlide(pptx, s));
     const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
     const bytes = await patchPptxCompatibility(raw);
