@@ -27,3 +27,4 @@
 - [x] Repair editable PowerPoint overflow in multi-column, section-divider, and dense-table layouts; validate all 97 slides (Sep 28)
 - [x] Produce a standalone four-slide creative editable PowerPoint design study and validate every slide (Sep 28)
 - [x] Explore three additional bold editable PowerPoint directions, four representative slides each, and validate every option (Sep 28)
+- [ ] Replace the rejected creative directions with a four-slide editable study derived from the supplied executive energy-services references; validate every slide (Sep 28)
