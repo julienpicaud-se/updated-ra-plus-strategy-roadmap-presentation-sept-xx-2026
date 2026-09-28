@@ -29,6 +29,7 @@ export const CPDeck = () => {
   const [busyPart, setBusyPart] = useState<string | null>(null);
   const [preparedExport, setPreparedExport] = useState<PreparedPptx | null>(null);
   const [preparedUrl, setPreparedUrl] = useState<string | null>(null);
+  const [fullExportRequested, setFullExportRequested] = useState(false);
   const [exportSummary, setExportSummary] = useState<{
     label: string;
     fileName: string;
@@ -44,8 +45,7 @@ export const CPDeck = () => {
       const part = getDeckParts().find((candidate) => candidate.id === id);
       if (!part) throw new Error(`Unknown deck part: ${id}`);
       const selected = cpDeck.slice(part.start, part.end);
-      const cover = cpDeck[0];
-      const slides = part.start === 0 || cover.kind !== "title" ? selected : [cover, ...selected];
+      const slides = selected;
       setPreparedExport(null);
       const prepared = await exportScreenPartToPptx(slides, part.fileName, (done, total) => {
         setExportProgress(`${done} / ${total}`);
@@ -119,7 +119,8 @@ export const CPDeck = () => {
           (p) => `${p.label}: slides ${p.start + 1}-${p.end} (${p.end - p.start} slides)`,
         ),
       });
-      toast.success("PowerPoint is ready. Tap Download.", { duration: 3000 });
+      downloadPreparedPptx(prepared);
+      toast.success("Full deck is downloading. If nothing happens, use the Download link.", { duration: 4000 });
     } catch (e) {
       console.error("Deck download failed", e);
       toast.error("Download failed, please retry");
@@ -128,6 +129,12 @@ export const CPDeck = () => {
       setExportProgress(null);
     }
   }, []);
+
+  useEffect(() => {
+    if (!fullExportRequested || downloadingDeck) return;
+    setFullExportRequested(false);
+    void downloadDeck();
+  }, [downloadDeck, downloadingDeck, fullExportRequested]);
 
   useEffect(() => {
     if (!preparedExport) {
@@ -258,7 +265,7 @@ export const CPDeck = () => {
           </a>
         ) : (
           <button
-            onClick={downloadDeck}
+            onClick={() => setFullExportRequested(true)}
             disabled={downloadingDeck}
             aria-label="Export deck as PowerPoint"
             className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
