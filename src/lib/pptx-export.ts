@@ -123,6 +123,30 @@ function card(slide: PptxGenJS.Slide, x: number, y: number, w: number, h: number
   });
 }
 
+function ghostNumber(slide: PptxGenJS.Slide, value: number | string, x: number, y: number, w: number, color = C.primary, size = 34) {
+  slide.addText(String(value).padStart(2, "0"), {
+    x, y, w, h: 0.58, fontFace: HEAD, fontSize: size, bold: true, color, transparency: 78,
+    align: "right", valign: "middle", fit: "shrink", margin: 0,
+  });
+}
+
+function sectionTag(slide: PptxGenJS.Slide, label: string, x: number, y: number, color = C.accent) {
+  slide.addShape("roundRect", {
+    x, y, w: 0.72, h: 0.3, fill: { color, transparency: 90 }, line: { color, transparency: 55, width: 0.6 }, rectRadius: 0.15,
+  });
+  slide.addText(label, {
+    x, y, w: 0.72, h: 0.3, fontFace: BODY, fontSize: 7.5, bold: true, color,
+    align: "center", valign: "middle", charSpacing: 0.8, margin: 0,
+  });
+}
+
+function decisionBand(slide: PptxGenJS.Slide, label: string, text: string, y: number) {
+  slide.addShape("roundRect", { x: M, y, w: W - M * 2, h: 0.54, fill: { color: C.secondary }, line: { color: C.secondary }, rectRadius: 0.08 });
+  slide.addShape("rect", { x: M, y, w: 1.55, h: 0.54, fill: { color: C.primary }, line: { color: C.primary } });
+  slide.addText(label, { x: M + 0.12, y, w: 1.31, h: 0.54, fontFace: BODY, fontSize: 7.5, bold: true, color: C.secondary, align: "center", valign: "middle", charSpacing: 0.5, fit: "shrink", margin: 0 });
+  slide.addText(text, { x: M + 1.78, y: y + 0.06, w: W - M * 2 - 2.02, h: 0.42, fontFace: BODY, fontSize: 9.2, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
+}
+
 /** Rich bullet runs with a green marker instead of the plain round bullet. */
 function bulletRuns(items: string[], color = C.primary) {
   return items.flatMap((t) => [
@@ -177,17 +201,27 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "section": {
       slide.background = { color: C.secondary };
+      const sectionNumeric = Number.parseInt(s.number, 10);
+      const mirrored = Number.isFinite(sectionNumeric) && sectionNumeric % 2 === 0;
+      slide.addShape("rect", {
+        x: mirrored ? W - 0.16 : 0, y: 0, w: 0.16, h: 7.5,
+        fill: { color: C.primary }, line: { color: C.primary },
+      });
       slide.addText(s.eyebrow.toUpperCase(), {
-        x: 1.0, y: 2.45, w: 7.8, h: 0.3, fontFace: BODY, fontSize: 8, bold: true, color: "BFD9C9", charSpacing: 2.2, margin: 0,
+        x: mirrored ? 5.0 : 1.0, y: 2.25, w: 7.3, h: 0.3, fontFace: BODY, fontSize: 8, bold: true, color: "BFD9C9", charSpacing: 2.2, margin: 0,
+        align: mirrored ? "right" : "left",
       });
       slide.addText(s.number, {
-        x: 1.0, y: 2.8, w: 3.5, h: 0.95, fontFace: HEAD, fontSize: 72, bold: true, color: C.primary, transparency: 28, margin: 0,
+        x: mirrored ? 8.25 : 0.76, y: 1.42, w: 4.1, h: 1.85, fontFace: HEAD, fontSize: 118, bold: true, color: C.primary, transparency: 56, margin: 0,
+        align: mirrored ? "right" : "left", fit: "shrink",
       });
       slide.addText(s.title, {
-        x: 1.0, y: 3.7, w: 8.35, h: 1.18, fontFace: HEAD, fontSize: 45, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
+        x: mirrored ? 4.0 : 1.0, y: 3.35, w: 8.35, h: 1.18, fontFace: HEAD, fontSize: 45, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
+        align: mirrored ? "right" : "left",
       });
       slide.addText(s.subtitle, {
-        x: 1.0, y: 4.96, w: 7.8, h: 0.58, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
+        x: mirrored ? 5.0 : 1.0, y: 4.68, w: 7.35, h: 0.62, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
+        align: mirrored ? "right" : "left",
       });
       break;
     }
@@ -196,37 +230,50 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       header(slide, s.eyebrow, s.title, s.subtitle);
       const n = s.columns.length;
       const gap = 0.22;
-      const cw = (W - M * 2 - gap * (n - 1)) / n;
       const top = 3.03;
       const h = 2.79;
-      const innerW = cw - 0.44;
+      const widths = n === 2 ? [7.15, W - M * 2 - gap - 7.15] : Array(n).fill((W - M * 2 - gap * (n - 1)) / n);
 
       s.columns.forEach((c, i) => {
-        const x = M + i * (cw + gap);
+        const cw = widths[i];
+        const x = M + widths.slice(0, i).reduce((sum, width) => sum + width, 0) + i * gap;
         const tc = tone(c.tone);
-        card(slide, x, top, cw, h, C.border, C.card);
-        slide.addShape("rect", { x: x + SP.md, y: top, w: 0.54, h: 0.05, fill: { color: tc }, line: { color: tc } });
+        const indexLayout = n >= 4;
+        if (indexLayout && i % 2 === 1) {
+          slide.addShape("roundRect", {
+            x: x - 0.04, y: top - 0.08, w: cw + 0.08, h: h + 0.16,
+            fill: { color: paleTone(c.tone), transparency: 58 }, line: { color: paleTone(c.tone), transparency: 100 }, rectRadius: 0.1,
+          });
+        }
+        if (!indexLayout) card(slide, x, top, cw, h, C.border, i === 0 && n === 2 ? C.softGreen : C.card);
+        slide.addShape("rect", {
+          x, y: top, w: indexLayout ? 0.045 : n === 2 && i === 0 ? 0.09 : cw, h: indexLayout ? h : n === 2 && i === 0 ? h : 0.055,
+          fill: { color: tc }, line: { color: tc },
+        });
+        ghostNumber(slide, i + 1, x + cw - (indexLayout ? 0.7 : 0.88), top + 0.12, indexLayout ? 0.55 : 0.65, tc, indexLayout ? 26 : 32);
+        const pad = indexLayout ? 0.18 : n === 2 && i === 0 ? 0.36 : 0.24;
+        const innerW = cw - pad * 2;
         if (c.label) {
           slide.addText(c.label.toUpperCase(), {
-            x: x + 0.22, y: top + 0.25, w: innerW, h: 0.2, fontFace: BODY, fontSize: 8.5, bold: true, color: tc, charSpacing: 1.1, margin: 0,
+            x: x + pad, y: top + 0.25, w: innerW - 0.5, h: 0.2, fontFace: BODY, fontSize: 8.5, bold: true, color: tc, charSpacing: 1.1, margin: 0,
           });
         }
         slide.addText(c.title, {
-          x: x + 0.22, y: top + (c.label ? 0.53 : 0.28), w: innerW, h: 0.36, fontFace: HEAD,
-          fontSize: c.title.length > 26 ? 12.5 : 13.5, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
+          x: x + pad, y: top + (c.label ? 0.53 : 0.28), w: innerW, h: n === 2 && i === 0 ? 0.48 : 0.36, fontFace: HEAD,
+          fontSize: n === 2 && i === 0 ? 18 : c.title.length > 26 ? 12.5 : 13.5, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
         });
         if (c.line) {
           slide.addText(c.line, {
-            x: x + 0.22, y: top + 0.93, w: innerW, h: 0.48, fontFace: BODY, fontSize: 10, color: C.muted, valign: "top",
+            x: x + pad, y: top + (n === 2 && i === 0 ? 1.04 : 0.93), w: innerW, h: 0.48, fontFace: BODY, fontSize: n === 2 && i === 0 ? 11.5 : 10, color: C.muted, valign: "top",
             fit: "shrink", margin: 0,
           });
         }
-        slide.addShape("line", { x: x + 0.22, y: top + 1.58, w: innerW, h: 0, line: { color: C.deepMist, width: 0.6 } });
+        slide.addShape("line", { x: x + pad, y: top + 1.58, w: innerW, h: 0, line: { color: indexLayout ? tc : C.deepMist, transparency: indexLayout ? 62 : 0, width: 0.6 } });
         c.items.forEach((item, itemIndex) => {
           const itemY = top + 1.78 + itemIndex * 0.31;
-          slide.addShape("ellipse", { x: x + 0.22, y: itemY + 0.09, w: 0.065, h: 0.065, fill: { color: tc }, line: { color: tc } });
+          slide.addShape(indexLayout ? "rect" : "ellipse", { x: x + pad, y: itemY + 0.09, w: indexLayout ? 0.09 : 0.065, h: 0.065, fill: { color: tc }, line: { color: tc } });
           slide.addText(item, {
-            x: x + 0.37, y: itemY, w: innerW - 0.15, h: 0.24, fontFace: BODY, fontSize: 9.5,
+            x: x + pad + 0.15, y: itemY, w: innerW - 0.15, h: 0.24, fontFace: BODY, fontSize: n === 2 && i === 0 ? 10.3 : 9.5,
             color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
           });
         });
@@ -255,6 +302,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         const tc = tone(lane.tone);
         card(slide, x, top, cw, h, C.border, C.white);
         slide.addShape("rect", { x, y: top, w: cw, h: 0.78, fill: { color: paleTone(lane.tone) }, line: { color: paleTone(lane.tone) } });
+        ghostNumber(slide, i + 1, x + cw - 0.65, top + 0.08, 0.45, tc, 22);
         slide.addText(lane.label.toUpperCase(), {
           x: x + 0.2, y: top + 0.1, w: cw - 0.36, h: 0.22, fontFace: BODY, fontSize: 8.5, bold: true, color: tc, charSpacing: 1.3, margin: 0,
         });
@@ -264,7 +312,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         let y = itemsTop;
         lane.items.forEach((it) => {
           slide.addShape("roundRect", {
-            x: x + 0.15, y, w: cw - 0.3, h: itemH, fill: { color: C.mist }, line: { color: C.deepMist, width: 0.4 }, rectRadius: 0.07,
+            x: x + 0.15, y, w: cw - 0.3, h: itemH, fill: { color: lane.items.indexOf(it) % 2 ? paleTone(lane.tone) : C.mist, transparency: lane.items.indexOf(it) % 2 ? 42 : 0 }, line: { color: C.deepMist, width: 0.4 }, rectRadius: 0.07,
           });
           const nameFs = it.name.length > 46 ? 9 : it.name.length > 32 ? 9.5 : 10;
           slide.addText(
@@ -291,21 +339,23 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       const cw = (W - M * 2 - gap * (n - 1)) / n;
       s.stats.forEach((st, i) => {
         const x = M + i * (cw + gap);
-        card(slide, x, top, cw, 2.05, C.border, C.white);
+        const featured = i === 0;
+        card(slide, x, top, cw, featured ? 2.22 : 1.82, featured ? C.secondary : C.border, featured ? C.secondary : C.white);
+        sectionTag(slide, String(i + 1).padStart(2, "0"), x + 0.25, top + 0.2, featured ? C.primary : C.accent);
         slide.addText(st.value, {
-          x: x + 0.28, y: top + 0.18, w: cw - 0.5, h: 0.62, fontFace: HEAD, fontSize: 34, bold: true, color: C.accent, margin: 0,
+          x: x + 0.25, y: top + 0.62, w: cw - 0.5, h: 0.62, fontFace: HEAD, fontSize: featured ? 38 : 31, bold: true, color: featured ? C.primary : C.accent, margin: 0,
         });
         slide.addText(st.label, {
-          x: x + 0.25, y: top + 0.88, w: cw - 0.5, h: 0.55, fontFace: BODY, fontSize: 12, bold: true, color: C.text, valign: "top",
+          x: x + 0.25, y: top + 1.26, w: cw - 0.5, h: 0.42, fontFace: BODY, fontSize: 11.5, bold: true, color: featured ? C.white : C.text, valign: "top",
         });
         if (st.sub) {
           slide.addText(st.sub, {
-            x: x + 0.25, y: top + 1.46, w: cw - 0.5, h: 0.5, fontFace: BODY, fontSize: 10, color: C.muted, valign: "top",
+            x: x + 0.25, y: top + 1.68, w: cw - 0.5, h: 0.38, fontFace: BODY, fontSize: 9.5, color: featured ? "BFD9C9" : C.muted, valign: "top",
           });
         }
       });
       if (s.bullets) {
-        const by = top + 2.35;
+        const by = top + 2.5;
 
         const bh = (s.note ? 6.05 : 6.85) - by;
         const bn = s.bullets.length;
@@ -357,6 +407,10 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
           slide.addText(row[1], { x: M + 0.18, y: rowY, w: tableW - 0.36, h: rowH, fontFace: BODY, fontSize: denseFont, bold: true, color: "8A5A10", valign: "middle", margin: 0 });
           return;
         }
+        slide.addShape("rect", {
+          x: M + 0.01, y: rowY + 0.05, w: 0.035, h: Math.max(0.12, rowH - 0.1),
+          fill: { color: rowIndex % 4 === 2 ? C.warn : C.primary }, line: { color: rowIndex % 4 === 2 ? C.warn : C.primary },
+        });
         let cellX = M;
         row.forEach((cell, columnIndex) => {
           slide.addText(cell, {
@@ -389,23 +443,24 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       s.bets.forEach((b, i) => {
         const x = M + (i % cols) * (cw + gap);
         const y = top + Math.floor(i / cols) * (ch + gap);
-        card(slide, x, y, cw, ch, C.border, C.white);
-        slide.addShape("rect", { x, y, w: 0.07, h: ch, fill: { color: C.primary }, line: { color: C.primary } });
+        const featured = i % 3 === 1;
+        card(slide, x, y, cw, ch, featured ? C.secondary : C.border, featured ? C.secondary : C.white);
+        slide.addShape("rect", { x, y, w: 0.07, h: ch, fill: { color: featured ? C.warn : C.primary }, line: { color: featured ? C.warn : C.primary } });
         slide.addShape("ellipse", {
-          x: x + 0.27, y: y + 0.22, w: 0.48, h: 0.48, fill: { color: C.softGreen }, line: { color: C.softGreen },
+          x: x + 0.27, y: y + 0.22, w: 0.48, h: 0.48, fill: { color: featured ? C.primary : C.softGreen }, line: { color: featured ? C.primary : C.softGreen },
         });
         slide.addText(String(i + 1).padStart(2, "0"), {
-          x: x + 0.27, y: y + 0.22, w: 0.48, h: 0.48, fontFace: BODY, fontSize: 12, bold: true, color: C.accent, align: "center", valign: "middle", margin: 0,
+          x: x + 0.27, y: y + 0.22, w: 0.48, h: 0.48, fontFace: BODY, fontSize: 12, bold: true, color: featured ? C.secondary : C.accent, align: "center", valign: "middle", margin: 0,
         });
         slide.addText(b.title, {
-          x: x + 0.85, y: y + 0.2, w: cw - 1.1, h: 0.55, fontFace: HEAD, fontSize: 15, bold: true, color: C.text, valign: "middle", fit: "shrink", margin: 0,
+          x: x + 0.85, y: y + 0.2, w: cw - 1.1, h: 0.55, fontFace: HEAD, fontSize: 15, bold: true, color: featured ? C.white : C.text, valign: "middle", fit: "shrink", margin: 0,
         });
         slide.addText(b.line, {
-          x: x + 0.25, y: y + 0.85, w: cw - 0.5, h: 0.85, fontFace: BODY, fontSize: 11, color: C.muted, valign: "top", fit: "shrink", margin: 0,
+          x: x + 0.25, y: y + 0.85, w: cw - 0.5, h: 0.85, fontFace: BODY, fontSize: 11, color: featured ? "BFD9C9" : C.muted, valign: "top", fit: "shrink", margin: 0,
         });
         slide.addText(
           bulletRuns(b.items),
-          { x: x + 0.25, y: y + 1.75, w: cw - 0.5, h: ch - 1.95, fontFace: BODY, fontSize: fs, color: C.inkSoft, valign: "top", lineSpacingMultiple: 1.1, paraSpaceAfter: 2, fit: "shrink", margin: 0 },
+          { x: x + 0.25, y: y + 1.75, w: cw - 0.5, h: ch - 1.95, fontFace: BODY, fontSize: fs, color: featured ? C.white : C.inkSoft, valign: "top", lineSpacingMultiple: 1.1, paraSpaceAfter: 2, fit: "shrink", margin: 0 },
         );
       });
       footer(slide, s.note);
@@ -1463,17 +1518,19 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       const bandTop = top + Math.max(0, (6.6 - top - h) / 2.4);
       s.asks.forEach((a, i) => {
         const x = M + i * (cw + gap);
+        const featured = i === 0;
         slide.addShape("roundRect", {
-          x, y: bandTop, w: cw, h, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 60, width: 0.8 }, rectRadius: 0.16,
+          x, y: bandTop, w: cw, h, fill: { color: featured ? C.secondary : C.softGreen }, line: { color: featured ? C.secondary : C.primary, transparency: featured ? 0 : 60, width: 0.8 }, rectRadius: 0.16,
         });
+        ghostNumber(slide, i + 1, x + cw - 1.02, bandTop + 0.14, 0.76, featured ? C.primary : C.accent, 34);
         slide.addText(`DECISION ${String(i + 1).padStart(2, "0")}`, {
-          x: x + 0.25, y: bandTop + 0.22, w: cw - 0.5, h: 0.3, fontFace: BODY, fontSize: 10, bold: true, color: C.accent, charSpacing: 1.5, margin: 0,
+          x: x + 0.25, y: bandTop + 0.22, w: cw - 1.2, h: 0.3, fontFace: BODY, fontSize: 10, bold: true, color: featured ? C.primary : C.accent, charSpacing: 1.5, margin: 0,
         });
         slide.addText(a.title, {
-          x: x + 0.25, y: bandTop + 0.56, w: cw - 0.5, h: 0.5, fontFace: HEAD, fontSize: 16, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
+          x: x + 0.25, y: bandTop + 0.65, w: cw - 0.5, h: 0.5, fontFace: HEAD, fontSize: featured ? 19 : 16, bold: true, color: featured ? C.white : C.text, valign: "top", fit: "shrink", margin: 0,
         });
         slide.addText(a.line, {
-          x: x + 0.25, y: bandTop + 1.1, w: cw - 0.5, h: h - 1.32, fontFace: BODY, fontSize: 12.5, color: C.text, valign: "top", fit: "shrink", margin: 0,
+          x: x + 0.25, y: bandTop + 1.2, w: cw - 0.5, h: h - 1.42, fontFace: BODY, fontSize: 12.5, color: featured ? "D6EADF" : C.text, valign: "top", fit: "shrink", margin: 0,
         });
       });
 
