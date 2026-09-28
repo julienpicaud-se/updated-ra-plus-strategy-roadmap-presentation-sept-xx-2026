@@ -17,3 +17,4 @@
 - [x] Add a glossary slide for team names and acronyms across the organization and collaboration sections (Sep 28)
 - [x] Review the complete deck for visual and content consistency, then export the final native PPTX and PDF (Sep 28)
 - [x] Repair the full-deck PPTX for strict desktop PowerPoint by removing unused generated notes parts (Sep 28)
+- [x] Rebuild image-based PPTX export without a custom master and correct JPEG package metadata, following the proven Sept 7 export pattern (Sep 28)

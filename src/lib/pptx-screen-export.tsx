@@ -58,20 +58,14 @@ async function prepareSlides(slides: CPSlide[], fileName: string, onProgress?: (
   pptx.subject = "Pixel-faithful export of the RA+ roadmap screens";
   pptx.title = "RA+ Platform Roadmap 2026 and 2027";
   pptx.company = "Schneider Electric";
-  pptx.defineSlideMaster({
-    title: "SCREEN",
-    background: { color: "FFFFFF" },
-    objects: [],
-    slideNumber: undefined,
-  });
-
   const frame = await createCaptureFrame();
   try {
     for (let index = 0; index < slides.length; index += 1) {
       const sourceIndex = cpDeck.indexOf(slides[index]);
       if (sourceIndex < 0) throw new Error(`Slide ${index + 1} is not part of the live deck`);
       const image = await captureSlide(frame, sourceIndex);
-      const slide = pptx.addSlide("SCREEN");
+      const slide = pptx.addSlide();
+      slide.background = { color: "FFFFFF" };
       slide.addImage({ data: image, x: 0, y: 0, w: PPTX_WIDTH, h: PPTX_HEIGHT });
       onProgress?.(index + 1, slides.length);
     }
@@ -106,7 +100,7 @@ export function downloadPreparedPptx({ blob, fileName }: PreparedPptx) {
 }
 
 export async function exportScreensToPptx(onProgress?: (done: number, total: number) => void) {
-  return prepareSlides(cpDeck, "RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible.pptx", onProgress);
+  return prepareSlides(cpDeck, "RA-Plus-Strategy-and-Roadmap-PowerPoint-Compatible-v4.pptx", onProgress);
 }
 
 export async function exportScreenPartToPptx(
