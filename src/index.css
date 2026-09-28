@@ -130,8 +130,10 @@
 
 .pptx-capture-frame {
   position: fixed;
-  left: -100000px;
+  left: 0;
   top: 0;
+  opacity: 0;
+  z-index: -1;
   width: 1280px;
   height: 720px;
   border: 0;
