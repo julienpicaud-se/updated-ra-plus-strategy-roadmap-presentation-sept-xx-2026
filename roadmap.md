@@ -9,3 +9,4 @@
 
 - [x] Expand Roadmap foundations from 9 to 16 slides with restored and new executive guidance; verify section and full-deck exports (Sep 27)
 - [ ] Update Carbon Performance, Supply Chain, Climate Risk, and Reporting & Compliance goals throughout the deck; verify rendering and PowerPoint export (Sep 28)
+- [ ] Use slides 4, 6, and 7 from the trusted Supply Chain deck to update its detailed section; use the latest trusted Carbon Performance deck content (Sep 28)
