@@ -93,11 +93,11 @@ function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle
 function footer(slide: PptxGenJS.Slide, note?: string) {
   if (note) {
     slide.addShape("roundRect", {
-      x: M, y: 6.83, w: W - M * 2, h: 0.52, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.12,
+      x: M, y: 6.68, w: W - M * 2, h: 0.38, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.12,
     });
-    slide.addShape("roundRect", { x: M + 0.13, y: 6.99, w: 0.05, h: 0.2, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
+    slide.addShape("roundRect", { x: M + 0.13, y: 6.79, w: 0.05, h: 0.16, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
     slide.addText(note, {
-      x: M + 0.29, y: 6.83, w: W - M * 2 - 0.51, h: 0.52, fontFace: BODY,
+      x: M + 0.29, y: 6.68, w: W - M * 2 - 0.51, h: 0.38, fontFace: BODY,
       fontSize: note.length > 150 ? 9 : 10, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
     });
   }
@@ -1108,7 +1108,6 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         valign: "middle", fit: "shrink", margin: 0,
       });
       footer(slide);
-      frameBrand(slide);
       break;
     }
 
@@ -1187,7 +1186,6 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText("BOARD DECISION", { x: M + 0.12, y: 6.61, w: 1.26, h: 0.48, fontFace: BODY, fontSize: 7.5, bold: true, color: C.secondary, align: "center", valign: "middle", margin: 0 });
       slide.addText(s.decision, { x: M + 1.7, y: 6.66, w: W - M * 2 - 1.9, h: 0.38, fontFace: BODY, fontSize: 8.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       footer(slide);
-      frameBrand(slide);
       break;
     }
 
@@ -1240,6 +1238,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.takeaway, { x: M + 1.86, y: calloutY + 0.08, w: W - M * 2 - 2.08, h: 0.51, fontFace: BODY, fontSize: 9.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.65, w: W - M * 2, h: 0.25, fontFace: BODY, fontSize: 7.2, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1308,6 +1307,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.decision, { x: M + 1.7, y: calloutY + 0.07, w: W - M * 2 - 1.9, h: 0.41, fontFace: BODY, fontSize: 8.8, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.68, w: W - M * 2, h: 0.2, fontFace: BODY, fontSize: 6.8, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
