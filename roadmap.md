@@ -12,3 +12,5 @@
 - [x] Use slides 4, 6, and 7 from the trusted Supply Chain deck to update its detailed section; use the latest trusted Carbon Performance deck content (Sep 28)
 - [x] Update Climate Risk detailed section from the attached latest source of truth (Sep 28)
 - [x] Restore section-based PPTX downloads with section-labelled files and repair the global 81-slide PPTX download (Sep 28)
+- [x] Add and validate an 8-slide Product, GSP and cross-team collaboration governance section (Sep 28)
+- [x] Add a Product team organization section with a summary and detailed slides from the attached topology (Sep 28)
