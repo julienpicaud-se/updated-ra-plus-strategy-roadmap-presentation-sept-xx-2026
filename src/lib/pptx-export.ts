@@ -239,6 +239,12 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         const x = M + widths.slice(0, i).reduce((sum, width) => sum + width, 0) + i * gap;
         const tc = tone(c.tone);
         const indexLayout = n >= 4;
+        if (indexLayout && i % 2 === 1) {
+          slide.addShape("roundRect", {
+            x: x - 0.04, y: top - 0.08, w: cw + 0.08, h: h + 0.16,
+            fill: { color: paleTone(c.tone), transparency: 58 }, line: { color: paleTone(c.tone), transparency: 100 }, rectRadius: 0.1,
+          });
+        }
         if (!indexLayout) card(slide, x, top, cw, h, C.border, i === 0 && n === 2 ? C.softGreen : C.card);
         slide.addShape("rect", {
           x, y: top, w: indexLayout ? 0.045 : n === 2 && i === 0 ? 0.09 : cw, h: indexLayout ? h : n === 2 && i === 0 ? h : 0.055,
@@ -401,6 +407,10 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
           slide.addText(row[1], { x: M + 0.18, y: rowY, w: tableW - 0.36, h: rowH, fontFace: BODY, fontSize: denseFont, bold: true, color: "8A5A10", valign: "middle", margin: 0 });
           return;
         }
+        slide.addShape("rect", {
+          x: M + 0.01, y: rowY + 0.05, w: 0.035, h: Math.max(0.12, rowH - 0.1),
+          fill: { color: rowIndex % 4 === 2 ? C.warn : C.primary }, line: { color: rowIndex % 4 === 2 ? C.warn : C.primary },
+        });
         let cellX = M;
         row.forEach((cell, columnIndex) => {
           slide.addText(cell, {
