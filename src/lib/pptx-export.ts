@@ -30,7 +30,7 @@ const HEAD = "Inter";
 const BODY = "Inter";
 
 const W = 13.333;
-const M = 0.68;
+const M = 0.5;
 
 /**
  * Pick the largest font size (from a preferred range) at which the given text
@@ -65,22 +65,22 @@ function addTopRule(slide: PptxGenJS.Slide) {
 }
 
 function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle?: string) {
-  // Mirrors CPSlideFrame at the fixed 1280 × 720 capture breakpoint.
-  slide.addShape("line", { x: M, y: 0.48, w: 0.33, h: 0, line: { color: C.primary, width: 1 } });
+  // Calibrated against the fixed 1280 × 720 image export.
+  slide.addShape("line", { x: M, y: 0.47, w: 0.34, h: 0, line: { color: C.primary, width: 0.8 } });
   slide.addText(eyebrow.toUpperCase(), {
-    x: M + 0.46, y: 0.36, w: 5.5, h: 0.24, fontFace: BODY, fontSize: 9, bold: false, color: C.muted, charSpacing: 1.8, margin: 0, valign: "middle", wrap: false,
+    x: M + 0.48, y: 0.34, w: 5.5, h: 0.24, fontFace: BODY, fontSize: 8.5, bold: false, color: C.muted, charSpacing: 2.2, margin: 0, valign: "middle", wrap: false,
   });
   const longTitle = title.length > 56;
   const veryLongTitle = title.length > 74;
   slide.addText(title, {
-    x: M, y: 0.72, w: 10.45, h: veryLongTitle ? 0.92 : longTitle ? 0.78 : 0.64, fontFace: HEAD,
-    fontSize: veryLongTitle ? 24 : longTitle ? 25.5 : 27,
+    x: M, y: 0.7, w: 10.65, h: veryLongTitle ? 0.94 : longTitle ? 0.82 : 0.64, fontFace: HEAD,
+    fontSize: veryLongTitle ? 23.5 : longTitle ? 25 : 27,
     bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
   });
-  const subY = veryLongTitle ? 1.72 : longTitle ? 1.55 : 1.43;
+  const subY = veryLongTitle ? 1.69 : longTitle ? 1.55 : 1.4;
   if (subtitle) {
     slide.addText(subtitle, {
-      x: M, y: subY, w: 9.4, h: 0.34, fontFace: BODY, fontSize: 12, color: C.muted, valign: "top",
+      x: M, y: subY, w: 10.4, h: 0.34, fontFace: BODY, fontSize: 11.5, color: C.muted, valign: "top",
       fit: "shrink", margin: 0,
     });
   }
@@ -89,21 +89,13 @@ function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle
 function footer(slide: PptxGenJS.Slide, note?: string) {
   if (note) {
     slide.addShape("roundRect", {
-      x: M, y: 6.18, w: W - M * 2, h: 0.64, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 60, width: 1 }, rectRadius: 0.12,
+      x: M, y: 6.83, w: W - M * 2, h: 0.52, fill: { color: "F4FFF6" }, line: { color: C.primary, transparency: 60, width: 0.75 }, rectRadius: 0.12,
     });
     slide.addText(note, {
-      x: M + 0.2, y: 6.18, w: W - M * 2 - 0.4, h: 0.64, fontFace: BODY,
-      fontSize: note.length > 150 ? 9.5 : 10.5, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
+      x: M + 0.22, y: 6.83, w: W - M * 2 - 0.44, h: 0.52, fontFace: BODY,
+      fontSize: note.length > 150 ? 9 : 10, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
     });
   }
-  slide.addShape("line", { x: M, y: 7.02, w: W - M * 2, h: 0, line: { color: C.border, transparency: 70, width: 0.6 } });
-  slide.addText("Carbon Performance, RA+ Enterprise Sustainability", {
-    x: M, y: 7.13, w: 5.8, h: 0.18, fontFace: BODY, fontSize: 8, color: C.muted, margin: 0,
-  });
-  slide.addText([
-    { text: "SE", options: { bold: true, color: C.primary } },
-    { text: "  SUSTAINABILITY BUSINESS", options: { color: C.text } },
-  ], { x: W - M - 3.35, y: 7.1, w: 3.35, h: 0.22, fontFace: BODY, fontSize: 8, align: "right", margin: 0 });
 }
 
 
@@ -185,48 +177,40 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
     case "columns": {
       header(slide, s.eyebrow, s.title, s.subtitle);
       const n = s.columns.length;
-      const gap = 0.3;
+      const gap = 0.22;
       const cw = (W - M * 2 - gap * (n - 1)) / n;
-      const top = bodyTop(s);
-      const h = (s.note ? 6.02 : 6.85) - top;
-      const innerW = cw - 0.4;
-
-      // one shared bullet size across all columns, driven by the densest one
-      const bulletTop = (c: (typeof s.columns)[number]) => top + (c.label ? 1.05 : 0.85) + (c.line ? 0.8 : 0);
-      const fs = Math.min(
-        ...s.columns.map((c) =>
-          fitFontSize(c.items, innerW, top + h - bulletTop(c) - 0.2, 11, 9),
-        ),
-      );
+      const top = 3.03;
+      const h = 2.79;
+      const innerW = cw - 0.44;
 
       s.columns.forEach((c, i) => {
         const x = M + i * (cw + gap);
         const tc = tone(c.tone);
-        card(slide, x, top, cw, h, C.border, C.white);
-        slide.addShape("rect", { x, y: top, w: cw, h: 0.08, fill: { color: tc }, line: { color: tc } });
+        card(slide, x, top, cw, h, "A9AFAB", C.card);
         if (c.label) {
           slide.addText(c.label.toUpperCase(), {
-            x: x + 0.22, y: top + 0.22, w: innerW, h: 0.23, fontFace: BODY, fontSize: 9, bold: true, color: tc, charSpacing: 1.2, margin: 0,
+            x: x + 0.22, y: top + 0.25, w: innerW, h: 0.2, fontFace: BODY, fontSize: 8.5, bold: true, color: tc, charSpacing: 1.1, margin: 0,
           });
         }
         slide.addText(c.title, {
-          x: x + 0.22, y: top + (c.label ? 0.53 : 0.3), w: innerW, h: 0.55, fontFace: HEAD,
-          fontSize: c.title.length > 26 ? 14 : 16, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
+          x: x + 0.22, y: top + (c.label ? 0.53 : 0.28), w: innerW, h: 0.36, fontFace: HEAD,
+          fontSize: c.title.length > 26 ? 12.5 : 13.5, bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
         });
-        let y = bulletTop(c);
         if (c.line) {
           slide.addText(c.line, {
-            x: x + 0.2, y: y - 0.8, w: innerW, h: 0.7, fontFace: BODY, fontSize: 11, color: C.muted, valign: "top",
+            x: x + 0.22, y: top + 0.93, w: innerW, h: 0.48, fontFace: BODY, fontSize: 10, color: C.muted, valign: "top",
             fit: "shrink", margin: 0,
           });
         }
-        slide.addText(
-          bulletRuns(c.items, tone(c.tone)),
-          {
-            x: x + 0.22, y, w: innerW, h: top + h - y - 0.24, fontFace: BODY, fontSize: fs,
-            color: C.inkSoft, valign: "top", lineSpacingMultiple: 1.18, paraSpaceAfter: 3, fit: "shrink", margin: 0,
-          },
-        );
+        slide.addShape("line", { x: x + 0.22, y: top + 1.58, w: innerW, h: 0, line: { color: C.border, width: 0.65 } });
+        c.items.forEach((item, itemIndex) => {
+          const itemY = top + 1.78 + itemIndex * 0.31;
+          slide.addShape("ellipse", { x: x + 0.22, y: itemY + 0.09, w: 0.065, h: 0.065, fill: { color: tc }, line: { color: tc } });
+          slide.addText(item, {
+            x: x + 0.37, y: itemY, w: innerW - 0.15, h: 0.24, fontFace: BODY, fontSize: 9.5,
+            color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
+          });
+        });
       });
       footer(slide, s.note);
       break;
@@ -323,48 +307,44 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
     }
 
     case "table": {
-      const headerRow = s.headers.map((h) => ({
-        text: h.toUpperCase(),
-        options: { bold: true, color: C.muted, fontSize: 8.5, fill: { color: C.softGray }, margin: 0.1 },
-      }));
-      const mapRow = (r: string[]) => {
-        if (r[0] === "") {
-          return [
-            {
-              text: r[1],
-              options: { colspan: s.headers.length, bold: true, color: "8A5A10", fill: { color: "FFF1DC" }, fontSize: 10 },
-            },
-          ];
-        }
-        return r.map((cell, j) => ({
-          text: cell,
-          options: { fontSize: 10, bold: j === 0, color: j === 0 ? C.accent : C.text },
-        }));
-      };
-
       const nCols = s.headers.length;
-      const first = Math.min(2.25, Math.max(1.45, (W - M * 2) / nCols * 0.78));
-      const rest = (W - M * 2 - first) / (nCols - 1);
+      const tableW = W - M * 2;
+      const first = nCols === 2 ? tableW * 0.59 : Math.min(2.55, Math.max(1.75, tableW / nCols * 0.78));
+      const rest = (tableW - first) / (nCols - 1);
       const colW = [first, ...Array(nCols - 1).fill(rest)];
       header(slide, s.eyebrow, s.title, s.subtitle);
-      const y = bodyTop(s);
-      const bottom = s.note ? 6.02 : 6.85;
-      const rows = [headerRow, ...s.rows.map(mapRow)];
-      const rowH = Math.max(0.28, Math.min(0.56, (bottom - y - 0.12) / rows.length));
+      const y = 2.96;
+      const headerH = 0.48;
+      const maxTableH = s.note ? 2.88 : 3.3;
+      const rowH = Math.max(0.37, Math.min(0.48, (maxTableH - headerH) / s.rows.length));
+      const tableH = headerH + rowH * s.rows.length;
       const denseFont = s.rows.length > 9 ? 7.4 : s.headers.length > 5 ? 8 : 9.5;
-      rows.slice(1).forEach((r, ri) => {
-        r.forEach((cell) => {
-          const options = cell.options as { fill?: { color: string }; fontSize?: number; margin?: number };
-          options.fontSize = denseFont;
-          options.margin = rowH < 0.38 ? 0.045 : 0.08;
-          if (!options.fill) options.fill = { color: ri % 2 ? C.card : C.white };
+      slide.addShape("roundRect", { x: M, y, w: tableW, h: tableH, fill: { color: C.card }, line: { color: "A9AFAB", width: 0.65 }, rectRadius: 0.16 });
+      slide.addShape("rect", { x: M + 0.01, y: y + 0.2, w: tableW - 0.02, h: headerH - 0.19, fill: { color: "ECEDEC" }, line: { color: "ECEDEC", transparency: 100 } });
+      let x = M;
+      s.headers.forEach((heading, columnIndex) => {
+        slide.addText(heading.toUpperCase(), {
+          x: x + 0.18, y, w: colW[columnIndex] - 0.3, h: headerH, fontFace: BODY, fontSize: 8.3,
+          bold: true, color: C.muted, charSpacing: 1.25, valign: "middle", margin: 0,
         });
+        x += colW[columnIndex];
       });
-      slide.addShape("roundRect", { x: M, y, w: W - M * 2, h: rowH * rows.length, fill: { color: C.card }, line: { color: C.border, width: 0.6 }, rectRadius: 0.16 });
-      slide.addTable(rows, {
-        x: M, y, w: W - M * 2, colW, fontFace: BODY,
-        border: { type: "solid", color: C.border, pt: 0.35 },
-        valign: "middle", rowH, margin: 0.08,
+      s.rows.forEach((row, rowIndex) => {
+        const rowY = y + headerH + rowIndex * rowH;
+        slide.addShape("line", { x: M, y: rowY, w: tableW, h: 0, line: { color: C.border, width: 0.55 } });
+        if (row[0] === "") {
+          slide.addShape("rect", { x: M + 0.01, y: rowY, w: tableW - 0.02, h: rowH, fill: { color: C.softAmber }, line: { color: C.softAmber, transparency: 100 } });
+          slide.addText(row[1], { x: M + 0.18, y: rowY, w: tableW - 0.36, h: rowH, fontFace: BODY, fontSize: denseFont, bold: true, color: "8A5A10", valign: "middle", margin: 0 });
+          return;
+        }
+        let cellX = M;
+        row.forEach((cell, columnIndex) => {
+          slide.addText(cell, {
+            x: cellX + 0.18, y: rowY, w: colW[columnIndex] - 0.3, h: rowH, fontFace: BODY, fontSize: denseFont,
+            bold: columnIndex === 0, color: columnIndex === 0 ? C.primary : C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
+          });
+          cellX += colW[columnIndex];
+        });
       });
       footer(slide, s.note);
 
