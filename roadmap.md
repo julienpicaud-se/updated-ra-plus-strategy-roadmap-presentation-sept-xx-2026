@@ -22,3 +22,4 @@
 - [x] Recalibrate editable PowerPoint cards, tables and shared framing against the four attached image-export references; validate section and full exports (Sep 28)
 - [x] Refine all editable PowerPoint slide types with a premium executive design system and validate the full 97-slide deck (Sep 28)
 - [x] Match the editable PowerPoint more closely to the live web deck and validate all 97 slides (Sep 28)
+- [ ] Refine the web and editable PowerPoint designs together, preserving parity and all 97 slides (Sep 28)
