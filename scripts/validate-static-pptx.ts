@@ -37,6 +37,13 @@ for (const file of files) {
   const contentTypes = await zip.file("[Content_Types].xml")?.async("text");
   if (!contentTypes) throw new Error(`${basename(file)} has no readable [Content_Types].xml`);
   const overrides = [...contentTypes.matchAll(/<Override\b[^>]*PartName="([^"]+)"/g)].map((m) => m[1]);
+  const archiveParts = new Set(Object.keys(zip.files).filter((name) => !zip.files[name]?.dir));
+  const danglingOverrides = overrides.filter((name) => !archiveParts.has(name.replace(/^\//, "")));
+  if (danglingOverrides.length > 0) {
+    throw new Error(
+      `${basename(file)} declares missing package parts: ${danglingOverrides.slice(0, 5).join(", ")}`,
+    );
+  }
   // Every XML part that PowerPoint resolves by content type must be declared.
   const mustDeclare = Object.keys(zip.files).filter((name) =>
     /^ppt\/(slides|notesSlides|slideLayouts|slideMasters|notesMasters)\/[^/]+\.xml$/.test(name),

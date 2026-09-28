@@ -1551,9 +1551,18 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
   const contentTypesEntry = zip.file("[Content_Types].xml");
   if (contentTypesEntry) {
     const xml = await contentTypesEntry.async("text");
+    const existingParts = new Set(
+      Object.keys(zip.files)
+        .filter((name) => !zip.files[name]?.dir)
+        .map((name) => `/${name}`),
+    );
     zip.file(
       "[Content_Types].xml",
-      xml.replace(/<Override\b(?=[^>]*PartName="\/ppt\/notes(?:Masters|Slides)\/)[^>]*\/>/g, ""),
+      xml.replace(/<Override\b[^>]*PartName="([^"]+)"[^>]*\/>/g, (override, partName) =>
+        existingParts.has(partName) && !partName.startsWith("/ppt/notesMasters/") && !partName.startsWith("/ppt/notesSlides/")
+          ? override
+          : "",
+      ),
     );
   }
 
