@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Download, FileQuestion, Loader2, RotateCcw, X } from "lucide-react";
 import { cpDeck } from "@/data/cp-roadmap-deck";
 import { CPSlideRenderer } from "./CPSlideRenderer";
-import { getDeckParts } from "@/lib/pptx-export";
+import { buildEditablePptx, getDeckParts } from "@/lib/pptx-export";
 import {
   exportScreenPartToPptx,
   exportScreensToPptx,
@@ -22,7 +22,7 @@ import { toast } from "sonner";
 
 const QA_FILE = "/RA-Plus-Board-QA-2026-2027.pptx";
 
-type ExportJob = { id: string; label: string };
+type ExportJob = { id: string; label: string; editable?: boolean };
 type ExportStatus =
   | { phase: "preparing"; job: ExportJob; done: number; total: number }
   | { phase: "packaging"; job: ExportJob; total: number }
@@ -50,7 +50,11 @@ export const CPDeck = () => {
         if (done >= count) setStatus({ phase: "packaging", job, total: count });
         else setStatus({ phase: "preparing", job, done, total: count });
       };
-      const prepared = part
+      const editableName = (part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx").replace(/\.pptx$/, "-Editable.pptx");
+      if (job.editable) setStatus({ phase: "packaging", job, total: slides.length });
+      const prepared = job.editable
+        ? await buildEditablePptx(slides, editableName)
+        : part
         ? await exportScreenPartToPptx(slides, part.fileName, onProgress)
         : await exportScreensToPptx(onProgress);
       setPreparedExport(prepared);
@@ -272,6 +276,17 @@ export const CPDeck = () => {
           {busy ? `${pct}%` : "PPTX"}
         </button>
 
+        <button
+          onClick={() => runExport({ id: "full", label: "Editable deck", editable: true })}
+          disabled={busy}
+          aria-label="Export editable PowerPoint"
+          title="Editable PowerPoint with real text and shapes"
+          className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted/20 disabled:opacity-50"
+        >
+          <Download className="w-3.5 h-3.5" />
+          Editable
+        </button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -298,6 +313,16 @@ export const CPDeck = () => {
                 <span className="text-xs text-muted-foreground">
                   {p.description} · {p.end - p.start} slides
                 </span>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Editable sections</DropdownMenuLabel>
+            {parts.map((p) => (
+              <DropdownMenuItem
+                key={`${p.id}-editable`}
+                onSelect={() => runExport({ id: p.id, label: `${p.label} (editable)`, editable: true })}
+              >
+                <span className="text-sm">{p.label} (editable)</span>
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
