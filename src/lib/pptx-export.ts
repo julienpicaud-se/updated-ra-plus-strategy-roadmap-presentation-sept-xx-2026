@@ -1523,6 +1523,8 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
  *  - PptxGenJS 4.0.1 emits notes parts even when the deck has no speaker notes.
  *    Those generated notes-master placeholders are rejected by some desktop
  *    PowerPoint versions, so remove the unused notes graph completely.
+ *  - PptxGenJS 4.0.1 declares JPEG files as the non-standard `image/jpg`.
+ *    Desktop Office expects the registered `image/jpeg` content type.
  *  - the slide-number placeholder can reuse a shape id already used on the same
  *    slide, so duplicate shape-tree ids are renumbered per slide.
  */
@@ -1558,11 +1560,13 @@ export async function patchPptxCompatibility(data: ArrayBuffer | Uint8Array) {
     );
     zip.file(
       "[Content_Types].xml",
-      xml.replace(/<Override\b[^>]*PartName="([^"]+)"[^>]*\/>/g, (override, partName) =>
-        existingParts.has(partName) && !partName.startsWith("/ppt/notesMasters/") && !partName.startsWith("/ppt/notesSlides/")
-          ? override
-          : "",
-      ),
+      xml
+        .replace(/ContentType="image\/jpg"/g, 'ContentType="image/jpeg"')
+        .replace(/<Override\b[^>]*PartName="([^"]+)"[^>]*\/>/g, (override, partName) =>
+          existingParts.has(partName) && !partName.startsWith("/ppt/notesMasters/") && !partName.startsWith("/ppt/notesSlides/")
+            ? override
+            : "",
+        ),
     );
   }
 
