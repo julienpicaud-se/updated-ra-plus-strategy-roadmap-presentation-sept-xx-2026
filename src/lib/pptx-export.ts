@@ -1639,6 +1639,24 @@ async function writeDeck(slides: CPSlide[], fileName: string, title: string) {
 }
 
 
+/** Native, editable PowerPoint (real text boxes and shapes) for a list of slides. */
+export async function buildEditablePptx(slides: CPSlide[], fileName: string) {
+  const pptx = new PptxGenJS();
+  pptx.layout = "LAYOUT_WIDE";
+  pptx.author = "Schneider Electric, Sustainability Business";
+  pptx.title = "RA+ Platform Roadmap 2026 and 2027 (editable)";
+  slides.forEach((s) => renderSlide(pptx, s));
+  const raw = (await pptx.write({ outputType: "arraybuffer" })) as ArrayBuffer;
+  const bytes = await patchPptxCompatibility(raw);
+  return {
+    blob: new Blob([bytes as BlobPart], {
+      type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    }),
+    fileName,
+    slideCount: slides.length,
+  };
+}
+
 export async function exportDeckToPptx(fileName = "RA-Plus-Strategy-and-Roadmap.pptx") {
   return writeDeck(cpDeck, fileName, "Carbon Performance Roadmap 2026 and 2027");
 }
