@@ -14,16 +14,26 @@ export type PreparedPptx = {
   slideCount: number;
 };
 
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string) {
+  return new Promise<T>((resolve, reject) => {
+    const t = window.setTimeout(() => reject(new Error(message)), ms);
+    promise.then((v) => { window.clearTimeout(t); resolve(v); }, (e) => { window.clearTimeout(t); reject(e); });
+  });
+}
+const wait = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms));
+
 async function createCaptureFrame() {
   const frame = document.createElement("iframe");
   frame.className = "pptx-capture-frame";
   frame.setAttribute("aria-hidden", "true");
   frame.src = "/slide-capture?index=0";
-  document.body.appendChild(frame);
-  await new Promise<void>((resolve, reject) => {
+  const loaded = new Promise<void>((resolve, reject) => {
     frame.addEventListener("load", () => resolve(), { once: true });
     frame.addEventListener("error", () => reject(new Error("Could not start PowerPoint capture")), { once: true });
   });
+  document.body.appendChild(frame);
+  await withTimeout(loaded, 30_000, "The slide renderer did not start. Please reload the page and try again.");
+  for (let i = 0; i < 100 && !frame.contentDocument?.querySelector("[data-pptx-slide='ready']"); i += 1) await wait(100);
   return frame;
 }
 
@@ -32,12 +42,12 @@ async function captureSlide(frame: HTMLIFrameElement, index: number) {
   if (!window) throw new Error("PowerPoint capture frame is unavailable");
   window.history.replaceState({}, "", `/slide-capture?index=${index}`);
   window.dispatchEvent(new PopStateEvent("popstate"));
-  await new Promise<void>((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(() => resolve())));
+  await wait(120);
   const frameDocument = frame.contentDocument;
   const stage = frameDocument?.querySelector<HTMLElement>("[data-pptx-slide='ready']");
   if (!frameDocument || !stage) throw new Error(`Slide ${index + 1} did not render`);
-  await frameDocument.fonts.ready;
-  return toJpeg(stage, {
+  await Promise.race([frameDocument.fonts.ready, wait(3000)]);
+  const capture = () => toJpeg(stage, {
       width: CAPTURE_WIDTH,
       height: CAPTURE_HEIGHT,
       canvasWidth: CAPTURE_WIDTH,
@@ -49,6 +59,11 @@ async function captureSlide(frame: HTMLIFrameElement, index: number) {
       skipAutoScale: true,
       backgroundColor: "#ffffff",
     });
+  try {
+    return await withTimeout(capture(), 20_000, `Slide ${index + 1} timed out`);
+  } catch {
+    return withTimeout(capture(), 30_000, `Slide ${index + 1} could not be captured. Please try again.`);
+  }
 }
 
 async function prepareSlides(slides: CPSlide[], fileName: string, onProgress?: (done: number, total: number) => void) {
