@@ -5061,6 +5061,163 @@ const carbonStatusTests: CPSlide[] = [
   },
 ];
 
+const productTeamSection: CPSlide[] = [
+  {
+    kind: "section",
+    eyebrow: "Who builds RA+",
+    number: "ORG",
+    title: "The Product team organization",
+    subtitle: "Product leadership connects four sustainability products with shared platform capabilities, Sera, strategy, design, and delivery ownership.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Organization summary",
+    title: "One Product organization, four connected areas",
+    subtitle: "Clear ownership by area keeps product outcomes close to customers while shared capabilities compound across RA+.",
+    columns: [
+      {
+        label: "RA+ Products",
+        title: "Own customer outcomes",
+        line: "Four sustainability products translate domain needs into complete workflows.",
+        items: ["Carbon Performance", "Reporting & Compliance", "Supply Chain", "Climate Risk"],
+        tone: "primary",
+      },
+      {
+        label: "RA+ Platform",
+        title: "Build once, reuse broadly",
+        line: "Shared product areas provide trusted models, data services, connectivity, analytics, and strategy capabilities.",
+        items: ["Ontology & Control Plane", "Data Quality & Services", "Connectivity & Analytics", "Strategy"],
+        tone: "accent",
+      },
+      {
+        label: "RA+ Sera",
+        title: "Create the agentic experience",
+        line: "Sera delivers a unified AI experience whose capabilities are leveraged across all four products.",
+        items: ["Application experience", "Agentic guidance", "Insights, content, and support"],
+        tone: "warn",
+      },
+      {
+        label: "Product Leadership",
+        title: "Set direction and enable delivery",
+        line: "Leadership spans product management, domains, platform, strategy, strategic clients, and operations.",
+        items: ["Portfolio direction", "Cross-area alignment", "Operating discipline"],
+        tone: "muted",
+      },
+    ],
+    note: "All current products sit within the Sustainability family; Energy and Demand are future product families in the source topology.",
+  },
+  {
+    kind: "table",
+    eyebrow: "RA+ Products",
+    title: "Four product teams own the sustainability workflows",
+    subtitle: "Each area combines product management, product ownership, and design around a distinct customer mission.",
+    headers: ["Product", "Product Manager", "Associate PM", "Product Owner", "Designer", "Key workflows"],
+    rows: [
+      ["Carbon Performance", "Stef Bezanis", "Madeleine Watson", "Landon Coleman", "Nathan Gao", "Emission calculation; data quality review; statement creation"],
+      ["Reporting & Compliance", "Hannah Humm", "Thomas Robbins", "Molly Mettling", "Rachel Self", "Framework selection; disclosure drafting; stakeholder review; submission"],
+      ["Supply Chain", "Veronica Lofty", "Shelly Singhal", "Melinda Wolfe", "Michael Beesley", "Supplier onboarding; data campaigns; engagement; Scope 3 reporting"],
+      ["Climate Risk", "Callum Hopkins", "Not assigned", "Emily Whaites", "Not assigned", "Risk assessment; scenario analysis; action planning; site risk"],
+    ],
+    note: "Resource Advisor+ unifies carbon, ESG reporting, climate risk, and supply-chain decarbonization in one AI-powered platform.",
+  },
+  {
+    kind: "table",
+    eyebrow: "RA+ Platform",
+    title: "Shared platform teams create the foundation every product uses",
+    subtitle: "The platform organization owns reusable models, trusted data services, connectivity, analytics, and decarbonization strategy capabilities.",
+    headers: ["Platform area", "Product Manager", "Product Owner", "Designer", "Core responsibility"],
+    rows: [
+      ["Ontology & Control Plane", "Alisdair McDougall", "Harper Kohls", "Miwa Couweleers", "Entity models, hierarchies, permissions, workflows, and change management"],
+      ["Data Quality & Services", "Jessica Chin; Agnes Motika; Bianca Covlescu; Yoann Diep", "Will Martin / Nick Kattato", "Tanya Merone", "Ingestion, validation, enrichment, governance, estimations, and reference data"],
+      ["Connectivity & Analytics", "Alexis Greco", "Will Martin, connectivity; Nick Kattato, analytics", "Not assigned", "Pipelines, federation, lineage, discovery, dashboards, and decision support"],
+      ["Strategy", "Chris Edge", "Flex coverage", "Tanya Merone", "Targets, scenarios, initiative portfolios, financial analysis, and progress tracking"],
+    ],
+    note: "Strategy sits organizationally under Jessica's purview while serving a platform role across all four products.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Platform detail",
+    title: "Platform ownership follows four reusable capability domains",
+    subtitle: "The topology assigns clear boundaries while preserving a shared mission: trusted sustainability data, scalable decisions, and coordinated action.",
+    columns: [
+      {
+        label: "Model",
+        title: "Ontology & Control Plane",
+        line: "Define the objects and controls that make the platform coherent.",
+        items: ["Entities and alternate hierarchies", "Permissions and administration", "Workflow, tasks, allocations, and settings"],
+        tone: "primary",
+      },
+      {
+        label: "Trust",
+        title: "Data Quality & Services",
+        line: "Keep activity and reference data governed, complete, and usable.",
+        items: ["Validation and anomaly detection", "Gapfill and estimation routines", "Factors, units, currencies, and data governance"],
+        tone: "accent",
+      },
+      {
+        label: "Insight",
+        title: "Connectivity & Analytics",
+        line: "Connect data end to end and make it navigable and actionable.",
+        items: ["Pipelines, federation, and lineage", "Catalogs, dashboards, and discovery", "AI/ML insights and scenario analysis"],
+        tone: "warn",
+      },
+      {
+        label: "Action",
+        title: "Strategy",
+        line: "Turn sustainability insight into financially grounded plans.",
+        items: ["Target setting", "Scenario comparison", "Initiative planning and progress tracking"],
+        tone: "muted",
+      },
+    ],
+  },
+  {
+    kind: "columns",
+    eyebrow: "RA+ Sera",
+    title: "Sera is a platform capability expressed through an agentic experience",
+    subtitle: "Application & Agentic Experience creates one intuitive AI layer across the four sustainability products.",
+    columns: [
+      {
+        label: "Ownership",
+        title: "A focused product area",
+        line: "The team owns the experience while partnering across product domains.",
+        items: ["Product Manager: Lauren Morris", "Product Owner: Ellis Aitken", "Organizationally under Jessica's purview"],
+        tone: "primary",
+      },
+      {
+        label: "Experience",
+        title: "One intelligent front door",
+        line: "A dynamic landing experience and Sera connect users to guidance and action.",
+        items: ["Unified AI experience", "Proactive guidance", "Accurate knowledge and support"],
+        tone: "accent",
+      },
+      {
+        label: "Leverage",
+        title: "Shared across products",
+        line: "Sera capabilities strengthen every sustainability workflow rather than forming a fifth product silo.",
+        items: ["Improve data quality", "Deliver actionable insights", "Streamline content creation"],
+        tone: "warn",
+      },
+    ],
+    note: "The source topology positions Sera as a platform role leveraged across all four products.",
+  },
+  {
+    kind: "table",
+    eyebrow: "RA+ Product Leadership",
+    title: "Leadership roles connect portfolio direction to operating discipline",
+    subtitle: "The leadership team spans product management, domains, platform, strategy, strategic clients, and product operations.",
+    headers: ["Leadership role", "Leader", "Primary organizational contribution"],
+    rows: [
+      ["Head of Product Management", "Julien Picaud", "Product portfolio leadership and management accountability"],
+      ["Head of Product Domain", "Jessica Kipper", "Domain leadership, including Strategy and Sera organizational ownership"],
+      ["Head of Product Platform", "Julian Tharsis", "Shared platform product leadership"],
+      ["Product Strategy Manager", "Robert Cole", "Portfolio strategy and cross-product direction"],
+      ["Strategic Client Relationship Manager", "Megan Murray", "Strategic client insight and relationship alignment"],
+      ["Product Operations Manager", "Kristi Rice", "Planning operations, cadence, and execution discipline"],
+    ],
+    note: "Technology leadership by domain is maintained in the separate Technology Leadership organization and responsibilities reference.",
+  },
+];
+
 const collaborationSection: CPSlide[] = [
   {
     kind: "section",
@@ -5641,6 +5798,7 @@ const roadmapFoundations: CPSlide[] = [
 export const cpDeck: CPSlide[] = [
   ...roadmapFoundations,
   ...sharedCpDeck.slice(0, 28),
+  ...productTeamSection,
   ...collaborationSection,
   ...sharedCpDeck.slice(28, 33),
   ...carbonStatusTests,

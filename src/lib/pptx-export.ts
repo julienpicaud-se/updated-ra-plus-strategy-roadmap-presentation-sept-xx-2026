@@ -1620,6 +1620,7 @@ export function getDeckParts(): DeckPart[] {
   const clamp = (i: number, fallback: number) => (i > 0 ? i : fallback);
   const introEnd = clamp(sectionIndex("01"), 16);
   const b1 = clamp(sectionIndex("02"), Math.round(total * 0.25));
+  const organizationStart = clamp(sectionIndex("ORG"), Math.round(total * 0.4));
   const collaborationStart = clamp(sectionIndex("GSP"), Math.round(total * 0.45));
   const b2 = clamp(sectionIndex("A"), Math.round(total * 0.5));
   const b3 = clamp(sectionIndex("05"), Math.round(total * 0.75));
@@ -1647,29 +1648,37 @@ export function getDeckParts(): DeckPart[] {
       description: "Competition, positioning and the roadmap boards",
       fileName: "RA-Plus-Roadmap-3-Market-and-Roadmap.pptx",
       start: b1,
+      end: organizationStart,
+    },
+    {
+      id: "product-team-organization",
+      label: "4. Product team organization",
+      description: "Product ownership, shared platform areas, Sera and leadership",
+      fileName: "RA-Plus-Roadmap-4-Product-Team-Organization.pptx",
+      start: organizationStart,
       end: collaborationStart,
     },
     {
       id: "collaboration-governance",
-      label: "4. Product collaboration & governance",
+      label: "5. Product collaboration & governance",
       description: "Planning governance, GSP linkage, regional testing and cross-team alignment",
-      fileName: "RA-Plus-Roadmap-4-Product-Collaboration-and-Governance.pptx",
+      fileName: "RA-Plus-Roadmap-5-Product-Collaboration-and-Governance.pptx",
       start: collaborationStart,
       end: b2,
     },
     {
       id: "part3",
-      label: "5. Product detail (appendix)",
+      label: "6. Product detail (appendix)",
       description: "Q4 2026 product by product plans",
-      fileName: "RA-Plus-Roadmap-5-Product-Detail.pptx",
+      fileName: "RA-Plus-Roadmap-6-Product-Detail.pptx",
       start: b2,
       end: b3,
     },
     {
       id: "part4",
-      label: "6. 2027 direction",
+      label: "7. 2027 direction",
       description: "2027 product bets and the long-term platform path",
-      fileName: "RA-Plus-Roadmap-6-2027-Direction.pptx",
+      fileName: "RA-Plus-Roadmap-7-2027-Direction.pptx",
       start: b3,
       end: total,
     },
