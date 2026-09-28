@@ -1620,8 +1620,8 @@ export function getDeckParts(): DeckPart[] {
   const clamp = (i: number, fallback: number) => (i > 0 ? i : fallback);
   const introEnd = clamp(sectionIndex("01"), 16);
   const b1 = clamp(sectionIndex("02"), Math.round(total * 0.25));
-  const organizationStart = clamp(sectionIndex("ORG"), Math.round(total * 0.4));
-  const collaborationStart = clamp(sectionIndex("GSP"), Math.round(total * 0.45));
+  const organizationStart = clamp(sectionIndex("04A"), Math.round(total * 0.4));
+  const collaborationStart = clamp(sectionIndex("04B"), Math.round(total * 0.45));
   const b2 = clamp(sectionIndex("A"), Math.round(total * 0.5));
   const b3 = clamp(sectionIndex("05"), Math.round(total * 0.75));
 

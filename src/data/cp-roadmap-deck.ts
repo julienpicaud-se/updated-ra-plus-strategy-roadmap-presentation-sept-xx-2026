@@ -5065,7 +5065,7 @@ const productTeamSection: CPSlide[] = [
   {
     kind: "section",
     eyebrow: "Who builds RA+",
-    number: "ORG",
+    number: "04A",
     title: "The Product team organization",
     subtitle: "Product leadership connects four sustainability products with shared platform capabilities, Sera, strategy, design, and delivery ownership.",
   },
@@ -5222,7 +5222,7 @@ const collaborationSection: CPSlide[] = [
   {
     kind: "section",
     eyebrow: "How we work",
-    number: "GSP",
+    number: "04B",
     title: "Product collaboration and governance",
     subtitle: "Planning governance meetings connect Product with GSP, Go-to-Market, Sales, Engineering, SCDR, Data & Ops, and regional testing communities.",
   },
