@@ -2,11 +2,11 @@ import PptxGenJS from "pptxgenjs";
 import { cpDeck, CPSlide } from "@/data/cp-roadmap-deck";
 
 const C = {
-  bg: "F6F8F6",
-  card: "FFFFFF",
-  text: "1E2420",
-  muted: "5A625C",
-  border: "DCE3DE",
+  bg: "FFFFFF",
+  card: "FAFAFA",
+  text: "262626",
+  muted: "626469",
+  border: "D1D1D3",
   primary: "3DCD58",
   secondary: "005730",
   accent: "007A27",
@@ -18,13 +18,12 @@ const C = {
   softGray: "F1F3F2",
   graphite: "303634",
   white: "FFFFFF",
-  inkSoft: "3A423C",
-  mist: "EEF3EF",
-  deepMist: "E4ECE6",
+  inkSoft: "3F4043",
+  mist: "F5F5F5",
+  deepMist: "E7E7E8",
 };
 
 const SP = { xs: 0.08, sm: 0.14, md: 0.22, lg: 0.3 } as const;
-const CARD_SHADOW = { type: "outer" as const, color: "183126", blur: 2, offset: 1, angle: 90, opacity: 0.1 };
 
 const tone = (t?: string) =>
   t === "accent" ? C.accent : t === "warn" ? C.warn : t === "muted" ? C.blue : C.primary;
@@ -71,16 +70,15 @@ function addTopRule(slide: PptxGenJS.Slide) {
 
 function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle?: string) {
   // Calibrated against the fixed 1280 × 720 image export.
-  slide.addShape("roundRect", { x: M, y: 0.35, w: 0.08, h: 0.28, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.04 });
+  slide.addShape("line", { x: M, y: 0.47, w: 0.34, h: 0, line: { color: C.primary, width: 0.8 } });
   slide.addText(eyebrow.toUpperCase(), {
-    x: M + 0.2, y: 0.35, w: 5.5, h: 0.28, fontFace: BODY, fontSize: 8.5, bold: true, color: C.accent, charSpacing: 1.8, margin: 0, valign: "middle", wrap: false,
+    x: M + 0.46, y: 0.35, w: 5.5, h: 0.24, fontFace: BODY, fontSize: 7.5, bold: true, color: C.muted, charSpacing: 1.8, margin: 0, valign: "middle", wrap: false,
   });
-  slide.addText("RA+", { x: W - M - 0.6, y: 0.36, w: 0.6, h: 0.22, fontFace: HEAD, fontSize: 8.5, bold: true, color: C.primary, align: "right", margin: 0 });
   const longTitle = title.length > 56;
   const veryLongTitle = title.length > 74;
   slide.addText(title, {
-    x: M, y: 0.72, w: 11.15, h: veryLongTitle ? 0.94 : longTitle ? 0.82 : 0.68, fontFace: HEAD,
-    fontSize: veryLongTitle ? 24 : longTitle ? 26.5 : 29,
+    x: M, y: 0.73, w: 10.85, h: veryLongTitle ? 0.94 : longTitle ? 0.82 : 0.68, fontFace: HEAD,
+    fontSize: veryLongTitle ? 23.5 : longTitle ? 25.5 : 27,
     bold: true, color: C.text, valign: "top", fit: "shrink", margin: 0,
   });
   const subY = veryLongTitle ? 1.69 : longTitle ? 1.55 : 1.4;
@@ -95,20 +93,33 @@ function header(slide: PptxGenJS.Slide, eyebrow: string, title: string, subtitle
 function footer(slide: PptxGenJS.Slide, note?: string) {
   if (note) {
     slide.addShape("roundRect", {
-      x: M, y: 6.83, w: W - M * 2, h: 0.52, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.12,
+      x: M, y: 6.68, w: W - M * 2, h: 0.38, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 72, width: 0.6 }, rectRadius: 0.12,
     });
-    slide.addShape("roundRect", { x: M + 0.13, y: 6.99, w: 0.05, h: 0.2, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
+    slide.addShape("roundRect", { x: M + 0.13, y: 6.79, w: 0.05, h: 0.16, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.025 });
     slide.addText(note, {
-      x: M + 0.29, y: 6.83, w: W - M * 2 - 0.51, h: 0.52, fontFace: BODY,
+      x: M + 0.29, y: 6.68, w: W - M * 2 - 0.51, h: 0.38, fontFace: BODY,
       fontSize: note.length > 150 ? 9 : 10, color: C.inkSoft, valign: "middle", fit: "shrink", margin: 0,
     });
   }
 }
 
+function frameBrand(slide: PptxGenJS.Slide) {
+  slide.addShape("line", { x: M, y: 7.13, w: W - M * 2, h: 0, line: { color: C.border, transparency: 58, width: 0.45 } });
+  slide.addText("Carbon Performance, RA+ Enterprise Sustainability", {
+    x: M, y: 7.2, w: 4.4, h: 0.16, fontFace: BODY, fontSize: 6.8, color: C.muted, margin: 0,
+  });
+  slide.addText([
+    { text: "SE  ", options: { bold: true, color: C.primary } },
+    { text: "SUSTAINABILITY BUSINESS", options: { color: C.muted } },
+  ], {
+    x: W - M - 2.6, y: 7.18, w: 2.6, h: 0.18, fontFace: BODY, fontSize: 6.8, align: "right", margin: 0,
+  });
+}
+
 
 function card(slide: PptxGenJS.Slide, x: number, y: number, w: number, h: number, color = C.border, fill = C.card) {
   slide.addShape("roundRect", {
-    x, y, w, h, fill: { color: fill }, line: { color, width: 0.65 }, rectRadius: Math.min(0.18, h / 2), shadow: CARD_SHADOW,
+    x, y, w, h, fill: { color: fill }, line: { color, width: 0.65 }, rectRadius: 0.16,
   });
 }
 
@@ -132,19 +143,16 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
   switch (s.kind) {
     case "title": {
-      slide.addShape("rect", { x: 9.85, y: 0, w: W - 9.85, h: 7.5, fill: { color: C.secondary }, line: { color: C.secondary } });
-      slide.addShape("rect", { x: 9.85, y: 0, w: 0.08, h: 7.5, fill: { color: C.primary }, line: { color: C.primary } });
-      slide.addText("RA+", { x: 10.2, y: 0.72, w: 2.55, h: 0.7, fontFace: HEAD, fontSize: 34, bold: true, color: C.primary, transparency: 18, align: "right", margin: 0 });
-      slide.addText("STRATEGY / ROADMAP", { x: 10.2, y: 6.58, w: 2.55, h: 0.22, fontFace: BODY, fontSize: 7.5, bold: true, color: "BFD9C9", charSpacing: 1.8, align: "right", margin: 0 });
-      slide.addShape("roundRect", { x: 1.0, y: 1.01, w: 0.08, h: 0.28, fill: { color: C.primary }, line: { color: C.primary }, rectRadius: 0.04 });
+      slide.background = { color: C.bg };
+      slide.addShape("line", { x: 1.0, y: 1.13, w: 0.42, h: 0, line: { color: C.primary, width: 0.8 } });
       slide.addText(s.eyebrow.toUpperCase(), {
-        x: 1.2, y: 1.01, w: 7.4, h: 0.28, fontFace: BODY, fontSize: 9, bold: true, color: C.accent, charSpacing: 2, margin: 0,
+        x: 1.56, y: 1.01, w: 7.4, h: 0.28, fontFace: BODY, fontSize: 8.5, bold: true, color: C.muted, charSpacing: 2, margin: 0,
       });
       slide.addText(s.title, {
-        x: 1.0, y: 1.52, w: 8.25, h: 1.42, fontFace: HEAD, fontSize: 48, bold: true, color: C.text, margin: 0, fit: "shrink",
+        x: 1.0, y: 1.52, w: 10.4, h: 1.42, fontFace: HEAD, fontSize: 48, bold: true, color: C.text, margin: 0, fit: "shrink",
       });
       slide.addText(s.subtitle, {
-        x: 1.0, y: 3.08, w: 7.9, h: 0.65, fontFace: BODY, fontSize: 15, color: C.muted, valign: "top", margin: 0,
+        x: 1.0, y: 3.08, w: 8.2, h: 0.65, fontFace: BODY, fontSize: 15, color: C.muted, valign: "top", margin: 0,
       });
       let metaX = 1.0;
       s.meta.forEach((item) => {
@@ -169,23 +177,18 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
 
     case "section": {
       slide.background = { color: C.secondary };
-      slide.addShape("rect", { x: 0, y: 0, w: 0.11, h: 7.5, fill: { color: C.primary }, line: { color: C.primary } });
-      slide.addShape("ellipse", { x: 8.98, y: -0.72, w: 4.85, h: 4.85, fill: { color: "0B6840", transparency: 18 }, line: { color: "0B6840", transparency: 100 } });
-      slide.addShape("ellipse", { x: 10.42, y: 4.92, w: 1.82, h: 1.82, fill: { color: C.primary, transparency: 80 }, line: { color: C.primary, transparency: 100 } });
       slide.addText(s.eyebrow.toUpperCase(), {
-        x: 1.0, y: 1.24, w: 7.8, h: 0.3, fontFace: BODY, fontSize: 9, bold: true, color: "BFD9C9", charSpacing: 2.2, margin: 0,
+        x: 1.0, y: 2.45, w: 7.8, h: 0.3, fontFace: BODY, fontSize: 8, bold: true, color: "BFD9C9", charSpacing: 2.2, margin: 0,
       });
       slide.addText(s.number, {
-        x: 9.05, y: 0.12, w: 3.5, h: 2.15, fontFace: HEAD, fontSize: 112, bold: true, color: C.primary, transparency: 36, align: "right", margin: 0,
+        x: 1.0, y: 2.8, w: 3.5, h: 0.95, fontFace: HEAD, fontSize: 72, bold: true, color: C.primary, transparency: 28, margin: 0,
       });
       slide.addText(s.title, {
-        x: 1.0, y: 2.08, w: 8.35, h: 1.55, fontFace: HEAD, fontSize: 44, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
+        x: 1.0, y: 3.7, w: 8.35, h: 1.18, fontFace: HEAD, fontSize: 45, bold: true, color: C.white, valign: "top", fit: "shrink", margin: 0,
       });
       slide.addText(s.subtitle, {
-        x: 1.0, y: 3.88, w: 7.8, h: 0.78, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
+        x: 1.0, y: 4.96, w: 7.8, h: 0.58, fontFace: BODY, fontSize: 15, color: "D6EADF", valign: "top", fit: "shrink", margin: 0,
       });
-      slide.addShape("line", { x: 1.0, y: 5.18, w: 1.05, h: 0, line: { color: C.primary, width: 2.2 } });
-
       break;
     }
 
@@ -229,6 +232,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         });
       });
       footer(slide, s.note);
+      frameBrand(slide);
       break;
     }
 
@@ -251,7 +255,6 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         const tc = tone(lane.tone);
         card(slide, x, top, cw, h, C.border, C.white);
         slide.addShape("rect", { x, y: top, w: cw, h: 0.78, fill: { color: paleTone(lane.tone) }, line: { color: paleTone(lane.tone) } });
-        slide.addShape("rect", { x, y: top, w: 0.06, h: h, fill: { color: tc }, line: { color: tc } });
         slide.addText(lane.label.toUpperCase(), {
           x: x + 0.2, y: top + 0.1, w: cw - 0.36, h: 0.22, fontFace: BODY, fontSize: 8.5, bold: true, color: tc, charSpacing: 1.3, margin: 0,
         });
@@ -275,6 +278,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         });
       });
       footer(slide, s.note);
+      frameBrand(slide);
       break;
     }
 
@@ -288,7 +292,6 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       s.stats.forEach((st, i) => {
         const x = M + i * (cw + gap);
         card(slide, x, top, cw, 2.05, C.border, C.white);
-        slide.addShape("rect", { x, y: top, w: 0.06, h: 2.05, fill: { color: C.primary }, line: { color: C.primary } });
         slide.addText(st.value, {
           x: x + 0.28, y: top + 0.18, w: cw - 0.5, h: 0.62, fontFace: HEAD, fontSize: 34, bold: true, color: C.accent, margin: 0,
         });
@@ -319,6 +322,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         });
       }
       footer(slide, s.note);
+      frameBrand(slide);
       break;
     }
 
@@ -335,7 +339,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       const rowH = Math.max(0.37, Math.min(0.48, (maxTableH - headerH) / s.rows.length));
       const tableH = headerH + rowH * s.rows.length;
       const denseFont = s.rows.length > 9 ? 7.4 : s.headers.length > 5 ? 8 : 9.5;
-      slide.addShape("roundRect", { x: M, y, w: tableW, h: tableH, fill: { color: C.card }, line: { color: C.border, width: 0.65 }, rectRadius: 0.16, shadow: CARD_SHADOW });
+      slide.addShape("roundRect", { x: M, y, w: tableW, h: tableH, fill: { color: C.card }, line: { color: C.border, width: 0.65 }, rectRadius: 0.16 });
       slide.addShape("rect", { x: M + 0.01, y: y + headerH * 0.38, w: tableW - 0.02, h: headerH * 0.63, fill: { color: C.mist }, line: { color: C.mist, transparency: 100 } });
       let x = M;
       s.headers.forEach((heading, columnIndex) => {
@@ -347,9 +351,6 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       });
       s.rows.forEach((row, rowIndex) => {
         const rowY = y + headerH + rowIndex * rowH;
-        if (row[0] !== "" && rowIndex % 2 === 1) {
-          slide.addShape("rect", { x: M + 0.01, y: rowY, w: tableW - 0.02, h: rowH, fill: { color: C.mist, transparency: 34 }, line: { color: C.mist, transparency: 100 } });
-        }
         slide.addShape("line", { x: M, y: rowY, w: tableW, h: 0, line: { color: C.border, width: 0.55 } });
         if (row[0] === "") {
           slide.addShape("rect", { x: M + 0.01, y: rowY, w: tableW - 0.02, h: rowH, fill: { color: C.softAmber }, line: { color: C.softAmber, transparency: 100 } });
@@ -366,6 +367,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         });
       });
       footer(slide, s.note);
+      frameBrand(slide);
 
       break;
     }
@@ -407,6 +409,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         );
       });
       footer(slide, s.note);
+      frameBrand(slide);
       break;
     }
 
@@ -505,6 +508,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         slide.addText("Continuous investment after GA", { x: 10.78, y: legendY - 0.01, w: 1.9, h: 0.18, fontFace: BODY, fontSize: 8.5, color: C.muted, margin: 0 });
       }
       footer(slide, s.note);
+      frameBrand(slide);
       break;
     }
 
@@ -1234,6 +1238,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.takeaway, { x: M + 1.86, y: calloutY + 0.08, w: W - M * 2 - 2.08, h: 0.51, fontFace: BODY, fontSize: 9.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.65, w: W - M * 2, h: 0.25, fontFace: BODY, fontSize: 7.2, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1302,6 +1307,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.decision, { x: M + 1.7, y: calloutY + 0.07, w: W - M * 2 - 1.9, h: 0.41, fontFace: BODY, fontSize: 8.8, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.68, w: W - M * 2, h: 0.2, fontFace: BODY, fontSize: 6.8, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1345,6 +1351,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       slide.addText(s.takeaway, { x: M + 1.86, y: cY + 0.06, w: W - M * 2 - 2.08, h: 0.48, fontFace: BODY, fontSize: 9.5, bold: true, color: C.white, valign: "middle", fit: "shrink", margin: 0 });
       slide.addText(s.source, { x: M, y: 6.62, w: W - M * 2, h: 0.25, fontFace: BODY, fontSize: 7.2, color: C.muted, fit: "shrink", margin: 0 });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1438,6 +1445,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
         valign: "middle", fit: "shrink", margin: 0,
       });
       footer(slide);
+      frameBrand(slide);
       break;
     }
 
@@ -1454,9 +1462,8 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       s.asks.forEach((a, i) => {
         const x = M + i * (cw + gap);
         slide.addShape("roundRect", {
-          x, y: bandTop, w: cw, h, fill: { color: C.white }, line: { color: C.border, width: 0.8 }, rectRadius: 0.04,
+          x, y: bandTop, w: cw, h, fill: { color: C.softGreen }, line: { color: C.primary, transparency: 60, width: 0.8 }, rectRadius: 0.16,
         });
-        slide.addShape("rect", { x, y: bandTop, w: 0.07, h, fill: { color: C.primary }, line: { color: C.primary } });
         slide.addText(`DECISION ${String(i + 1).padStart(2, "0")}`, {
           x: x + 0.25, y: bandTop + 0.22, w: cw - 0.5, h: 0.3, fontFace: BODY, fontSize: 10, bold: true, color: C.accent, charSpacing: 1.5, margin: 0,
         });
@@ -1469,6 +1476,7 @@ function renderSlide(pptx: PptxGenJS, s: CPSlide) {
       });
 
       footer(slide);
+      frameBrand(slide);
       break;
     }
   }
