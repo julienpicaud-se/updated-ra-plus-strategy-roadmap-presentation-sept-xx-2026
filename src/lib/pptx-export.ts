@@ -1806,7 +1806,8 @@ export type DeckPart = {
 export function getDeckParts(): DeckPart[] {
   const total = cpDeck.length;
   const clamp = (i: number, fallback: number) => (i > 0 ? i : fallback);
-  const introEnd = clamp(sectionIndex("01"), 16);
+  const discoveryStart = clamp(sectionIndex("00A"), 16);
+  const introEnd = clamp(sectionIndex("01"), discoveryStart + 6);
   const b1 = clamp(sectionIndex("02"), Math.round(total * 0.25));
   const organizationStart = clamp(sectionIndex("04A"), Math.round(total * 0.4));
   const collaborationStart = clamp(sectionIndex("04B"), Math.round(total * 0.45));
@@ -1820,53 +1821,61 @@ export function getDeckParts(): DeckPart[] {
       description: "What a roadmap is, why it matters and how certainty works",
       fileName: "RA-Plus-Roadmap-1-Foundations.pptx",
       start: 0,
+      end: discoveryStart,
+    },
+    {
+      id: "discovery-process",
+      label: "2. Discovery process",
+      description: "Principles, Discover-to-Test flow, toolkit, readiness and handoff",
+      fileName: "RA-Plus-Roadmap-2-Discovery-Process.pptx",
+      start: discoveryStart,
       end: introEnd,
     },
     {
       id: "part1",
-      label: "2. Platform",
+      label: "3. Platform",
       description: "The RA+ platform, data spine and convergence",
-      fileName: "RA-Plus-Roadmap-2-Platform.pptx",
+      fileName: "RA-Plus-Roadmap-3-Platform.pptx",
       start: introEnd,
       end: b1,
     },
     {
       id: "part2",
-      label: "3. Market & roadmap",
+      label: "4. Market & roadmap",
       description: "Competition, positioning and the roadmap boards",
-      fileName: "RA-Plus-Roadmap-3-Market-and-Roadmap.pptx",
+      fileName: "RA-Plus-Roadmap-4-Market-and-Roadmap.pptx",
       start: b1,
       end: organizationStart,
     },
     {
       id: "product-team-organization",
-      label: "4. Product team organization",
+      label: "5. Product team organization",
       description: "Product ownership, shared platform areas, Sera and leadership",
-      fileName: "RA-Plus-Roadmap-4-Product-Team-Organization.pptx",
+      fileName: "RA-Plus-Roadmap-5-Product-Team-Organization.pptx",
       start: organizationStart,
       end: collaborationStart,
     },
     {
       id: "collaboration-governance",
-      label: "5. Product collaboration & governance",
+      label: "6. Product collaboration & governance",
       description: "Planning governance, GSP linkage, regional testing and cross-team alignment",
-      fileName: "RA-Plus-Roadmap-5-Product-Collaboration-and-Governance.pptx",
+      fileName: "RA-Plus-Roadmap-6-Product-Collaboration-and-Governance.pptx",
       start: collaborationStart,
       end: b2,
     },
     {
       id: "part3",
-      label: "6. Product detail (appendix)",
+      label: "7. Product detail (appendix)",
       description: "Q4 2026 product by product plans",
-      fileName: "RA-Plus-Roadmap-6-Product-Detail.pptx",
+      fileName: "RA-Plus-Roadmap-7-Product-Detail.pptx",
       start: b2,
       end: b3,
     },
     {
       id: "part4",
-      label: "7. 2027 direction",
+      label: "8. 2027 direction",
       description: "2027 product bets and the long-term platform path",
-      fileName: "RA-Plus-Roadmap-7-2027-Direction.pptx",
+      fileName: "RA-Plus-Roadmap-8-2027-Direction.pptx",
       start: b3,
       end: total,
     },

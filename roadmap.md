@@ -29,3 +29,4 @@
 - [x] Explore three additional bold editable PowerPoint directions, four representative slides each, and validate every option (Sep 28)
 - [x] Replace the rejected creative directions with a four-slide editable study derived from the supplied executive energy-services references; validate every slide (Sep 28)
 - [x] Apply the approved reference-led design across a separate full-deck Editable V2 export, preserve V1, and validate all 97 slides (Sep 28)
+- [x] Add a six-slide Discovery Process section from the supplied process, with its own download and both editable exports (Sep 29)
