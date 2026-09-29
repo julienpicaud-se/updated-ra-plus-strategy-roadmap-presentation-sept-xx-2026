@@ -51,8 +51,8 @@ export const CPDeck = () => {
         else setStatus({ phase: "preparing", job, done, total: count });
       };
       const baseName = part ? part.fileName : "RA-Plus-Strategy-and-Roadmap.pptx";
-      const editableName = baseName.replace(/\.pptx$/, "-Editable-Layout-Corrected-v8.pptx");
-      const editableV2Name = baseName.replace(/\.pptx$/, "-Editable-V2-Executive-Energy.pptx");
+      const editableName = baseName.replace(/\.pptx$/, "-Editable-v10.pptx");
+      const editableV2Name = baseName.replace(/\.pptx$/, "-Editable-V2-Executive-Energy-v3.pptx");
       if (job.editable || job.editableV2) setStatus({ phase: "packaging", job, total: slides.length });
       const prepared = job.editableV2
         ? await buildEditablePptxV2(slides, editableV2Name)

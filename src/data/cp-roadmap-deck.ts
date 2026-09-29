@@ -5813,8 +5813,79 @@ const roadmapFoundations: CPSlide[] = [
   },
 ];
 
+const discoveryProcessSection: CPSlide[] = [
+  {
+    kind: "section",
+    number: "00A",
+    eyebrow: "How we discover",
+    title: "Discovery process",
+    subtitle: "A flexible, evidence-led path from an initial opportunity to delivery-ready product artifacts.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Discovery principles",
+    title: "The process can flex. The principles should not.",
+    subtitle: "Discovery works best when Product, Design, Technology, and stakeholders learn together around value for the end user.",
+    columns: [
+      { label: "Collaborate early", title: "Build shared understanding", line: "Bring the right perspectives into the work before choices harden.", items: ["Communicate early", "Create a shared knowledge pool", "Include people throughout the journey"], tone: "primary" },
+      { label: "Focus on value", title: "Start with the end user", line: "Use evidence to keep the problem and desired outcome visible.", items: ["Anchor on user value", "Review early and often", "Treat feedback as learning, not handoff"], tone: "accent" },
+      { label: "Learn proportionally", title: "Use fidelity with intent", line: "Choose the lightest artifact that can resolve the next uncertainty.", items: ["Lower fidelity can unlock speed", "Plan timelines and estimate effort", "Match rigor to risk and available time"], tone: "muted" },
+      { label: "Connect to delivery", title: "Involve Technology on work in progress", line: "Early technical dialogue makes feasibility visible and smooths the transition into delivery.", items: ["Surface constraints early", "Test feasibility while shaping", "Carry context into delivery"], tone: "warn" },
+    ],
+    note: "The uploaded discovery process is the source of truth for this section. Exact participation and effort vary by team and context.",
+  },
+  {
+    kind: "table",
+    eyebrow: "End-to-end process",
+    title: "Discovery moves from a broad problem space to a tested solution space",
+    subtitle: "Divergence opens possibilities; convergence turns learning into sharper choices and validated artifacts.",
+    headers: ["Before", "1. Discover", "2. Define", "3. Ideate", "4. Test", "After"],
+    rows: [
+      ["Orient", "Diverge", "Converge", "Diverge", "Converge", "Transition"],
+      ["Triage and size the need", "Explore people, context, and opportunities", "Synthesize evidence and frame the problem", "Generate ideas and prototype concepts", "Validate, learn, and refine", "Document and move into delivery"],
+      ["Readiness input", "Problem space", "Problem space", "Solution space", "Solution space", "Delivery-ready output"],
+    ],
+    note: "The sequence is a useful default, not a rigid gate model. Teams can revisit earlier stages as new evidence changes the problem or solution.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Problem space",
+    title: "Discover broadly, then define the problem worth solving",
+    subtitle: "The first half combines prior knowledge, direct research, and synthesis before solution choices dominate the conversation.",
+    columns: [
+      { label: "1. Discover", title: "Explore the problem space", line: "Build empathy, understand context, and identify opportunities.", items: ["Discovery kickoff and prior research review", "Competitor research and empathy mapping", "User journeys, interviews, and research sessions", "Draft PRD, user flows, and low-fidelity wireframes"], tone: "primary" },
+      { label: "2. Define", title: "Narrow around evidence", line: "Synthesize learning into a clear problem, priority, and design intent.", items: ["How Might We and point-of-view statements", "Assumption mapping", "Design brief", "Prioritized opportunities and core problems"], tone: "accent" },
+    ],
+    note: "Discover diverges to reveal the landscape. Define converges to create a shared, evidence-based problem frame.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Solution space",
+    title: "Ideate broadly, then test the strongest solution concepts",
+    subtitle: "The second half makes ideas tangible quickly, then uses real feedback to improve or reject them.",
+    columns: [
+      { label: "3. Ideate", title: "Explore solution approaches", line: "Generate alternatives before investing deeply in one answer.", items: ["Ideation workshop", "Rapid, iterative prototyping", "Low-fidelity wireframes and user flows", "Interactive prototypes where useful"], tone: "warn" },
+      { label: "4. Test", title: "Validate and refine", line: "Use prototypes and usability evidence to reduce solution risk.", items: ["Prototype testing", "Higher-fidelity wireframes when helpful", "Usability testing", "Dovetail highlights and documentation"], tone: "primary" },
+    ],
+    note: "Ideate diverges through alternatives. Test converges through evidence, iteration, and an increasingly robust solution direction.",
+  },
+  {
+    kind: "columns",
+    eyebrow: "Readiness and handoff",
+    title: "Discovery begins with proportionate intent and ends with shared evidence",
+    subtitle: "The flow adapts to bandwidth, team type, stakeholders, and risk while preserving traceability into delivery.",
+    columns: [
+      { label: "Before", title: "Set the discovery approach", line: "Agree the minimum useful investment before research and prototyping begin.", items: ["Triage checkpoint", "T-shirt sizing", "Assumption mapping when time is constrained", "Document the minimum discovery approach"], tone: "muted" },
+      { label: "Adapt", title: "Flex the flow, not the principles", line: "Product modules and platform teams can require different participants and tools.", items: ["Bandwidth varies", "Research and prototyping ownership varies", "Stakeholders vary by team", "Activities can overlap or repeat"], tone: "warn" },
+      { label: "After", title: "Carry knowledge into delivery", line: "Finish with artifacts and evidence that preserve the reasoning behind the product choice.", items: ["Finalized PRD", "Finalized prototypes or artifacts", "JPD Insights", "Dovetail highlights and documentation"], tone: "primary" },
+    ],
+    note: "A smoother transition comes from Technology involvement during work in progress, not from a final document handoff.",
+  },
+];
+
 export const cpDeck: CPSlide[] = [
   ...roadmapFoundations,
+  ...discoveryProcessSection,
   ...sharedCpDeck.slice(0, 28),
   ...productTeamSection,
   ...collaborationSection,
